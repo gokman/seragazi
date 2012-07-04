@@ -1,0 +1,28 @@
+table.liste td.sol{
+
+font-size: 14px;
+width: 20%;
+
+}
+
+table.liste td.sag{
+
+width: 80%;
+
+}
+
+table.liste a{
+
+font-size: 12px;
+color: #666666;
+text-decoration: none;
+
+}
+
+table.liste {
+
+padding-bottom: 10px;
+padding-left: 30px;
+width: 100%;
+		
+}

@@ -1,0 +1,88 @@
+form.formkullanicigiris input#textfield {
+
+    width: 160px;
+	color:#585858;
+	height:20px;
+	padding:2px 3px;
+	margin-bottom:3px;
+	font-family:Verdana;
+    border: 1px solid #CC0000;
+	letter-spacing: 0.1px;
+
+}
+
+form.formkullanicigiris a{
+
+	font-size:14px;
+	font-weight:400;
+	color:#0099ff;
+	font-family:Verdana;
+	letter-spacing: 0.1px;
+	text-decoration: none;
+	margin-bottom:3px;
+	margin-left: 2px; 
+	margin-right: 5px;
+
+}
+
+form.formkullanicigiris input#button {
+
+width:70px;
+font-family: Verdana;
+color: #ffffff;
+font-size: 15px;
+padding: 5px;
+text-decoration: none;
+-webkit-box-shadow: 0px 1px 3px #8f0223;
+-moz-box-shadow: 0px 1px 3px #8f0223;
+text-shadow: 1px 1px 3px #666666;
+border: solid #660011 1px;
+background: -webkit-gradient(linear, 0 0, 0 100%, from(#e3718a), to(#870324));
+background: -moz-linear-gradient(top, #e3718a, #870324);
+margin-bottom: 3px;
+
+}
+
+form.formkullanicigiris input#button:hover {
+background: #d94e09;
+}
+
+.kullanici_giris{
+width:auto;
+background-color:#FFFFFF;
+padding-left:20px;
+padding-bottom:10px;
+padding-top:10px;
+color:#666666;
+border-width:2px;
+border-style:ridge;
+border-color:#0099FF;
+}
+
+table.merhabakutu a#username{
+
+font-family: Verdana;
+color: #0099ff;
+font-size: 15px;
+	
+}
+
+table.merhabakutu a#merhaba{
+
+font-family: Verdana;
+color: #330000;
+font-size: 20px;
+font-weight: bold;
+vertical-align: middle;
+	
+}
+
+#logout{
+
+	padding-left: 130px;
+	text-decoration: none;
+	font-family: Verdana;
+	font-size: 13px;
+	color: #330000;
+
+}
