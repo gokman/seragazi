@@ -7,10 +7,18 @@
  */
 package com.sera.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -18,20 +26,51 @@ import org.apache.log4j.Logger;
 
 @Entity
 @Table(name = "sera_cenv_sabitler")
-public class SeraCenvSabitler {
+public class SeraCenvSabitler implements java.io.Serializable{
         // Raw attributes
     private String baslik;
     private Long sabit;
     private Long deger;
     private String aciklama;
-    private Long parentId;
+    private Long hasId;
     private Long sabitler;
     private Long id; // pk
+    private Date createDate;
+    
+    
+	public SeraCenvSabitler(SeraDegerSabitForm form){
+    	this.sabit=form.getsabit();
+    	this.baslik=null;
+    	this.deger=null;
+    	this.aciklama=null;
+    	this.sabitler=null;
+    }
+	
+	public SeraCenvSabitler(){
+    	
+    }
+	
+	
+	@Column(name = "CREATE_DATE")
+    public Date getcreateDate() {
+		return createDate;
+	}
+	public void setcreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	
+    @Column(name = "HAS_ID", precision = 19)
+    public Long gethasId() {
+		return hasId;
+	}
 
-   
-    // -- [baslik] ------------------------
+	public void sethasId(Long hasId) {
+		this.hasId = hasId;
+	}
+	
+	
 
-    @Size(max = 64)
+	@Size(max = 64)
     @Column(name = "BASLIK", length = 64)
     public String getBaslik() {
         return baslik;
@@ -44,11 +83,11 @@ public class SeraCenvSabitler {
     // -- [sabit] ------------------------
 
     @Column(name = "SABIT", precision = 19)
-    public Long getSabit() {
+    public Long getsabit() {
         return sabit;
     }
 
-    public void setSabit(Long sabit) {
+    public void setsabit(Long sabit) {
         this.sabit = sabit;
     }
 
@@ -77,14 +116,7 @@ public class SeraCenvSabitler {
 
     // -- [parentId] ------------------------
 
-    @Column(name = "PARENT_ID", precision = 19)
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
+    
 
     // -- [sabitler] ------------------------
 

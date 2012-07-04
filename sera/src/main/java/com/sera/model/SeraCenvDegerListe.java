@@ -8,20 +8,30 @@
 package com.sera.model;
 
 
-import java.util.List;
+import java.util.HashSet;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 
 import com.sera.util.ElemanTip;
 
 @Entity
 @Table(name = "sera_cenv_deger_liste")
-public class SeraCenvDegerListe {
+public class SeraCenvDegerListe implements java.io.Serializable{
     
     // Raw attributes
     private Long id; // pk
@@ -31,19 +41,33 @@ public class SeraCenvDegerListe {
     private String tip2; // not null
     private Long seviye; // not null
     private String birim; // not null
-    private  List<String> agacElemanlar;
+   // private List<SeraCenvSabitler> sabit;
+   public SeraCenvDegerListe(SeraDegerSabitForm form){
+	    this.baslik=form.getBaslik();
+	    this.birim=form.getBirim();
+	    this.parentId=form.getParentId();
+	    this.tip1=form.getTip1();
+	    this.tip2=form.getTip2();
+	    this.id=form.getId();
+   }
+   
+
+    /*
+    @OneToMany(mappedBy="degerliste",
+    		cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public List<SeraCenvSabitler> getsabit() {
+		return sabit;
+	}
+
+	public void setsabit(List<SeraCenvSabitler> sabit) {
+		this.sabit = sabit;
+	}*/
+
 
     // ---------------------------
     // Constructors
     // ---------------------------
 
-    public List<String> getagacElemanlar() {
-		return agacElemanlar;
-	}
-
-	public void setagacElemanlar(List<String> agacElemanlar) {
-		this.agacElemanlar = ElemanTip.getInstance().agacElemanlar;
-	}
 
 	public SeraCenvDegerListe() {
     }
