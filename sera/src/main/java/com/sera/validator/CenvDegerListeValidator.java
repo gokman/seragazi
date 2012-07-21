@@ -36,7 +36,7 @@ public class CenvDegerListeValidator  implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "birim", "birim.hata1");
         SeraCenvDegerListe seradeger=(SeraCenvDegerListe)target;
         
-        if(seradeger.gettip1().equals("Yaprak")||seradeger.gettip1().equals("Dal")){
+        if(seradeger.gettip1().toString().equals("Yaprak")||seradeger.gettip1().toString().equals("Dal")){
         	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "parentId", "parentId.hata1");
         }
         
