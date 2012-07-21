@@ -12,8 +12,8 @@
 <%@include file="/WEB-INF/jsp/ana_sayfa/header.jsp" %>
 <!-- ana bolum -->
 	<div class="orta_div_sag">
-			 bbbdd</div>
-		</div>
+			 ana sayfa</div>
+	</div>
 		
 <%@include file="/WEB-INF/jsp/ana_sayfa/footer.jsp" %>
 </body>

@@ -52,8 +52,11 @@
 		        
 		    if(tipp=="Yaprak"){
 	        	$("#kok").append('<div class="yaprakdiv" id="yaprakid"></div>');
-	        	$("#yaprakid").append('<form:form action="/sera/cenvsabit/degerkaydet.htm" method="POST"  modelAttribute="cenvsabit" enctype="multipart/form-data">'+
-    	        '<form:input path="deger" size="50"/><br/>'+
+	        	$("#yaprakid").append('<br/><form:form action="/sera/cenvsabit/degerkaydet.htm" method="POST"  modelAttribute="cenvsabit" enctype="multipart/form-data">'+
+    	        'Değer Girin:<form:input path="deger" size="50"/><br/>'+
+    	        '<form:hidden path="hasId" value="'+
+    	         aydi+
+    	        '"/>'+
     			'<input type="submit" value="Kaydet"></input>'+
     			'</form:form>');
 	        }

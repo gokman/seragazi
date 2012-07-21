@@ -22,11 +22,11 @@
 					 <li><a href="#">İşletme Yapisi</a></li>
 					 <li><a href="#">İşlemler</a>
 						  <ul>
-							   <li><a href="/sera/cenvyapi/yapiGiris/ana.htm">Değer Girisi</a></li>
-							   <li><a href="/sera/cenvyapi/yapiSearch.htm">Değer Arama ve Güncelleme</a></li>
-							   <li><a href="#">Hesaplama</a></li>
+							   <li><a href="/sera/cenvyapi/yapiGiris/ana.htm">Yapı Oluşturma</a></li>
+							   <li><a href="/sera/cenvyapi/yapiSearch.htm">Yapı Arama ve Güncelleme</a></li>
+							   <li><a href="/sera/cenvgiris/girisgetir.htm">Değer Girişi</a></li>
+							   <li><a href="/sera/donemsonuc/donemsonucgir.htm">Dönem Hesaplama</a></li>
 							   <li><a href="#">Sonuç</a></li>
-							   <li><a href="/sera/cenvsabit/sabitGir.htm">Sabitler</a></li>
 						  </ul>
 					 </li>
 					 <li><a href="#">Yetkiler</a>
@@ -35,6 +35,7 @@
 							   <li><a href="#">Yetkileri Görüntüle</a></li>
 						  </ul>
 					 </li>
+					
 					</ul>
 				</div>
 				
@@ -46,6 +47,7 @@
 			 <!--kullanýcý giriþ -->
 			 <%@include file="/WEB-INF/jsp/ana_sayfa/loginuser.jsp" %>
 			 </div>
+			 
 	    
 </body>
 </html>		 
