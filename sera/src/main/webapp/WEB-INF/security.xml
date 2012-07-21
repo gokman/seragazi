@@ -17,12 +17,9 @@
 		
 		<intercept-url pattern="/authentication/accessDenied.jsp" access="permitAll" />
 		<intercept-url pattern="/authentication/accessDenied.htm" access="permitAll" />
-		<intercept-url pattern="/authentication/accessDenied.htm" access="permitAll" />
 		<intercept-url pattern="/index.jsp" access="permitAll" />
 		<intercept-url pattern="/index.htm" access="permitAll" />
 		<intercept-url pattern="/resources/**" access="permitAll" /> <!-- resources (css,image,js) dosyalarına erişim icin -->
-		
-		<intercept-url pattern="/resources/**" access="permitAll" />
 
 		
 		<intercept-url pattern="/login/membershipForm.htm" access="permitAll" />
@@ -45,15 +42,10 @@
 		<authentication-provider>
  
 	    <jdbc-user-service data-source-ref="dataSource" 
-	    	authorities-by-username-query="select username,authority from emlakVT.authorities where username=?"
-	    	users-by-username-query="select username,password,'true' as enabled from db_roseindia.user where username=?"
+	    	authorities-by-username-query="select username,authority from sera.authorities where username=?"
+	    	users-by-username-query="select username,password,'true' as enabled from sera.user where username=?"
 	    	/>
-	    	
- <!-- 
-			<user-service>
-				<user authorities="ROLE_USER" name="guest" password="guest" />
-			</user-service>
--->			
+	    		
 		</authentication-provider>
 	</authentication-manager>
 </beans:beans>

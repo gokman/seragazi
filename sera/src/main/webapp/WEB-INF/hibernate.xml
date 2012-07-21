@@ -28,6 +28,8 @@ class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBea
 		<list>
 			<value>com.sera.model.SeraCenvDegerListe</value>
 			<value>com.sera.model.SeraCenvSabitler</value>
+			<value>com.sera.model.SeraCenvGiris</value>
+			<value>com.membership.model.User</value>
 		</list>
     </property>
  
