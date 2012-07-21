@@ -129,7 +129,7 @@ $(document).ready(function(){
 <body class="genel">
 <%@include file="/WEB-INF/jsp/ana_sayfa/header.jsp" %>
 <div class="orta_div_sag">
-<form:form cssStyle="padding-left:50px;padding-top:50px" cssClass="formstil" action="/sera/cenvyapi/yapiKaydet.htm" method="POST"  modelAttribute="cenvdeger" enctype="multipart/form-data">
+<form:form cssStyle="padding-left:50px;padding-top:50px" cssClass="formstil" action="/sera/cenvyapi/yapiGuncelle.htm" method="POST"  modelAttribute="cenvdeger" enctype="multipart/form-data">
 <table>
 <form:hidden path="id" value="${cenvDoluVeriler.id}"/>
 <tr><td>
@@ -174,7 +174,7 @@ $(document).ready(function(){
 				    <c:otherwise>
 				            <form:option value="" label=""/>
 				   </c:otherwise>
-				   </c:choose> 
+				   </c:choose>
 			   
 						<form:option  value="Hesap" label="Hesap"/>
 						</form:select>
@@ -220,7 +220,7 @@ $(document).ready(function(){
 <tr>
 <td></td>
 <td>
-<input id="button"  type="submit"  value="Kaydet"  />
+<input id="button"  type="submit"  value="Güncelle"  />
 </td>
 </tr>
 </table>

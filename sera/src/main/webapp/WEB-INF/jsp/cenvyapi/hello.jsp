@@ -10,12 +10,8 @@ body {
 <body>
 <h2>hello test  </h2>
 <br>
-${aydi}
+${dd}
 <br>
-@Transactional(propagation = Propagation.REQUIRED, readOnly = false) 
-	public void updateCustomer(Customer cust) {
-		customerDao.updateCustomer(cust);
-		
-	}
+
 </body>
 </html>

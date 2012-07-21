@@ -15,12 +15,12 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#tableliste").click(){
+	$("#tableliste").click(
 		function git(){
 			window.load="/sera/cenvyapi/degerGiris/${cenvdeger.id}.htm";
 			
 		}
-	}
+	)
 	
 });
 </script>   
@@ -64,6 +64,7 @@ $(document).ready(function(){
                     </table>
                 </c:forEach>
 
+</div>
 </div>
 <%@include file="/WEB-INF/jsp/ana_sayfa/footer.jsp" %>
 </body>
