@@ -18,4 +18,6 @@ public interface CenvDegerListeService {
      public void updateCenvDeger(SeraCenvDegerListe cenvdeger);
      public void updateCenvSabit(SeraCenvSabitler cenvsabit);
      public SeraCenvDegerListe getKok();
+     public SeraCenvSabitler getSabit(Long id);
+     public int getYaprakQuantiy();
 }

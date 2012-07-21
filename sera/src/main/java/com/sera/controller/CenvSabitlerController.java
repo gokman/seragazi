@@ -1,5 +1,6 @@
 package com.sera.controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -55,16 +56,20 @@ public class CenvSabitlerController {
 		
 		@RequestMapping(value = "/sabitGir/dalgetir.htm", method = RequestMethod.POST)
 		public @ResponseBody List<SeraCenvDegerListe> getShopInJSON(@RequestParam(value="id", required=true) String id) {
-			   List<SeraCenvDegerListe> dallar=cenvdegerservice.listChildren(Long.parseLong(id));
+			
+			List<SeraCenvDegerListe> dallar=cenvdegerservice.listChildren(Long.parseLong(id));
 	 
 			return dallar;
 	 
 		}
 		
 		@RequestMapping(value = "/degerkaydet.htm")
-		public ModelAndView kaydetDeger(HttpServletRequest req,BindingResult result,@ModelAttribute("cenvsabit") SeraCenvSabitler cenvsabit) {
+		public ModelAndView kaydetDeger(HttpServletRequest req,@ModelAttribute("cenvsabit") SeraCenvSabitler cenvsabit,
+				BindingResult result) {
 			   ModelAndView model=new ModelAndView("/");
-	 
+			   cenvsabit.setcreateDate(Calendar.getInstance().getTime());
+	           cenvdegerservice.saveKokCenvDegerSabitler(cenvsabit);
+	           
 			return model;
 	 
 		}

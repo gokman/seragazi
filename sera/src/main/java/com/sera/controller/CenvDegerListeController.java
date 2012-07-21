@@ -38,17 +38,19 @@ public class CenvDegerListeController {
 	@Autowired
 	private CenvDegerListeService cenvdegerservice;
 	
-	@RequestMapping(value = {"/yapiGiris/{id}.htm"}) 
+	@RequestMapping(value = {"/yapiGiris/{id}.htm"},method=RequestMethod.GET) 
 	public ModelAndView girisCenvDegerListe(HttpServletRequest req,
 			@PathVariable("id") String id,@ModelAttribute("cenvdeger") SeraDegerSabitForm seragazi,BindingResult result) {
-		ModelAndView model=new ModelAndView("cenvyapi/yapiGiris");
+		ModelAndView model;
 		
 		List<SeraCenvDegerListe> dalkokliste=cenvdegerservice.listDalKokCenv();
-		model.addObject("parentOlayi", dalkokliste);
 		
 		
 		
-		if(id.equals("ana")){	
+		
+		if(id.equals("ana")){
+			model=new ModelAndView("cenvyapi/yapiGiris");
+			model.addObject("parentOlayi", dalkokliste);
 			//ilk aşamada boş olacağı için cenvDoluVeriler değişkenini boş şekilde
 			//göndermek gerekiyor yoksa patlar
 			SeraDegerSabitForm seralar=new SeraDegerSabitForm();
@@ -57,13 +59,25 @@ public class CenvDegerListeController {
 		
 		}
 		else{
-			//var olan parent i göster
+			model=new ModelAndView("cenvyapi/yapiGuncelle");
+			model.addObject("parentOlayi", dalkokliste);
+			SeraCenvDegerListe detay=cenvdegerservice.detayCenvDeger(Long.parseLong(id));
+            model.addObject("cenvDoluVeriler",detay);
+            //değer sabit ise o zaman sabit nesnemizi çekmeliyiz.
+            if(detay.gettip2()=="Sabit"){
+            SeraCenvSabitler sabit=cenvdegerservice.getSabit(Long.parseLong(id));
+            
+            model.addObject("sabitdeger",sabit);
+            }
+          //var olan parent i göster
+            if(!detay.gettip1().equals("Kök")){
 			List<SeraCenvDegerListe> parent=cenvdegerservice.getParent(Long.parseLong(id));
 			//parent.get(0) değişecek. liste olmasına gerek yok. kopyala yapıştır yaptık üşendik değiştirmeye :D
 			model.addObject("parentOlayi2", parent.get(0));
-			
-			SeraCenvDegerListe detay=cenvdegerservice.detayCenvDeger(Long.parseLong(id));
-            model.addObject("cenvDoluVeriler",detay);			
+            }else{
+            model.addObject("parentOlayi2", new SeraCenvDegerListe());
+            }
+            
 		}
         return model;
 	}
@@ -83,27 +97,60 @@ public class CenvDegerListeController {
 			returnview.addObject("parentOlayi", dalkokliste);
 			return returnview;
 		}
-		if(deger.gettip1().equals("Kok")){
+		if(deger.gettip1().equals("Kök")){
+			deger.setParentId((long)0);
+			deger.setSeviye((long)0);
+		}else{
+			deger.setSeviye(cenvdegerservice.getSeviye(deger.getParentId()).get(0)+1);
+		}
+			
+		
+        cenvdegerservice.saveKokCenvDegerListe(deger);
+        SeraCenvSabitler sabit=new SeraCenvSabitler(seragazi);
+        
+	        if (deger.gettip1().equals("Yaprak")&&deger.gettip2().equals("Sabit")){ 	
+		        sabit.sethasId(deger.getId());
+		        sabit.setcreateDate(Calendar.getInstance().getTime());
+				cenvdegerservice.saveKokCenvDegerSabitler(sabit);
+	        }
+	   
+		//model.addObject("aydi", seragazi.getId());
+		//model.addObject("baslik", seragazi.getBaslik());
+        return model;
+	}
+	
+	@RequestMapping(value = "/yapiGuncelle.htm") 
+	public ModelAndView updateCenvDegerListe(HttpServletRequest req,@ModelAttribute("cenvdeger") SeraDegerSabitForm seragazi,
+			BindingResult result) {
+		ModelAndView model=new ModelAndView("cenvyapi/hello");
+	    SeraCenvDegerListe deger=new SeraCenvDegerListe(seragazi);
+	    
+	    CenvDegerListeValidator validator=new CenvDegerListeValidator();
+		validator.validate(deger, result);
+		
+		if(result.hasErrors()){
+			List<SeraCenvDegerListe> dalkokliste=cenvdegerservice.listDalKokCenv();
+			ModelAndView returnview=new ModelAndView("cenvyapi/yapiGiris");
+			returnview.addObject("parentOlayi", dalkokliste);
+			return returnview;
+		}
+		if(deger.gettip1().equals("Kök")){
 			deger.setParentId((long)0);
 			deger.setSeviye((long)0);
 		}else{
 			deger.setSeviye(cenvdegerservice.getSeviye(deger.getParentId()).get(0)+1);
 		}
 		
-		if(deger.getId()==0){	
-		
-        cenvdegerservice.saveKokCenvDegerListe(deger);
-        SeraCenvSabitler sabit=new SeraCenvSabitler(seragazi);
-        sabit.sethasId(deger.getId());
-        sabit.setcreateDate(Calendar.getInstance().getTime());
-		cenvdegerservice.saveKokCenvDegerSabitler(sabit);
-		}else{	
-			cenvdegerservice.updateCenvDeger(deger);
 			SeraCenvSabitler sabit=new SeraCenvSabitler(seragazi);
-	        sabit.sethasId(deger.getId());
-	        sabit.setcreateDate(Calendar.getInstance().getTime());
-	        
-		}
+			if(sabit.getsabit()!=null){
+				sabit.setid(seragazi.getsabitId());
+		        sabit.sethasId(seragazi.getId());
+		        sabit.setsabit(seragazi.getsabit());
+		        sabit.setcreateDate(Calendar.getInstance().getTime());
+		        cenvdegerservice.updateCenvSabit(sabit);
+		        
+			}
+			cenvdegerservice.updateCenvDeger(deger);
 		//model.addObject("aydi", seragazi.getId());
 		//model.addObject("baslik", seragazi.getBaslik());
         return model;

@@ -40,6 +40,7 @@ public class SeraCenvSabitler implements java.io.Serializable{
     
 	public SeraCenvSabitler(SeraDegerSabitForm form){
     	this.sabit=form.getsabit();
+    	this.hasId=form.getId();
     	this.baslik=null;
     	this.deger=null;
     	this.aciklama=null;
@@ -134,11 +135,11 @@ public class SeraCenvSabitler implements java.io.Serializable{
     @Column(name = "ID", precision = 19)
     @GeneratedValue
     @Id
-    public Long getId() {
+    public Long getid() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setid(Long id) {
         this.id = id;
     }
 

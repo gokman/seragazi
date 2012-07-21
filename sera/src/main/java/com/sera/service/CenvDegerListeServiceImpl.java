@@ -54,12 +54,7 @@ public class CenvDegerListeServiceImpl implements CenvDegerListeService {
 		return cenvDegerListeDao.getParent(id);
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false) 
-	public void updateCenvDeger(SeraCenvDegerListe cenvdeger) {
-		cenvDegerListeDao.updateCenvDeger(cenvdeger);
-		
-	}
-
+	
 	@Override
 	public SeraCenvDegerListe getKok() {
 		// TODO Auto-generated method stub
@@ -78,10 +73,28 @@ public class CenvDegerListeServiceImpl implements CenvDegerListeService {
 		
 	}
 
-	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false) 
 	public void updateCenvSabit(SeraCenvSabitler cenvsabit) {
 		cenvDegerListeDao.updateCenvSabit(cenvsabit);
 		
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false) 
+	public void updateCenvDeger(SeraCenvDegerListe cenvdeger) {
+		cenvDegerListeDao.updateCenvDeger(cenvdeger);
+		
+	}
 
+
+	@Override
+	public SeraCenvSabitler getSabit(Long id) {
+		
+		return cenvDegerListeDao.getCenvSabit(id);
+	}
+
+	@Override
+	public int getYaprakQuantiy() {
+		// TODO Auto-generated method stub
+		return cenvDegerListeDao.getYaprakQuantity();
+	}
 }

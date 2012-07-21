@@ -11,9 +11,16 @@ public class SeraDegerSabitForm {
     private Long seviye;
     private String birim; 
     private Long sabit;
+    private Long sabitId;
     
     
-    public Long getId() {
+    public Long getsabitId() {
+		return sabitId;
+	}
+	public void setsabitId(Long sabitId) {
+		this.sabitId = sabitId;
+	}
+	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {

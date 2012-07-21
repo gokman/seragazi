@@ -131,11 +131,11 @@ public class SeraCenvDegerListe implements java.io.Serializable{
     // -- [tip2] ------------------------
 
     @Column(name = "TIP2", nullable = false, length = 8)
-    public String getTip2() {
+    public String gettip2() {
         return tip2;
     }
 
-    public void setTip2(String tip2) {
+    public void settip2(String tip2) {
         this.tip2 = tip2;
     }
 

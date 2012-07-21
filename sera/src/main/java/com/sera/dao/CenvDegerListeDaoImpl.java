@@ -1,8 +1,11 @@
 package com.sera.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -58,16 +61,12 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 	
 	@Override
 	public List<SeraCenvDegerListe> getParent(long id) {
-		List<SeraCenvDegerListe> list=sessionFactory.getCurrentSession().createQuery("from SeraCenvDegerListe where parentId="+id).list();
+		List<Long> parent_id=sessionFactory.getCurrentSession().createSQLQuery("select parent_id from sera.sera_cenv_deger_liste where id="+id).list();
+		List<SeraCenvDegerListe> list=sessionFactory.getCurrentSession().createQuery("from SeraCenvDegerListe where id="+parent_id.get(0)).list();
 		return list;
 	}
 	
-	@Override
-	public void updateCenvDeger(SeraCenvDegerListe cenvdeger) {
-		
-		sessionFactory.getCurrentSession().update(cenvdeger);
-		
-	}
+	
 
 	@Override
 	public SeraCenvDegerListe getKok() {
@@ -92,6 +91,66 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 		sessionFactory.getCurrentSession().update(cenvsabit);
 		
 	}
+	
+	@Override
+	public void updateCenvDeger(SeraCenvDegerListe cenvdeger) {
+		
+		sessionFactory.getCurrentSession().update(cenvdeger);
+		
+	}
 
+	@Override
+	public SeraCenvSabitler getCenvSabit(long id) {
+		
+		return (SeraCenvSabitler)sessionFactory.getCurrentSession().
+		createCriteria(SeraCenvSabitler.class).add(Restrictions.eq("hasId", id)).list().get(0);
+	}
+
+	@Override
+	public List<SeraCenvDegerListe> getAncestors(Long id) {
+		List<SeraCenvDegerListe> ancestors=new ArrayList<SeraCenvDegerListe>();
+		SeraCenvDegerListe parent=new SeraCenvDegerListe();
+		Long tempId=id;
+		while(getParent(tempId).get(0)!=null){
+			parent=getParent(tempId).get(0);
+			ancestors.add(parent);
+			tempId=parent.getId();
+		}
+		
+		return ancestors;
+	}
+
+	@Override
+	public int getYaprakQuantity() {
+		
+		return (Integer)sessionFactory.getCurrentSession().createCriteria(SeraCenvDegerListe.class).
+		add(Restrictions.eq("tip1", "Yaprak")).
+		setProjection(Projections.rowCount()).uniqueResult();
+	}
+
+	@Override
+	public int getYaprakQuantity(String tip) {
+		// TODO Auto-generated method stub
+		return (Integer)sessionFactory.getCurrentSession().createCriteria(SeraCenvDegerListe.class).
+		add(Restrictions.eq("tip1", "Yaprak")).add(Restrictions.eq("tip2", tip)).
+		setProjection(Projections.rowCount()).uniqueResult();
+	}
+	
+	@Override
+	public List<SeraCenvDegerListe> listyaprak() {
+		List<SeraCenvDegerListe> yaprakliste;
+		yaprakliste=sessionFactory.getCurrentSession().createCriteria(SeraCenvDegerListe.class).
+		add(Restrictions.eq("tip1", "Yaprak")).list();
+		return yaprakliste;
+	}
+	
+	@Override
+	public List<SeraCenvDegerListe> listyaprak(String tip) {
+		List<SeraCenvDegerListe> yaprakliste;
+		yaprakliste=sessionFactory.getCurrentSession().createCriteria(SeraCenvDegerListe.class).
+		add(Restrictions.eq("tip1", "Yaprak")).add(Restrictions.eq("tip2", tip)).list();
+		return yaprakliste;
+	}
+	
 
 }
