@@ -42,6 +42,7 @@
 	        		function donemHesapla(){
 	        			var donem=$("#txtDate").val();
 	        			var globalKontrol=false;
+	        			var kontrol=0;
 	        			//girişler tam mı onu kontrol et
 	        			//başla
 	        			 $.ajax({
@@ -54,13 +55,18 @@
 	        
 	        globalKontrol=response;  
 	        
+	        
 	        if(globalKontrol==false){
-    			alert('Bu döneme ait değer girişleri eksik');
-    			
+    			alert('Bu döneme ait değer girişleri eksik');	
+    			kontrol=0;
     		}
 	        
-	        if(validateDate($("#txtDate").val())&&globalKontrol==true){
-				   document.donemSonucForm.submit();
+	        
+	        
+	        if(validateDate("txtDate")&&globalKontrol==true){
+	        	
+	        	 kontrol=1;
+				  // document.donemSonucForm.submit();
 			}else{
 				null;
 			}
@@ -70,11 +76,39 @@
 	        alert('Error: ' + e);
             } 
 	        });
-	        			 /*if(globalKontrol==false){
-	        	    			alert('Bu döneme ait değer girişleri eksik');
-	        	    			return; 
-	        	    		}*/
-	        			//bitir
+	        //bitir
+	        
+	        //donem sonuç kaydı var mı onu kontrol et
+	        //başla
+	        //girişler tam mı onu kontrol et
+	        			//başla
+	        			 $.ajax({
+	        type: "POST",
+	        url: "/sera/donemsonuc/donemSonucKayitKontrol.htm",
+	        data: "donem=" + donem ,
+	        cache: false,
+	        success: function(response){
+	        // we have the response
+	        
+	        globalKontrol=response;  
+	        if(globalKontrol==true){
+	        	
+	           alert('Bu döneme ait sonuç kayıtları bulunmaktadır. Devam edemezsiniz.');
+	        }
+	        
+	        //eğer kontrolden true geldi ise kayıt var demektir o halde işleme devam etme
+	        //kontrolden false gelecek ve yukarıdaki kontrol değeri de 1 gelecek
+	        if(globalKontrol==false && kontrol==1){
+	        	document.donemSonucForm.submit();
+	        }
+	               
+	        },
+	        error: function(e){
+	        alert('Error: ' + e);
+            } 
+	        });
+	        //bitir
+	        //bitir
 	        			
 	        			
 	        		}
@@ -102,6 +136,8 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: top; 
 <body class="genel">
 <%@include file="/WEB-INF/jsp/ana_sayfa/header.jsp" %>
 <!-- ana bolum -->
+    <c:choose>
+	<c:when test="${isAuthenticated=='true'}">
 	<div class="orta_div_sag">
 	<form:form cssStyle="padding-left:50px;padding-top:50px" id="donemSonucForm" name="donemSonucForm" cssClass="formstil" action="/sera/donemsonuc/donemsonuchesapla.htm" method="POST"  modelAttribute="donemsonuc" enctype="multipart/form-data">
 	<fieldset>
@@ -122,7 +158,15 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: top; 
 	</form:form>
 	
 	
-	</div></div>	
+	</div>
+	</c:when>
+	<c:otherwise>
+		<div class="orta_div_sag">
+			Bu icerige erismek icin giris yapmalisiniz.
+		</div>
+	</c:otherwise>
+	</c:choose>	
+	</div>	
 <%@include file="/WEB-INF/jsp/ana_sayfa/footer.jsp" %>
 </body>
 </html>

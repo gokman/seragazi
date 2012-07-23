@@ -12,14 +12,15 @@
 	http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd"
 	>
 	<http auto-config="true" use-expressions="true"> 
-		
+		 
 		<access-denied-handler error-page="/authentication/accessDenied"/>
 		
 		<intercept-url pattern="/authentication/accessDenied.jsp" access="permitAll" />
 		<intercept-url pattern="/authentication/accessDenied.htm" access="permitAll" />
 		<intercept-url pattern="/index.jsp" access="permitAll" />
 		<intercept-url pattern="/index.htm" access="permitAll" />
-		<intercept-url pattern="/resources/**" access="permitAll" /> <!-- resources (css,image,js) dosyalarına erişim icin -->
+		<intercept-url pattern="/resources/**" access="permitAll" /> 
+		<intercept-url pattern="/donemsonuc/**" access="permitAll" /> 
 
 		
 		<intercept-url pattern="/login/membershipForm.htm" access="permitAll" />
@@ -38,7 +39,7 @@
 		
 		-->
 	</http>
-	<authentication-manager alias="authenticationManager">
+	 <authentication-manager alias="authenticationManager">
 		<authentication-provider>
  
 	    <jdbc-user-service data-source-ref="dataSource" 

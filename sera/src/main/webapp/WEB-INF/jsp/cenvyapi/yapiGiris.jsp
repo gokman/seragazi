@@ -10,7 +10,7 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
 <link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css"/>
 <link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css"/>
-
+<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
 <!-- 
 <div id="sayfa_baslik" style="padding-left:50px;padding-top:30px"><a>Yapıyı oluşturunuz</a></div>
  -->
@@ -125,21 +125,68 @@ $(document).ready(function(){
 
 
 </script>
+<script>
+function yapiKaydet(){
+	
+	var parentId=$("#parentId").val();
+	var tip1=$("#checked").val();
+	
+	//başla
+    //bağlı olduğu bölümün yaprağı var mı onu kontrol et
+    //yaprak var ise dal kaydetmeye izin verme.
+    //dal var ise de yaprak kaydetmeye izin verme
+    			//başla
+    			 $.ajax({
+    type: "POST",
+    url: "/sera/cenvyapi/cocukTipOgren.htm",
+    data: "parentId=" + parentId,
+    cache: false,
+    success: function(response){
+    // dönen tip seçilen tipe eşit ise kaydet
+    if(tip1==response){
+    	document.yapiKayitForm.submit();
+    }else{
+       alert('Bu bölümün alt sınıfı olan '+response+' tipinde sınıf seçmelisiniz');
+    }
+        
+    },
+    error: function(e){
+    alert('Error: ' + e);
+    } 
+    });
+    //bitir
+	
+	
+	
+	
+}
+</script>
+<script>
+  $(document).ready(function(){
+    $("#yapiKayitForm").validate();
+  });
+</script>
 </head>
 <body class="genel">
 <%@include file="/WEB-INF/jsp/ana_sayfa/header.jsp" %>
 <div class="orta_div_sag">
-<form:form cssStyle="padding-left:50px;padding-top:50px" cssClass="formstil" action="/sera/cenvyapi/yapiKaydet.htm" method="POST"  modelAttribute="cenvdeger" enctype="multipart/form-data">
+ <c:choose>
+	<c:when test="${isAuthenticated=='true'}">
+<form:form id="yapiKayitForm" class="cmxform" name="yapiKayitForm" cssStyle="padding-left:50px;padding-top:50px" cssClass="formstil" action="/sera/cenvyapi/yapiKaydet.htm" method="POST"  modelAttribute="cenvdeger" enctype="multipart/form-data">
 <table>
 <form:hidden path="id" value="${cenvDoluVeriler.id}"/>
 <tr><td>
 <a>Sınıf </a>
 </td>
-<td><form:select path="tip1" id="checked" name="checked">
+<td><form:select class="required" path="tip1" id="checked" name="checked">
 <form:option value="${cenvDoluVeriler.tip1}" label="${cenvDoluVeriler.tip1}"/>
 <form:option  value="Yaprak" label="Yaprak"/>
 <form:option value="Dal" label="Dal"/>
+<c:choose>
+<c:when test="${kokKontrol==false}">
 <form:option value="Kök" label="Kök"/>
+</c:when>
+</c:choose>
 </form:select>
 <form:errors path="tip1"></form:errors>
 </td>
@@ -147,13 +194,13 @@ $(document).ready(function(){
 <tr><td>
 <a>Başlık </a>
 </td><td>
-<form:input id="textfield" path="baslik" maxlength="40" size="40" value="${cenvDoluVeriler.baslik}" />
+<form:input class="required" id="textfield" path="baslik" maxlength="40" size="40" value="${cenvDoluVeriler.baslik}" />
 <form:errors path="baslik"></form:errors>
 </td>
 </tr>
 <tr><td>
 <a>Birim </a>
-</td><td><form:input id="textfield" path="birim" maxlength="20" size="20" value="${cenvDoluVeriler.birim}" />
+</td><td><form:input class="required" id="textfield" path="birim" maxlength="20" size="20" value="${cenvDoluVeriler.birim}" />
 <form:errors path="birim"></form:errors>
 </td>
 </tr>
@@ -163,8 +210,8 @@ $(document).ready(function(){
 
     <!-- kok seçili ise -->
     <div id="hesapdiv1">
-         <form:select  path="tip2" id="hesapliste1" >
-	               <c:choose>
+         <form:select class="required"  path="tip2" id="hesapliste1" >
+	             <!--   <c:choose>
 	               <c:when test="${cenvDoluVeriler.tip1=='Dal'}">
 							<form:option value="${cenvDoluVeriler.tip2}" label="${cenvDoluVeriler.tip2}"/>
 				   </c:when>
@@ -175,15 +222,15 @@ $(document).ready(function(){
 				            <form:option value="" label=""/>
 				   </c:otherwise>
 				   </c:choose> 
-			   
+			   -->
 						<form:option  value="Hesap" label="Hesap"/>
 						</form:select>
 						<form:errors path="tip2"></form:errors>
     </div>
     <!-- yaprak veya dal seçili ise -->
     <div id="hesapdiv2">
-         <form:select  path="tip2" id="hesapliste2" >
-         <c:choose>
+         <form:select class="required"  path="tip2" id="hesapliste2" >
+        <!-- <c:choose>
               <c:when test="${cenvDoluVeriler.tip1=='Yaprak'}">
 						<form:option value="${cenvDoluVeriler.tip2}" label="${cenvDoluVeriler.tip2}"/>
 			  </c:when>
@@ -191,6 +238,7 @@ $(document).ready(function(){
 			            <form:option value="" label=""/>
 			  </c:otherwise>
 	     </c:choose>
+	     -->
 						<form:option value="Sabit" label="Sabit"/>
 						<form:option value="Elle" label="Elle"/>
 		</form:select>
@@ -203,14 +251,14 @@ $(document).ready(function(){
 <tr id="sabitdiv">
 <td><a>Sabit Değer </a></td>
 <form:hidden path="sabitId" value="${sabitdeger.id}"></form:hidden>
-<td><form:input id="textfield" path="sabit" maxlength="20" size="20" value="${sabitdeger.sabit}"  />
+<td><form:input class="required" id="textfield" path="sabit" maxlength="20" size="20" value="${sabitdeger.sabit}"  />
 <form:errors path="sabit"></form:errors></td>
 </tr>
 
 <tr id="parentdiv"><td>
 <a>Bağlı Olduğu Bölüm </a>
 </td><td>
-<form:select path="parentId">
+<form:select id="parentId" class="required" path="parentId">
 <form:option value="${parentOlayi2.id}" label="${parentOlayi2.baslik}"/>
 <form:options items="${parentOlayi}" itemValue="id" itemLabel="baslik"/>
 </form:select>
@@ -220,11 +268,18 @@ $(document).ready(function(){
 <tr>
 <td></td>
 <td>
-<input id="button"  type="submit"  value="Kaydet"  />
+<input id="button" type="submit" onclick="yapiKaydet(); return false;" value="Kaydet"  />
 </td>
 </tr>
 </table>
 </form:form>
+</c:when>
+	<c:otherwise>
+		<div class="orta_div_sag">
+			Bu icerige erismek icin giris yapmalisiniz.
+		</div>
+	</c:otherwise>
+	</c:choose>	
 </div>
 </div>
 <%@include file="/WEB-INF/jsp/ana_sayfa/footer.jsp" %>

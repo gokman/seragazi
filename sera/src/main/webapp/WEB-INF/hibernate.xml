@@ -30,6 +30,7 @@ class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBea
 			<value>com.sera.model.SeraCenvSabitler</value>
 			<value>com.sera.model.SeraCenvGiris</value>
 			<value>com.membership.model.User</value>
+			<value>com.sera.model.SeraCenvDonemSonuc</value>
 		</list>
     </property>
  

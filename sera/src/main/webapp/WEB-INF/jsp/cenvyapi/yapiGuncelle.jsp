@@ -139,7 +139,11 @@ $(document).ready(function(){
 <form:option value="${cenvDoluVeriler.tip1}" label="${cenvDoluVeriler.tip1}"/>
 <form:option  value="Yaprak" label="Yaprak"/>
 <form:option value="Dal" label="Dal"/>
+<c:choose>
+<c:when test="${kokKontrol==false}">
 <form:option value="Kök" label="Kök"/>
+</c:when>
+</c:choose>
 </form:select>
 <form:errors path="tip1"></form:errors>
 </td>
@@ -171,9 +175,9 @@ $(document).ready(function(){
 				   <c:when test="${cenvDoluVeriler.tip1=='Kök'}">
 						<form:option value="${cenvDoluVeriler.tip2}" label="${cenvDoluVeriler.tip2}"/>
 			       </c:when>
-				    <c:otherwise>
+				<!-- <c:otherwise>
 				            <form:option value="" label=""/>
-				   </c:otherwise>
+				   </c:otherwise>-->
 				   </c:choose>
 			   
 						<form:option  value="Hesap" label="Hesap"/>
@@ -187,9 +191,9 @@ $(document).ready(function(){
               <c:when test="${cenvDoluVeriler.tip1=='Yaprak'}">
 						<form:option value="${cenvDoluVeriler.tip2}" label="${cenvDoluVeriler.tip2}"/>
 			  </c:when>
-			  <c:otherwise>
+			<!--   <c:otherwise>
 			            <form:option value="" label=""/>
-			  </c:otherwise>
+			  </c:otherwise>   -->
 	     </c:choose>
 						<form:option value="Sabit" label="Sabit"/>
 						<form:option value="Elle" label="Elle"/>
