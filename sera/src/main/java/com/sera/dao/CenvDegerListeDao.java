@@ -27,4 +27,7 @@ public interface CenvDegerListeDao {
 	public List<SeraCenvDegerListe> searchCenvDeger(String baslik);
 	public List<SeraCenvDegerListe> listyaprak();
 	public List<SeraCenvDegerListe> listyaprak(String tip);
+	
+	public boolean isKokExist();
+	
 }

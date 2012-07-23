@@ -11,6 +11,7 @@ import com.sera.util.object.DegerGenel;
 public interface CenvGirisService {
      public void saveCenvGiris(SeraCenvGiris cenvDegerListe);
      public List<SeraCenvGiris> listCenvGiris();
+     public List<SeraCenvGiris> listCenvGiris(String donem);
      public void updateCenvGiris(SeraCenvGiris cenvdeger);
      public SeraCenvGiris getCenvGiris(Long id);
      public DegerGenel getGenelDeger(Long id); 

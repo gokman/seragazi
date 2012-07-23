@@ -61,8 +61,18 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 	
 	@Override
 	public List<SeraCenvDegerListe> getParent(long id) {
-		List<Long> parent_id=sessionFactory.getCurrentSession().createSQLQuery("select parent_id from sera.sera_cenv_deger_liste where id="+id).list();
-		List<SeraCenvDegerListe> list=sessionFactory.getCurrentSession().createQuery("from SeraCenvDegerListe where id="+parent_id.get(0)).list();
+		List<Long> parent_id;
+		List<SeraCenvDegerListe> list;
+		try{
+		parent_id=sessionFactory.getCurrentSession().createSQLQuery("select parent_id from sera.sera_cenv_deger_liste where id="+id).list();
+		}catch(Exception e){
+			parent_id=null;
+		}
+		try{
+		list=sessionFactory.getCurrentSession().createQuery("from SeraCenvDegerListe where id="+parent_id.get(0)).list();
+		}catch(Exception e){
+			list=null;
+		}
 		return list;
 	}
 	
@@ -111,7 +121,7 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 		List<SeraCenvDegerListe> ancestors=new ArrayList<SeraCenvDegerListe>();
 		SeraCenvDegerListe parent=new SeraCenvDegerListe();
 		Long tempId=id;
-		while(getParent(tempId).get(0)!=null){
+		while(getParent(tempId).size()>0){
 			parent=getParent(tempId).get(0);
 			ancestors.add(parent);
 			tempId=parent.getId();
@@ -150,6 +160,17 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 		yaprakliste=sessionFactory.getCurrentSession().createCriteria(SeraCenvDegerListe.class).
 		add(Restrictions.eq("tip1", "Yaprak")).add(Restrictions.eq("tip2", tip)).list();
 		return yaprakliste;
+	}
+
+	@Override
+	public boolean isKokExist() {
+		int a=(Integer)sessionFactory.getCurrentSession().createCriteria(SeraCenvDegerListe.class).
+		add(Restrictions.eq("tip1", "Kök")).setProjection(Projections.rowCount()).uniqueResult();
+		if (a>0){
+			return true;
+		}else{
+		    return false;
+		}
 	}
 	
 

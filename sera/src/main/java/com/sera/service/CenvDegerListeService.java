@@ -20,4 +20,6 @@ public interface CenvDegerListeService {
      public SeraCenvDegerListe getKok();
      public SeraCenvSabitler getSabit(Long id);
      public int getYaprakQuantiy();
+     public boolean isKokExist();
+     public String checkChildType(Long parentId);
 }

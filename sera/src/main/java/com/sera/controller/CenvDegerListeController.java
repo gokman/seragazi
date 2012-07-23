@@ -17,16 +17,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lookup.model.LookupMst;
 import com.lookup.service.LookupMstService;
 import com.sera.model.SeraCenvDegerListe;
+import com.sera.model.SeraCenvGiris;
 import com.sera.model.SeraCenvSabitler;
 import com.sera.model.SeraDegerSabitForm;
 import com.sera.service.CenvDegerListeService;
 import com.sera.util.ElemanTip;
 import com.sera.validator.CenvDegerListeValidator;
+import com.util.login.check.LoginCheck;
 
 @Controller
 @RequestMapping("/cenvyapi")
@@ -38,13 +41,15 @@ public class CenvDegerListeController {
 	@Autowired
 	private CenvDegerListeService cenvdegerservice;
 	
+	private LoginCheck loginInfo = new LoginCheck();
+	
 	@RequestMapping(value = {"/yapiGiris/{id}.htm"},method=RequestMethod.GET) 
 	public ModelAndView girisCenvDegerListe(HttpServletRequest req,
 			@PathVariable("id") String id,@ModelAttribute("cenvdeger") SeraDegerSabitForm seragazi,BindingResult result) {
 		ModelAndView model;
-		
+		boolean kokKontrol;
 		List<SeraCenvDegerListe> dalkokliste=cenvdegerservice.listDalKokCenv();
-		
+		kokKontrol=cenvdegerservice.isKokExist();
 		
 		
 		
@@ -56,6 +61,8 @@ public class CenvDegerListeController {
 			SeraDegerSabitForm seralar=new SeraDegerSabitForm();
 			seralar.setId((long)0);
 			model.addObject("cenvDoluVeriler",seralar);
+			model.addObject("kokKontrol",kokKontrol);
+			loginInfo.getUserInfo(model);
 		
 		}
 		else{
@@ -63,6 +70,7 @@ public class CenvDegerListeController {
 			model.addObject("parentOlayi", dalkokliste);
 			SeraCenvDegerListe detay=cenvdegerservice.detayCenvDeger(Long.parseLong(id));
             model.addObject("cenvDoluVeriler",detay);
+            model.addObject("kokKontrol",kokKontrol);
             //değer sabit ise o zaman sabit nesnemizi çekmeliyiz.
             if(detay.gettip2()=="Sabit"){
             SeraCenvSabitler sabit=cenvdegerservice.getSabit(Long.parseLong(id));
@@ -174,6 +182,13 @@ public class CenvDegerListeController {
                 modell.addObject("cenvDetay",detay);
 		
 		return modell;
+	}
+	
+	@RequestMapping(value = "/cocukTipOgren.htm", method = RequestMethod.POST)
+	public @ResponseBody String checkChildType(@RequestParam(value="parentId", required=true) Long parentId) {
+		String childType=cenvdegerservice.checkChildType(parentId);
+		
+        return childType;
 	}
 	
 

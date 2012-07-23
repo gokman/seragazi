@@ -25,6 +25,7 @@ import com.sera.model.SeraCenvGiris;
 import com.sera.service.CenvDegerListeService;
 import com.sera.util.object.Donem;
 import com.sera.validator.DonemValidator;
+import com.util.login.check.LoginCheck;
 
 
 
@@ -43,6 +44,8 @@ import com.sera.validator.DonemValidator;
 			@Autowired
 			private CenvDegerListeService degerlisteservice;
 			
+			private LoginCheck loginInfo = new LoginCheck();
+			
 			
 			
 			@RequestMapping(value = "/donemsonuchesapla.htm",method=RequestMethod.POST)
@@ -57,19 +60,11 @@ import com.sera.validator.DonemValidator;
 					return returnView;
 				}else{
 					//kayıt işlemi başlacak
-					//o döneme ait yaprakların değerleri girildi ise ve 
-					//o döneme ait dönem sonuç tablosunda değer yok ise devam
+					donemservice.fillDonemSonuc(donem.getDonem());
 					ModelAndView returnView = new ModelAndView("cenvyapi/hello");
 					returnView.addObject("dd",degerlisteservice.getYaprakQuantiy());
 					return returnView;
-					/*if(donemservice.isDonemSonucRecordFull(donem.getDonem())==false&&
-					   donemservice.isYaprakDonemRecordFull(donem.getDonem())==true){
-					     
-						
-						return new ModelAndView("/index.htm");
-					}else{
-						return new ModelAndView("/donemsonuc/donemsonucgiris");
-					}*/
+					
 				}
 				
 		           
@@ -77,8 +72,9 @@ import com.sera.validator.DonemValidator;
 			
 			@RequestMapping(value = "/donemsonucgir.htm")
 			public ModelAndView getirDonem(@ModelAttribute("donemsonuc") Donem donemsonuc) {
-				
-				   return new ModelAndView("/donemsonuc/donemsonucgiris");
+				ModelAndView mv=new ModelAndView("/donemsonuc/donemsonucgiris");
+				    loginInfo.getUserInfo(mv);
+				   return mv;
 		           
 			}
 			
@@ -88,6 +84,14 @@ import com.sera.validator.DonemValidator;
 				boolean a=donemservice.isControlGirisFull(donem);
 				return a;		
 				
+		 
+			}
+			
+			@RequestMapping(value = "/donemSonucKayitKontrol.htm", method = RequestMethod.POST)
+			public @ResponseBody Boolean isDonemSonucExist(
+					@RequestParam(value="donem", required=true) String donem) {
+				
+				return donemservice.isDonemSonucExist(donem);		
 		 
 			}
 			

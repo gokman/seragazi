@@ -64,6 +64,11 @@ public class CenvGirisServiceImpl implements CenvGirisService {
 		
 		return cenvgirisDao.getGirisKayit(tarih,id);
 	}
+	@Override
+	public List<SeraCenvGiris> listCenvGiris(String donem) {
+		// TODO Auto-generated method stub
+		return cenvgirisDao.listCenvGiris(donem);
+	}
 
 	
 }

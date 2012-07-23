@@ -9,4 +9,7 @@ public interface DonemSonucService {
     
 	//o döneme ait tüm girişler tam mı onu kontrol edeceğiz
 	public boolean isControlGirisFull(String donem);
+	public boolean isDonemSonucExist(String donem);
+	public void fillDonemSonuc(String donem);
+
 	}

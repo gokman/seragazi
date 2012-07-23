@@ -97,4 +97,20 @@ public class CenvDegerListeServiceImpl implements CenvDegerListeService {
 		// TODO Auto-generated method stub
 		return cenvDegerListeDao.getYaprakQuantity();
 	}
+
+	@Override
+	public boolean isKokExist() {
+		// TODO Auto-generated method stub
+		return cenvDegerListeDao.isKokExist();
+	}
+
+	@Override
+	public String checkChildType(Long parentId) {
+		String childType=null;
+		List<SeraCenvDegerListe> children=cenvDegerListeDao.listChildren(parentId);
+		if(children.size()>0){
+		childType=children.get(0).gettip1();
+		}
+		return childType;
+	}
 }
