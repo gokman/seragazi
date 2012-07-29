@@ -9,6 +9,7 @@
 <title>Dönem Değerlerini Hesapla</title>
 <link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
+<link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
@@ -140,23 +141,19 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: top; 
 	<c:when test="${isAuthenticated=='true'}">
 	<div class="orta_div_sag">
 	<form:form cssStyle="padding-left:50px;padding-top:50px" id="donemSonucForm" name="donemSonucForm" cssClass="formstil" action="/sera/donemsonuc/donemsonuchesapla.htm" method="POST"  modelAttribute="donemsonuc" enctype="multipart/form-data">
-	<fieldset>
-	<legend>Dönem Sonucunu Hesaplayınız</legend>
 	<table>
 	<tr>
-	<td>Dönem:</td>
-	<td><form:input id="txtDate" class="required" path="donem" minlength="7" maxlength="7" size="20px"/>Örn:(mm-yyyy)
+	<td><a>Dönem(mm-yyyy) : </a></td>
+	<td><form:input id="txtDate" class="required" path="donem" minlength="7" maxlength="7" size="20px"/>
 	<form:errors path="donem"></form:errors>
 	</td>
 	</tr>
 	<tr>
 	<td></td>
-	<td><input type="submit" onclick="donemHesapla(); return false;" value="Hesapla" ></input></td>
+	<td class="submit"><input type="submit" onclick="donemHesapla(); return false;" value="Hesapla" ></input></td>
 	</tr>
 	</table>
-	</fieldset>
 	</form:form>
-	
 	
 	</div>
 	</c:when>

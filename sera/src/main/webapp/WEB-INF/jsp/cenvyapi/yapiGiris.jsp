@@ -14,34 +14,45 @@
 <!-- 
 <div id="sayfa_baslik" style="padding-left:50px;padding-top:30px"><a>Yapıyı oluşturunuz</a></div>
  -->
- 
+<!-- 
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/form.css"/>" type="text/css" />
-
+ -->
+ <link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
 <script type="text/javascript">
 $(document).ready(function(){
+	
 	$("#checked").live(
 	'val',
 	function(){
 		if($("#checked").val()=="Kök"){
 			//show the hidden div
-			$("#parentdiv").hide("fast");
-			$("#hesapdiv1").show("fast");
-			$("#hesapdiv2").hide("fast");
+			$("#parentdiv").hide("slow");
+			//$("#hesapdiv1").show("fast");
+	         $('#hesapliste1')
+         .empty().append($("<option></option>")
+         .attr("value","Hesap")
+         .text("Hesap"));
+			//$("#hesapdiv2").hide("fast");
 		}
 		else if($("#checked").val()=="Dal"){
 			//show the hidden div
-			$("#parentdiv").show("fast");
-			$("#hesapdiv1").show("fast");
-			$("#hesapdiv2").hide("fast");
+			$("#parentdiv").show("slow");
+			//$("#hesapdiv1").show("fast");
+		 $("#hesapliste1").empty().append('<option  value=""></option>');
+         $("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+			//$("#hesapdiv2").hide("fast");
 		}
 		else
 		{
 			//otherwise, hide it
-			$("#parentdiv").show("fast");
-			$("#hesapdiv2").show("fast");
-			$("#hesapdiv1").hide("fast");
+			$("#parentdiv").show("slow");
+			//$("#hesapdiv2").show("fast");
+			$("#hesapliste1").empty().append('<option  value=""></option>');
+			$("#hesapliste1").append('<option  value="Sabit">Sabit</option>');
+			$("#hesapliste1").append('<option  value="Elle">Elle</option>');
+			//$("#hesapdiv1").hide("fast");
 		}
 		
 	}
@@ -51,22 +62,29 @@ $(document).ready(function(){
    
 	if($("#checked").val()=="Kök"){
 		//show the hidden div
-		$("#parentdiv").hide("fast");
-		$("#hesapdiv1").show("fast");
-		$("#hesapdiv2").hide("fast");
+		$("#parentdiv").hide("slow");
+		//$("#hesapdiv1").show("fast");
+		$("#hesapliste1").empty().append('<option  value=""></option>');
+		$("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+		//$("#hesapdiv2").hide("fast");
 	}
 	else if($("#checked").val()=="Dal"){
 		//show the hidden div
-		$("#parentdiv").show("fast");
-		$("#hesapdiv1").show("fast");
-		$("#hesapdiv2").hide("fast");
+		$("#parentdiv").show("slow");
+		//$("#hesapdiv1").show("fast");
+		$("#hesapliste1").empty().append('<option  value=""></option>');
+		$("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+		//$("#hesapdiv2").hide("fast");
 	}
 	else
 	{
 		//otherwise, hide it
-		$("#parentdiv").show("fast");
-		$("#hesapdiv2").show("fast");
-		$("#hesapdiv1").hide("fast");
+		$("#parentdiv").show("slow");
+		//$("#hesapdiv2").show("fast");
+		$("#hesapliste1").empty().append('<option  value=""></option>');
+		$("#hesapliste1").append('<option  value="Sabit">Sabit</option>');
+			$("#hesapliste1").append('<option  value="Elle">Elle</option>');
+		//$("#hesapdiv1").hide("fast");
 	}
 	
 	// Add onclick handler to checkbox w/id checkme
@@ -74,47 +92,63 @@ $(document).ready(function(){
 	function ekleme(){
 		if($("#checked").val()=="Yaprak"){
 				//otherwise, hide it
-				$("#parentdiv").show("fast");
+				$("#parentdiv").show("slow");
 				//ağaç tipine göre hesaplama listesini güncelle
-				$("#hesapdiv2").show("fast");
-				$("#hesapdiv1").hide("fast");
+				//$("#hesapdiv2").show("fast");
+				$("#hesapliste1").empty().append('<option  value=""></option>');
+				$("#hesapliste1").append('<option  value="Sabit">Sabit</option>');
+			$("#hesapliste1").append('<option  value="Elle">Elle</option>');
+				//$("#hesapdiv1").hide("fast");
 			}
 			else if($("#checked").val()=="Dal"){
 				//otherwise, hide it
-				$("#parentdiv").show("fast");
+				$("#parentdiv").show("slow");
 				//ağaç tipine göre hesaplama listesini güncelle
-				$("#hesapdiv1").show("fast");
-				$("#hesapdiv2").hide("fast");
+				//$("#hesapdiv1").show("fast");
+				$("#hesapliste1").empty().append('<option  value=""></option>');
+				$("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+				//$("#hesapdiv2").hide("fast");
 			}
 			else
 			{
 				//show the hidden div
 				$("#parentdiv").hide("fast");
 				//ağaç tipine göre hesaplama listesini güncelle
-				$("#hesapdiv1").show("fast");
-				$("#hesapdiv2").hide("fast");
+				//$("#hesapdiv1").show("fast");
+				$("#hesapliste1").empty().append('<option  value=""></option>');
+				$("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+				//$("#hesapdiv2").hide("fast");
 			}	
 			
 	}	     
    );
 	
-   if($("#hesapliste2").val()=="Sabit"){
-		//show the hidden div
-	   $("#sabitdiv").show("fast");
+   $("#hesapliste1").focus(
+			
+	function(){
+				
+    if($("#hesapliste1").val()=="Sabit"){
+		 //show the hidden div
+	     $("#sabitdiv").show("slow");
+	     $("#sabit").attr('class','required number');
 	}
 	else
 	{
 		//otherwise, hide it
-		$("#sabitdiv").hide("fast");
+		$("#sabitdiv").hide("slow");
+		$("#sabit").attr('class','');
 	}
+			});
 	
-	$("#hesapliste2").change(
+	$("#hesapliste1").change(
 	function sabitekle(){
-		if($("#hesapliste2").val()=="Sabit"){
-			$("#sabitdiv").show("fast");	
+		if($("#hesapliste1").val()=="Sabit"){
+			$("#sabitdiv").show("slow");	
+			$("#sabit").attr('class','required number');
 		}
 		else{
-			$("#sabitdiv").hide("fast");
+			$("#sabitdiv").hide("slow");
+			$("#sabit").attr('class','');
 		}
 		
 	}		
@@ -125,12 +159,18 @@ $(document).ready(function(){
 
 
 </script>
+<!-- <script>
+  $(document).ready(function(){
+    $("#yapiKayitForm").validate();
+  });
+</script> -->
 <script>
 function yapiKaydet(){
-	
-	var parentId=$("#parentId").val();
-	var tip1=$("#checked").val();
-	
+	var parentId;
+	var tip1;
+	var globalResponse="";
+	tip1=$("#checked").val();
+	parentId=$("#parentId").val();
 	//başla
     //bağlı olduğu bölümün yaprağı var mı onu kontrol et
     //yaprak var ise dal kaydetmeye izin verme.
@@ -143,37 +183,48 @@ function yapiKaydet(){
     cache: false,
     success: function(response){
     // dönen tip seçilen tipe eşit ise kaydet
-    if(tip1==response){
-    	document.yapiKayitForm.submit();
+    globalResponse=response;
+    if(response!=""){
+	    if(tip1==globalResponse){
+	    	
+	    	$("#yapiKayitForm").validate({
+	    	 	submitHandler : function(form){
+	    	 		
+	    			form.submit();
+	    		}
+	    	});
+						
+						
+	    	
+	    }else{
+	       alert('Bu bölümün alt sınıfı olan '+response+' tipinde sınıf seçmelisiniz');
+	    }
     }else{
-       alert('Bu bölümün alt sınıfı olan '+response+' tipinde sınıf seçmelisiniz');
+    	$("#yapiKayitForm").validate({
+    	 	submitHandler : function(form){
+    	 		
+    			form.submit();
+    		}
+    	});
     }
         
-    },
-    error: function(e){
-    alert('Error: ' + e);
-    } 
+    }
     });
     //bitir
 	
 	
-	
-	
 }
 </script>
-<script>
-  $(document).ready(function(){
-    $("#yapiKayitForm").validate();
-  });
-</script>
+
 </head>
 <body class="genel">
 <%@include file="/WEB-INF/jsp/ana_sayfa/header.jsp" %>
 <div class="orta_div_sag">
- <c:choose>
+<label id="kayitKontrol">${kayitKontrol}</label>
+ <c:choose> 
 	<c:when test="${isAuthenticated=='true'}">
-<form:form id="yapiKayitForm" class="cmxform" name="yapiKayitForm" cssStyle="padding-left:50px;padding-top:50px" cssClass="formstil" action="/sera/cenvyapi/yapiKaydet.htm" method="POST"  modelAttribute="cenvdeger" enctype="multipart/form-data">
-<table>
+<form:form id="yapiKayitForm" onsubmit="yapiKaydet(); return false;"   class="cmaForm" name="yapiKayitForm" cssClass="formstil" cssStyle="padding-left:50px;padding-top:50px"  action="/sera/cenvyapi/yapiKaydet.htm" method="POST"  modelAttribute="cenvdeger" enctype="multipart/form-data">
+<table >
 <form:hidden path="id" value="${cenvDoluVeriler.id}"/>
 <tr><td>
 <a>Sınıf </a>
@@ -193,14 +244,17 @@ function yapiKaydet(){
 </tr>
 <tr><td>
 <a>Başlık </a>
-</td><td>
-<form:input class="required" id="textfield" path="baslik" maxlength="40" size="40" value="${cenvDoluVeriler.baslik}" />
+</td>
+<td>
+<form:input name="baslik" class="required " id="baslik" path="baslik" maxlength="100" size="100"  />
 <form:errors path="baslik"></form:errors>
 </td>
 </tr>
 <tr><td>
 <a>Birim </a>
-</td><td><form:input class="required" id="textfield" path="birim" maxlength="20" size="20" value="${cenvDoluVeriler.birim}" />
+</td>
+<td>
+<form:input name="birim" class="required" id="birim" path="birim" maxlength="100" size="100" />
 <form:errors path="birim"></form:errors>
 </td>
 </tr>
@@ -208,57 +262,27 @@ function yapiKaydet(){
 <a>Değer Tipi  </a>
 </td><td>
 
-    <!-- kok seçili ise -->
     <div id="hesapdiv1">
-         <form:select class="required"  path="tip2" id="hesapliste1" >
-	             <!--   <c:choose>
-	               <c:when test="${cenvDoluVeriler.tip1=='Dal'}">
-							<form:option value="${cenvDoluVeriler.tip2}" label="${cenvDoluVeriler.tip2}"/>
-				   </c:when>
-				   <c:when test="${cenvDoluVeriler.tip1=='Kök'}">
-						<form:option value="${cenvDoluVeriler.tip2}" label="${cenvDoluVeriler.tip2}"/>
-			       </c:when>
-				    <c:otherwise>
-				            <form:option value="" label=""/>
-				   </c:otherwise>
-				   </c:choose> 
-			   -->
+         <form:select name="hesapliste1" class="required"  path="tip2" id="hesapliste1" >
 						<form:option  value="Hesap" label="Hesap"/>
 						</form:select>
 						<form:errors path="tip2"></form:errors>
     </div>
-    <!-- yaprak veya dal seçili ise -->
-    <div id="hesapdiv2">
-         <form:select class="required"  path="tip2" id="hesapliste2" >
-        <!-- <c:choose>
-              <c:when test="${cenvDoluVeriler.tip1=='Yaprak'}">
-						<form:option value="${cenvDoluVeriler.tip2}" label="${cenvDoluVeriler.tip2}"/>
-			  </c:when>
-			  <c:otherwise>
-			            <form:option value="" label=""/>
-			  </c:otherwise>
-	     </c:choose>
-	     -->
-						<form:option value="Sabit" label="Sabit"/>
-						<form:option value="Elle" label="Elle"/>
-		</form:select>
-
-						<form:errors path="tip2"></form:errors>
-    </div>
-
 </td></tr>
 
 <tr id="sabitdiv">
 <td><a>Sabit Değer </a></td>
 <form:hidden path="sabitId" value="${sabitdeger.id}"></form:hidden>
-<td><form:input class="required" id="textfield" path="sabit" maxlength="20" size="20" value="${sabitdeger.sabit}"  />
-<form:errors path="sabit"></form:errors></td>
+<td>
+<form:input  name="sabit"  id="sabit" path="sabit" maxlength="20" size="20" value="${sabitdeger.sabit}"  />
+<form:errors path="sabit"></form:errors>
+</td>
 </tr>
 
 <tr id="parentdiv"><td>
 <a>Bağlı Olduğu Bölüm </a>
 </td><td>
-<form:select id="parentId" class="required" path="parentId">
+<form:select name="parentId" id="parentId" class="required" path="parentId">
 <form:option value="${parentOlayi2.id}" label="${parentOlayi2.baslik}"/>
 <form:options items="${parentOlayi}" itemValue="id" itemLabel="baslik"/>
 </form:select>
@@ -267,8 +291,8 @@ function yapiKaydet(){
 
 <tr>
 <td></td>
-<td>
-<input id="button" type="submit" onclick="yapiKaydet(); return false;" value="Kaydet"  />
+<td class="submit">
+<input id="button" type="submit"  value="Kaydet"  />
 </td>
 </tr>
 </table>
