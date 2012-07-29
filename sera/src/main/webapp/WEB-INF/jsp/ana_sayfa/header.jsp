@@ -19,11 +19,15 @@
 				<div class="menudiv">
 					<ul id="menu-bar">
 					 <li class="current"><a href="/">Ana Sayfa</a></li>
-					 <li><a href="#">İşletme Yapisi</a></li>
+					 <li><a href="#">Envanter Yapısı</a>
+					 <ul>
+					     <li><a href="/sera/cenvyapi/yapiGiris/ana.htm">Yapı Oluşturma</a></li>
+					     <li><a href="/sera/cenvyapi/yapiSearch.htm">Yapı Arama ve Güncelleme</a></li>
+					     <li><a href="/sera/cenvyapi/yapiSil.htm">Yapı Arama ve Silme</a></li>
+					 </ul>
+					 </li>
 					 <li><a href="#">İşlemler</a>
-						  <ul>
-							   <li><a href="/sera/cenvyapi/yapiGiris/ana.htm">Yapı Oluşturma</a></li>
-							   <li><a href="/sera/cenvyapi/yapiSearch.htm">Yapı Arama ve Güncelleme</a></li>
+						  <ul> 
 							   <li><a href="/sera/cenvgiris/girisgetir.htm">Değer Girişi</a></li>
 							   <li><a href="/sera/donemsonuc/donemsonucgir.htm">Dönem Hesaplama</a></li>
 							   <li><a href="#">Sonuç</a></li>
