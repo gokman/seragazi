@@ -242,7 +242,7 @@ $.extend($.validator, {
                 date: "Geçerli bir tarih girin.",
                 dateISO: "Please enter a valid date (ISO).",
                 dateDE: "Bitte geben Sie ein g�ltiges Datum ein.",
-                number: "Please enter a valid number.",
+                number: "Geçerli bir sayı giriniz.",
                 numberDE: "Bitte geben Sie eine Nummer ein.",
                 digits: "Please enter only digits",
                 creditcard: "Please enter a valid credit card number.",
