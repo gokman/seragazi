@@ -1,0 +1,94 @@
+.table_sil{
+
+background-color:#FFFFFF;
+border-color:#8ECECB;
+border-style:ridge;
+border-width:0.5px;
+padding:1px;
+margin-bottom: 2px;
+
+
+}
+
+.kok_table_sil{
+
+background-color:#FFFFFF;
+border-color:#8ECECB;
+border-style:ridge;
+border-width:0.5px;
+padding:1px;
+margin-bottom: 2px;
+margin-right: 2px;
+margin-left: 300px;
+
+}
+
+.kok_table_giris{
+
+background-color:#FFFFFF;
+border-color:#8ECECB;
+border-style:ridge;
+border-width:0.5px;
+padding:1px;
+margin-bottom: 2px;
+margin-right: 2px;
+margin-left: 282px;
+
+
+}
+
+.baslik_dugme{
+
+color:#333333;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:11px;
+background-color:#FFFFFF;
+border-width:0px;
+width:auto;
+height:auto;
+
+}
+
+.sil_dugme{
+
+color:#FFFFFF;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:14px;
+letter-spacing:2px;
+background-color:#50A6AF;
+border-style:none;
+width:100px;
+height:30px;
+font-weight:bold;
+
+}
+
+.detay_dugme{
+
+color:#FFFFFF;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:12px;
+letter-spacing:1px;
+background-color:#50A6AF;
+border-style:none;
+width:220px;
+height:30px;
+font-weight: normal;
+
+}
+
+.cizgi{
+
+background-color: #7AA3CB;
+height: 1px;
+width: 600px;
+margin-bottom: 7px;
+	}
+	
+	.cizgi2{
+
+background-color: #7AA3CB;
+height: 1px;
+width: 690px;
+margin-bottom: 7px;
+	}

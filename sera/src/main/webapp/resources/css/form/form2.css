@@ -1,0 +1,78 @@
+   input, textarea {   
+       padding: 9px;  
+       border: solid 1px #E5E5E5;  
+       outline: 0;  
+       font: normal 13px/100% Verdana, Tahoma, sans-serif;  
+       width: 200px;  
+       background: #FFFFFF;  
+       }  
+     
+   textarea {   
+       width: 400px;  
+       max-width: 400px;  
+       height: 150px;  
+       line-height: 150%;  
+       }  
+     
+   input:hover, textarea:hover,  
+   input:focus, textarea:focus {   
+       border-color: #C9C9C9;   
+       }  
+     
+   a {   
+       font-size:16px;
+	font-weight:400;
+	color:#000033;
+	font-family:Verdana;
+	letter-spacing: 0.1px;  
+       }  
+     
+   .submit input {  
+       width: auto;  
+       padding: 9px 15px;  
+       background: #617798;  
+       border: 0;  
+       font-size: 14px;  
+       color: #FFFFFF;  
+       }  
+       
+       .submit input:hover {  
+       width: auto;  
+       padding: 9px 15px;  
+       background: #699798;  
+       border: 0;  
+       font-size: 14px;  
+       color: #FFFFFF; 
+       }  
+       
+ select {
+
+background: #C2E0CA;
+   width: 200px;
+   padding: 5px;
+   font-size: 14px;
+   border: 1px solid #ccc;
+   height: 34px;
+   font-family:Verdana;
+   
+
+}
+
+option {
+
+height:25px;
+padding:2px 3px;
+color:#585858;
+font-family:Verdana;
+letter-spacing: 0.1px;
+
+}
+
+.formyazi {   
+       font-size:16px;
+	font-weight:400;
+	color:#000033;
+	font-family:Verdana;
+	letter-spacing: 0.1px;  
+	padding-right: 5px;
+       } 
