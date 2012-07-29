@@ -18,7 +18,7 @@
 				
 				<div class="menudiv">
 					<ul id="menu-bar">
-					 <li class="current"><a href="/">Ana Sayfa</a></li>
+					 <li class="current"><a href="/sera">Ana Sayfa</a></li>
 					 <li><a href="#">Envanter Yapısı</a>
 					 <ul>
 					     <li><a href="/sera/cenvyapi/yapiGiris/ana.htm">Yapı Oluşturma</a></li>
