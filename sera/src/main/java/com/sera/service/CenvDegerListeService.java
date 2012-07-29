@@ -22,4 +22,5 @@ public interface CenvDegerListeService {
      public int getYaprakQuantiy();
      public boolean isKokExist();
      public String checkChildType(Long parentId);
+     public void deleteAllDescendant(Long id);
 }

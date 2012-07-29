@@ -1,5 +1,6 @@
 package com.sera.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -106,11 +107,23 @@ public class CenvDegerListeServiceImpl implements CenvDegerListeService {
 
 	@Override
 	public String checkChildType(Long parentId) {
-		String childType=null;
+		String childType="";
 		List<SeraCenvDegerListe> children=cenvDegerListeDao.listChildren(parentId);
 		if(children.size()>0){
 		childType=children.get(0).gettip1();
 		}
 		return childType;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void deleteAllDescendant(Long id) {
+		List<SeraCenvDegerListe> alldescendant=new ArrayList<SeraCenvDegerListe>();
+		alldescendant=cenvDegerListeDao.listDescendant(id);
+		for(int i=0;i<alldescendant.size();i++){
+			cenvDegerListeDao.deleteCenvDeger(alldescendant.get(i));
+		}
+		//en son kendisini sil
+		cenvDegerListeDao.deleteCenvDeger(cenvDegerListeDao.getCenvDeger(id));
+		
 	}
 }

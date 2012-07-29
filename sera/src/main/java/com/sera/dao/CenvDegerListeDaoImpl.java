@@ -172,6 +172,34 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 		    return false;
 		}
 	}
+
+	@Override
+	public List<SeraCenvDegerListe> listDescendant(Long id) {
+		List<SeraCenvDegerListe> torunlar=new ArrayList<SeraCenvDegerListe>();
+		addDescendant(torunlar, id);
+		
+		return torunlar;
+	}
+	
+	public void addDescendant(List<SeraCenvDegerListe> baba,Long id) {
+		List<SeraCenvDegerListe> cocukTemp=new ArrayList<SeraCenvDegerListe>();
+		Long aydi=id;
+		if(listChildren(aydi).size()>0){
+			cocukTemp=listChildren(aydi);
+		    baba.addAll(cocukTemp);
+		    for(int i=0;i<cocukTemp.size();i++){
+		    	addDescendant(baba, cocukTemp.get(i).getId());
+		    }
+		}	
+	}
+
+	@Override
+	public void deleteCenvDeger(SeraCenvDegerListe cenvdeger) {
+		sessionFactory.getCurrentSession().delete(cenvdeger);		
+	}
+	
+	
+	
 	
 
 }

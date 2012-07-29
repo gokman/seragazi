@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.lookup.model.LookupMst;
 import com.lookup.service.LookupMstService;
@@ -27,6 +28,7 @@ import com.sera.model.SeraCenvGiris;
 import com.sera.model.SeraCenvSabitler;
 import com.sera.model.SeraDegerSabitForm;
 import com.sera.service.CenvDegerListeService;
+import com.sera.service.CenvGirisService;
 import com.sera.util.ElemanTip;
 import com.sera.validator.CenvDegerListeValidator;
 import com.util.login.check.LoginCheck;
@@ -40,6 +42,9 @@ public class CenvDegerListeController {
 	
 	@Autowired
 	private CenvDegerListeService cenvdegerservice;
+	
+	@Autowired
+	private CenvGirisService cenvgirisservice;
 	
 	private LoginCheck loginInfo = new LoginCheck();
 	
@@ -71,19 +76,24 @@ public class CenvDegerListeController {
 			SeraCenvDegerListe detay=cenvdegerservice.detayCenvDeger(Long.parseLong(id));
             model.addObject("cenvDoluVeriler",detay);
             model.addObject("kokKontrol",kokKontrol);
+            loginInfo.getUserInfo(model);
             //değer sabit ise o zaman sabit nesnemizi çekmeliyiz.
-            if(detay.gettip2()=="Sabit"){
-            SeraCenvSabitler sabit=cenvdegerservice.getSabit(Long.parseLong(id));
-            
-            model.addObject("sabitdeger",sabit);
+            if(detay.gettip2().equals("Sabit")){
+            	
+               SeraCenvSabitler sabit=cenvdegerservice.getSabit(Long.parseLong(id));
+               model.addObject("sabitdeger",sabit);
+               
             }
-          //var olan parent i göster
+            //var olan parent i göster
             if(!detay.gettip1().equals("Kök")){
-			List<SeraCenvDegerListe> parent=cenvdegerservice.getParent(Long.parseLong(id));
-			//parent.get(0) değişecek. liste olmasına gerek yok. kopyala yapıştır yaptık üşendik değiştirmeye :D
-			model.addObject("parentOlayi2", parent.get(0));
-            }else{
-            model.addObject("parentOlayi2", new SeraCenvDegerListe());
+            	
+			   List<SeraCenvDegerListe> parent=cenvdegerservice.getParent(Long.parseLong(id));
+			   //parent.get(0) değişecek. liste olmasına gerek yok. kopyala yapıştır yaptık üşendik değiştirmeye :D
+			   model.addObject("parentOlayi2", parent.get(0));
+            
+            }
+            else{
+               model.addObject("parentOlayi2", new SeraCenvDegerListe());
             }
             
 		}
@@ -93,7 +103,7 @@ public class CenvDegerListeController {
 	@RequestMapping(value = "/yapiKaydet.htm") 
 	public ModelAndView saveCenvDegerListe(HttpServletRequest req,@ModelAttribute("cenvdeger") SeraDegerSabitForm seragazi,
 			BindingResult result) {
-		ModelAndView model=new ModelAndView("cenvyapi/hello");
+		ModelAndView model=new ModelAndView("cenvyapi/yapiGiris");
 	    SeraCenvDegerListe deger=new SeraCenvDegerListe(seragazi);
 	    
 	    CenvDegerListeValidator validator=new CenvDegerListeValidator();
@@ -121,9 +131,13 @@ public class CenvDegerListeController {
 		        sabit.setcreateDate(Calendar.getInstance().getTime());
 				cenvdegerservice.saveKokCenvDegerSabitler(sabit);
 	        }
-	   
-		//model.addObject("aydi", seragazi.getId());
-		//model.addObject("baslik", seragazi.getBaslik());
+	    List<SeraCenvDegerListe> dalkokliste=cenvdegerservice.listDalKokCenv();
+	    model.addObject("parentOlayi", dalkokliste);
+	    loginInfo.getUserInfo(model);
+		model.addObject("kayitKontrol","<script type='text/javascript'>"+
+			"alert('Kaydedildi');"+
+            "</script>");
+
         return model;
 	}
 	
@@ -186,9 +200,26 @@ public class CenvDegerListeController {
 	
 	@RequestMapping(value = "/cocukTipOgren.htm", method = RequestMethod.POST)
 	public @ResponseBody String checkChildType(@RequestParam(value="parentId", required=true) Long parentId) {
-		String childType=cenvdegerservice.checkChildType(parentId);
-		
+		String childType="";
+		if(cenvdegerservice.listChildren(parentId).size()>0){
+		   childType=cenvdegerservice.checkChildType(parentId);
+		}
         return childType;
+	}
+	
+	@RequestMapping(value = "/yapiSil.htm") 
+	public ModelAndView deleteCenvDegerForm() {
+                ModelAndView model=new ModelAndView("cenvyapi/yapiSil");
+                SeraCenvDegerListe kok=cenvgirisservice.getKok();	
+                model.addObject("kok",kok);	
+		return model;
+	}
+	
+	@RequestMapping(value = "/sil.htm", method = RequestMethod.POST)
+	public @ResponseBody String deleteAllDescendant(@RequestParam(value="id", required=true) Long id) {
+		cenvdegerservice.deleteAllDescendant(id);
+		
+        return "1";
 	}
 	
 
