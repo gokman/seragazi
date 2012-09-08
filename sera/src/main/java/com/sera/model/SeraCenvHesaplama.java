@@ -27,7 +27,7 @@ public class SeraCenvHesaplama  {
     private Long parentId;
     private String hesaplama;
     private Date creationDate;
-    private Long createdBy;
+    private String createdBy;
     private String detay;
     private Long id; // pk
 
@@ -45,8 +45,8 @@ public class SeraCenvHesaplama  {
 
     // -- [hesaplama] ------------------------
 
-    @Size(max = 64)
-    @Column(name = "HESAPLAMA", length = 64)
+    @Size(max = 150)
+    @Column(name = "HESAPLAMA", length = 150)
     public String getHesaplama() {
         return hesaplama;
     }
@@ -57,7 +57,7 @@ public class SeraCenvHesaplama  {
 
     // -- [creationDate] ------------------------
 
-    @Column(name = "CREATION_DATE", length = 10)
+    @Column(name = "CREATION_DATE", length = 30)
     public Date getCreationDate() {
         return creationDate;
     }
@@ -68,12 +68,12 @@ public class SeraCenvHesaplama  {
 
     // -- [createdBy] ------------------------
 
-    @Column(name = "CREATED_BY", precision = 19)
-    public Long getCreatedBy() {
+    @Column(name = "CREATED_BY")
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Long createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 

@@ -9,14 +9,12 @@ package com.sera.model;
 
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -29,7 +27,7 @@ public class SeraCenvGiris  {
     private String baslik;
     private Long deger;
     private Date creationDate;
-    private Long createdBy;
+    private String createdBy;
     private Long baslikId;
     private Long id; // pk
     private String parent;
@@ -96,11 +94,11 @@ public class SeraCenvGiris  {
     // -- [createdBy] ------------------------
 
     @Column(name = "CREATED_BY", precision = 19)
-    public Long getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Long createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
