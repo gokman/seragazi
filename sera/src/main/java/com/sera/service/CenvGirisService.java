@@ -2,6 +2,9 @@ package com.sera.service;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import com.lookup.model.LookupMst;
 import com.sera.model.SeraCenvDegerListe;
 import com.sera.model.SeraCenvGiris;
@@ -17,4 +20,6 @@ public interface CenvGirisService {
      public DegerGenel getGenelDeger(Long id); 
      public SeraCenvDegerListe getKok();
      public SeraCenvGiris girisKayitKontrol(String tarih,Long id);
+     
+     public JRDataSource getCenvGirisReport(); 
 }

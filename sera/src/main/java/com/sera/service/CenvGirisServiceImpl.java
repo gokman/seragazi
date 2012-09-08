@@ -3,6 +3,9 @@ package com.sera.service;
 import java.util.List;
 
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -68,6 +71,12 @@ public class CenvGirisServiceImpl implements CenvGirisService {
 	public List<SeraCenvGiris> listCenvGiris(String donem) {
 		// TODO Auto-generated method stub
 		return cenvgirisDao.listCenvGiris(donem);
+	}
+	@Override
+	public JRDataSource getCenvGirisReport() {
+		// TODO Auto-generated method stub
+		return cenvgirisDao.getCenvGirisReport();
+		
 	}
 
 	

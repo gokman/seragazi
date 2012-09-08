@@ -2,6 +2,8 @@ package com.sera.service;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRDataSource;
+
 import com.lookup.model.LookupMst;
 import com.sera.model.SeraCenvDegerListe;
 import com.sera.model.SeraCenvSabitler;
@@ -23,4 +25,8 @@ public interface CenvDegerListeService {
      public boolean isKokExist();
      public String checkChildType(Long parentId);
      public void deleteAllDescendant(Long id);
+     
+     public List<SeraCenvDegerListe> listEnAltDal();
+     
+     
 }

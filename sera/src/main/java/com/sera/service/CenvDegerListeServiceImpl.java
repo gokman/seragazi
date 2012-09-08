@@ -126,4 +126,10 @@ public class CenvDegerListeServiceImpl implements CenvDegerListeService {
 		cenvDegerListeDao.deleteCenvDeger(cenvDegerListeDao.getCenvDeger(id));
 		
 	}
+
+	@Override
+	public List<SeraCenvDegerListe> listEnAltDal() {
+		
+		return cenvDegerListeDao.ListEnAltDal();
+	}
 }
