@@ -18,7 +18,7 @@
 				
 				<div class="menudiv">
 					<ul id="menu-bar">
-					 <li class="current"><a href="/sera">Ana Sayfa</a></li>
+					 <li><a href="/sera">Ana Sayfa</a></li>
 					 <li><a href="#">Envanter Yapısı</a>
 					 <ul>
 					     <li><a href="/sera/cenvyapi/yapiGiris/ana.htm">Yapı Oluşturma</a></li>
@@ -29,6 +29,8 @@
 					 <li><a href="#">İşlemler</a>
 						  <ul> 
 							   <li><a href="/sera/cenvgiris/girisgetir.htm">Değer Girişi</a></li>
+							   <li><a href="/sera/faktor/faktorgiris.htm">Çevresel Faktör Girişi</a></li>
+							    <li><a href="/sera/hesaplama/hesaplamaGiris.htm">Dal Hesaplama</a></li>
 							   <li><a href="/sera/donemsonuc/donemsonucgir.htm">Dönem Hesaplama</a></li>
 							   <li><a href="#">Sonuç</a></li>
 						  </ul>
