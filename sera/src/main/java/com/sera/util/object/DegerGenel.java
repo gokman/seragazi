@@ -15,38 +15,29 @@ public class DegerGenel {
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	
 	public void setID(BigInteger val) {
 		if (val == null) return;
 		this.id = val.longValue();
 	}
 	
-	public void setBASLIK(String baslik) {
-		setBaslik(baslik);
-	}
-	
-	public String getBaslik() {
+	public String getBASLIK() {
 		return baslik;
 	}
-	public void setBaslik(String baslik) {
+	
+	public void setBASLIK(String baslik) {
 		this.baslik = baslik;
 	}
-	public Long getParent_id() {
+	
+	public Long getPARENT_ID() {
 		return parent_id;
 	}
-	public void setParent_id(Long parent_id) {
+	
+	public void setPARENT_ID(Long parent_id) {
 		this.parent_id = parent_id;
 	}
 
-	public void setPARENT_ID(BigInteger val) {
-		if (val == null) return;
-		this.parent_id = val.longValue();
-	}
-
-	public String getParent_baslik() {
+	public String getPARENT_BASLIK() {
 		return parent_baslik;
 	}
 	
@@ -54,7 +45,4 @@ public class DegerGenel {
 		this.parent_baslik = val;
 	}
 
-	public void setParent_baslik(String parent_baslik) {
-		this.parent_baslik = parent_baslik;
-	}
 }
