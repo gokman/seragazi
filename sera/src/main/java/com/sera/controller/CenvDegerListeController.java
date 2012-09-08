@@ -122,7 +122,7 @@ public class CenvDegerListeController {
 			deger.setSeviye(cenvdegerservice.getSeviye(deger.getParentId()).get(0)+1);
 		}
 			
-		
+		  
         cenvdegerservice.saveKokCenvDegerListe(deger);
         SeraCenvSabitler sabit=new SeraCenvSabitler(seragazi);
         
@@ -137,7 +137,7 @@ public class CenvDegerListeController {
 		model.addObject("kayitKontrol","<script type='text/javascript'>"+
 			"alert('Kaydedildi');"+
             "</script>");
-
+	    loginInfo.getUserInfo(model);
         return model;
 	}
 	
@@ -175,6 +175,7 @@ public class CenvDegerListeController {
 			cenvdegerservice.updateCenvDeger(deger);
 		//model.addObject("aydi", seragazi.getId());
 		//model.addObject("baslik", seragazi.getBaslik());
+		loginInfo.getUserInfo(model);
         return model;
 	}
 	
@@ -183,7 +184,7 @@ public class CenvDegerListeController {
                 ModelAndView modell=new ModelAndView("cenvyapi/yapiAra");
                 List<SeraCenvDegerListe> cenvdeger=cenvdegerservice.searchCenvDeger(cenvdegerSearch.getBaslik());
 		        modell.addObject("cenvdegerler",cenvdeger);
-		
+		        loginInfo.getUserInfo(modell);
 		return modell;
 	}
 	
@@ -194,7 +195,7 @@ public class CenvDegerListeController {
                
                 SeraCenvDegerListe detay=cenvdegerservice.detayCenvDeger(aydi);
                 modell.addObject("cenvDetay",detay);
-		
+                loginInfo.getUserInfo(modell);
 		return modell;
 	}
 	
@@ -212,6 +213,7 @@ public class CenvDegerListeController {
                 ModelAndView model=new ModelAndView("cenvyapi/yapiSil");
                 SeraCenvDegerListe kok=cenvgirisservice.getKok();	
                 model.addObject("kok",kok);	
+                loginInfo.getUserInfo(model);
 		return model;
 	}
 	

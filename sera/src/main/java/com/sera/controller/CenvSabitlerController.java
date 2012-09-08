@@ -23,6 +23,7 @@ import com.sera.model.SeraCenvDegerListe;
 import com.sera.model.SeraCenvSabitler;
 import com.sera.model.SeraDegerSabitForm;
 import com.sera.service.CenvDegerListeService;
+import com.util.login.check.LoginCheck;
 
 @Controller
 @RequestMapping("/cenvsabit")
@@ -35,12 +36,14 @@ public class CenvSabitlerController {
 		@Autowired
 		private CenvDegerListeService cenvdegerservice;
 		
+		private LoginCheck loginInfo = new LoginCheck();
+		
 		@RequestMapping(value = "/sabitGir.htm",method=RequestMethod.GET) 
 		public ModelAndView kokGetir(HttpServletRequest req,@ModelAttribute("cenvsabit") SeraCenvSabitler cenvsabit) {
 	                ModelAndView modell=new ModelAndView("cenvsabit/sabitGir");
 	                SeraCenvDegerListe kok=cenvdegerservice.getKok();
 	                modell.addObject("kok",kok);
-			
+	                loginInfo.getUserInfo(modell);
 			return modell;
 		}
 		
@@ -69,7 +72,7 @@ public class CenvSabitlerController {
 			   ModelAndView model=new ModelAndView("/");
 			   cenvsabit.setcreateDate(Calendar.getInstance().getTime());
 	           cenvdegerservice.saveKokCenvDegerSabitler(cenvsabit);
-	           
+	           loginInfo.getUserInfo(model);
 			return model;
 	 
 		}
