@@ -2,6 +2,9 @@ package com.sera.dao;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import com.lookup.model.LookupMst;
 import com.sera.model.SeraCenvDegerListe;
 import com.sera.model.SeraCenvGiris;
@@ -20,4 +23,6 @@ public interface CenvGirisDao {
 	public List<SeraCenvGiris> listCenvGiris();
 	public List<SeraCenvGiris> listCenvGiris(String donem);
 	public int getGirisQuantity(String donem);
+	
+	public JRDataSource getCenvGirisReport();
 }

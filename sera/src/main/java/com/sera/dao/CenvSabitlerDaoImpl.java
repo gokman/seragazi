@@ -3,6 +3,7 @@ package com.sera.dao;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,14 @@ public class CenvSabitlerDaoImpl implements CenvSabitlerDao {
 		createQuery("from SeraCenvSabitler").list();
 		
 		return list;
+	}
+
+	@Override
+	public SeraCenvSabitler getSabit(Long id) {
+		
+		return (SeraCenvSabitler)sessionFactory.getCurrentSession().
+		createCriteria(SeraCenvSabitler.class).
+		add(Restrictions.eq("hasId", id)).list().get(0);
 	}
 
 }

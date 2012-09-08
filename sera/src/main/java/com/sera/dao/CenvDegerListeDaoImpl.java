@@ -197,6 +197,25 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 	public void deleteCenvDeger(SeraCenvDegerListe cenvdeger) {
 		sessionFactory.getCurrentSession().delete(cenvdeger);		
 	}
+
+	@Override
+	public List<SeraCenvDegerListe> ListEnAltDal() {
+		List<SeraCenvDegerListe> listem=new ArrayList<SeraCenvDegerListe>();
+		List<SeraCenvDegerListe> tumDallar=sessionFactory.getCurrentSession().
+		createCriteria(SeraCenvDegerListe.class).add(Restrictions.eq("tip1", "Dal")).list();
+		//bu eleman dalın çocuklarının tipini gösterecek
+		String cocuktipi;
+		//tüm dallar içinde gez ve en alt dalları ayıkla
+		for(int i=0;i<tumDallar.size();i++){
+			//dalın çocuklarından birini almamız yeterli. bu sayede en alt dal olup olmadığını
+			//anlayabileceğiz
+			//yaprak ise bu en alt daldır o zaman listemize ekliyoruz
+			if(listChildren(tumDallar.get(i).getId()).get(0).gettip1().equals("Yaprak")){
+				listem.add(tumDallar.get(i));
+			}
+		}
+		return listem;
+	}
 	
 	
 	

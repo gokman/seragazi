@@ -7,4 +7,5 @@ import com.sera.model.SeraCenvSabitler;
 public interface CenvSabitlerDao {
     
 	public List<SeraCenvSabitler> listSabitler();
+	public SeraCenvSabitler getSabit(Long id);
 }

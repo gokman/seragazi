@@ -6,7 +6,11 @@ import java.util.Iterator;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -66,12 +70,12 @@ public class CenvGirisDaoImpl implements CenvGirisDao {
 	@Override
 	public DegerGenel getGenelDeger(Long id) {
 		DegerGenel geneldeger=new DegerGenel();
-		Query query=sessionFactory.getCurrentSession().createSQLQuery("" +
-				"select a.id as id, a.baslik as baslik, b.id as parent_id, b.baslik parent_baslik from sera.sera_cenv_deger_liste a," +
+		SQLQuery query=sessionFactory.getCurrentSession().createSQLQuery(
+				"select a.id as id, a.baslik as baslik, b.id as parent_id, b.baslik as parent_baslik from sera.sera_cenv_deger_liste a," +
 				"sera.sera_cenv_deger_liste b"+
                 " where a.parent_id=b.id"+
-                " and a.id='"+id+"'");
-		
+                " and a.id="+id);
+	
 		geneldeger=(DegerGenel)query.setResultTransformer( Transformers.aliasToBean(DegerGenel.class)).list().get(0);
 		
 		
@@ -113,6 +117,15 @@ public class CenvGirisDaoImpl implements CenvGirisDao {
 		return (Integer)sessionFactory.getCurrentSession().createCriteria(SeraCenvGiris.class).
 		add(Restrictions.eq("tarih", donem)).
 		setProjection(Projections.rowCount()).uniqueResult();
+	}
+
+	@Override
+	public JRDataSource getCenvGirisReport() {
+		List<SeraCenvGiris> listGiris=sessionFactory.getCurrentSession().
+		createCriteria(SeraCenvGiris.class).list();
+			
+		return new JRBeanCollectionDataSource(listGiris);
+		
 	}
 
 }
