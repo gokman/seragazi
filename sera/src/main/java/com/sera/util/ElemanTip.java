@@ -5,11 +5,11 @@ import java.util.List;
 
 
 public class ElemanTip {
-   public static ElemanTip _degiskenler=null;
+   public static ElemanTip degiskenler=null;
    public static ElemanTip getInstance(){
-	   if(_degiskenler==null) 
-		   return _degiskenler=new ElemanTip();
-	       return _degiskenler;
+	   if(degiskenler==null) 
+		   return degiskenler=new ElemanTip();
+	       return degiskenler;
    }
    
    public List<String> agacElemanlar=(List<String>) new ElemanTip();
