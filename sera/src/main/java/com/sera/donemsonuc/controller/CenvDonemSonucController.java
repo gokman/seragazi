@@ -52,20 +52,14 @@ import com.util.login.check.LoginCheck;
 			public ModelAndView hesaplaDonem(HttpServletRequest req,
 				    @ModelAttribute("donemsonuc") Donem donem,
 				    BindingResult result) {
-				DonemValidator donemvalid=new DonemValidator();
-				donemvalid.validate(donem, result);
 				
-				if(result.hasErrors()){
-					ModelAndView returnView = new ModelAndView("/donemsonuc/donemsonucgiris");
-					return returnView;
-				}else{
+				
+			
 					//kayıt işlemi başlacak
 					donemservice.fillDonemSonuc(donem.getDonem());
-					ModelAndView returnView = new ModelAndView("cenvyapi/hello");
-					returnView.addObject("dd",degerlisteservice.getYaprakQuantiy());
+					ModelAndView returnView = new ModelAndView("donemsonuc/donemsonucgiris");
+					loginInfo.getUserInfo(returnView);
 					return returnView;
-					
-				}
 				
 		           
 			}
@@ -92,6 +86,13 @@ import com.util.login.check.LoginCheck;
 					@RequestParam(value="donem", required=true) String donem) {
 				
 				return donemservice.isDonemSonucExist(donem);		
+		 
+			}
+			
+			@RequestMapping(value = "/hesaplamaKayitKontrol.htm", method = RequestMethod.POST)
+			public @ResponseBody boolean HesaplamaKayitTamMi() {
+				
+				return donemservice.HesaplamaKayitKontrol();		
 		 
 			}
 			
