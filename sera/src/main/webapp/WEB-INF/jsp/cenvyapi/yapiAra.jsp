@@ -2,11 +2,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Yapı Giriş Ekranı</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Yapı Arama Ekranı</title>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
 <link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css"/>
 <link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css"/>
@@ -27,6 +27,8 @@ $(document).ready(function(){
 </head>
 <body class="genel">
 <%@include file="/WEB-INF/jsp/ana_sayfa/header.jsp" %>
+<c:choose>
+<c:when test="${isAuthenticated=='true'}">
 <div class="orta_div_sag">
 	<form:form cssClass="formstil" cssStyle="padding-left:30px" action="/sera/cenvyapi/yapiSearch.htm" method="POST" commandName="cenvDegerSearch" modelAttribute="cenvDegerSearch" enctype="multipart/form-data">
 <table width="400px" height="auto">
@@ -65,6 +67,13 @@ $(document).ready(function(){
                 </c:forEach>
 
 </div>
+</c:when>
+	<c:otherwise>
+		<div class="orta_div_sag">
+			Bu içeriğe erişmek için giriş yapmalısınız.
+		</div>
+	</c:otherwise>
+	</c:choose>
 </div>
 <%@include file="/WEB-INF/jsp/ana_sayfa/footer.jsp" %>
 </body>

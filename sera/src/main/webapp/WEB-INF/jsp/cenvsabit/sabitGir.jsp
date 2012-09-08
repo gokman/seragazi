@@ -73,14 +73,11 @@
 
 </head>
 <body>
-<!-- <a href="/sera/cenvsabit/sabitGir/${kok.id}.htm" id="kok"  >${kok.baslik}</a> -->
 <input type="submit" value="${kok.baslik}" onclick="doAjaxPost(${kok.id},${kok.seviye},'${kok.tip1}')" /> 
 <!-- <input type="hidden" id="id" value="${kok.id}">  -->
 <div  id="kok"></div>
 <div class="formspacer"></div>
-<!--<c:forEach var="dal" items="${dallar}" varStatus="rowCounter">
-<a href="/sera/cenvsabit/sabitGir/${dal.id}.htm" id="kok">${dal.baslik}</a>
-</c:forEach>-->
+
 
  
 </body>
