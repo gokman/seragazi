@@ -26,6 +26,7 @@
 	<import resource="DataSource.xml"/>
 	<import resource="hibernate.xml"/>
 	<import resource="security.xml"/>
+    <import resource="jasper-views.xml"/>  
 	<!--  
 	<import resource="email-utils.xml"/>	
 	-->
@@ -37,10 +38,17 @@
         <property name="suffix">
             <value>.jsp</value>
         </property>
+        <property name="order" value="1"></property>  
     </bean>
 	<!-- the application context definition for the springapp DispatcherServlet
 	<bean name="/hello.htm" class="com.welcome.WelcomePageController"/>
 	--> 
+	
+  <bean class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="location" value="/WEB-INF/jasper-views.xml"/>
+        <property name="order" value="0"/>
+    </bean> 
+      
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
 			p:basename="messages"/>

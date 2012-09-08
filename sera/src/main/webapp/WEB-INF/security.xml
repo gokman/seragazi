@@ -20,7 +20,6 @@
 		<intercept-url pattern="/index.jsp" access="permitAll" />
 		<intercept-url pattern="/index.htm" access="permitAll" />
 		<intercept-url pattern="/resources/**" access="permitAll" /> 
-		<intercept-url pattern="/donemsonuc/**" access="permitAll" /> 
 
 		
 		<intercept-url pattern="/login/membershipForm.htm" access="permitAll" />

@@ -21,6 +21,7 @@ class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBea
        <props>
          <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
          <prop key="hibernate.show_sql">true</prop>
+         <prop key="hibernate.connection.autocommit">true</prop>
        </props>
     </property>
  
@@ -31,6 +32,8 @@ class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBea
 			<value>com.sera.model.SeraCenvGiris</value>
 			<value>com.membership.model.User</value>
 			<value>com.sera.model.SeraCenvDonemSonuc</value>
+			<value>com.sera.model.SeraCenvHesaplama</value>
+			<value>com.sera.cevreselfaktor.model.SeraCevreselFaktor</value>
 		</list>
     </property>
  
