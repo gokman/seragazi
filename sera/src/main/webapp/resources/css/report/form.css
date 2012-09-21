@@ -1,0 +1,121 @@
+
+form.formrapor input#textfield {
+
+    width: 200px;
+	color:#585858;
+	height:25px;
+	padding:2px 3px;
+	margin-bottom:0px;
+	font-family:Verdana;
+    border: 1px solid #666666;
+	letter-spacing: 0.1px;
+
+}
+
+
+form.formrapor input#searchfield {
+
+    width: 200px;
+	color:#585858;
+	height:20px;
+	padding:2px 3px;
+	margin-bottom:0px;
+	font-family:Verdana;
+    border: 2px solid highlighttext;
+	letter-spacing: 0.1px;
+
+}
+
+form.formrapor a{
+
+	font-size:16px;
+	font-weight:400;
+	color:#660000;
+	font-family:Verdana;
+	letter-spacing: 0.1px;
+
+}
+form.formrapor select {
+
+height:30px;
+padding:3px 3px;
+color:#585858;
+width:200px;
+border-width:1px;
+border-color:#CC0000;
+border-style:solid;
+font-family:Verdana;
+letter-spacing: 0.1px;
+
+}
+
+form.formrapor option {
+
+height:25px;
+padding:2px 3px;
+color:#585858;
+font-family:Verdana;
+letter-spacing: 0.1px;
+
+}
+
+form.formrapor label {
+
+	font-size:14px;
+	font-weight:400;
+	color:#585858;
+	font-family:Verdana;
+	letter-spacing: 0.1px;
+
+}
+
+form.formrapor input#radio {
+
+	color:#FF0000;
+
+}
+
+form.formrapor input#button {
+
+width:120px;
+font-family: Verdana;
+color: #ffffff;
+font-size: 20px;
+padding: 10px;
+text-decoration: none;
+-webkit-border-radius: 16px;
+-moz-border-radius: 16px;
+-webkit-box-shadow: 0px 1px 3px #8f0223;
+-moz-box-shadow: 0px 1px 3px #8f0223;
+text-shadow: 1px 1px 3px #666666;
+border: solid #660011 1px;
+background: -webkit-gradient(linear, 0 0, 0 100%, from(#e3718a), to(#870324));
+background: -moz-linear-gradient(top, #e3718a, #870324);
+
+}
+
+form.formrapor input#button:hover {
+background: #d94e09;
+}
+
+form.formrapor input#searchbutton {
+
+width:100px;
+font-family: Verdana;
+color: #ffffff;
+font-size: 16px;
+text-decoration: none;
+-webkit-border-radius: 16px;
+-moz-border-radius: 16px;
+-webkit-box-shadow: 0px 1px 3px #8f0223;
+-moz-box-shadow: 0px 1px 3px #8f0223;
+text-shadow: 1px 1px 3px #666666;
+border: solid #660011 1px;
+background: -webkit-gradient(linear, 0 0, 0 100%, from(#e3718a), to(#870324));
+background: -moz-linear-gradient(top, #e3718a, #870324);
+
+}
+
+form.formrapor input#searchbutton:hover {
+background: #d94e09;
+}
