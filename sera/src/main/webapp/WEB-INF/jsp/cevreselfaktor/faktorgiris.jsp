@@ -90,7 +90,8 @@
 <c:choose>
 	<c:when test="${isAuthenticated=='true'}">
 	<div class="orta_div_sag">
-	
+<fieldset style="width:500px;height:auto;margin-left: auto;margin-right: auto;margin-bottom:20px;border-color: #2581C5;">
+	<legend style="font-weight: bold;">Çevresel Faktör Kayıt</legend>	
 <form:form cssClass="formstil" name="formfaktor"  id="formfaktor"  action="/sera/faktor/faktorkaydet.htm" method="POST"  modelAttribute="cevreselfaktor" enctype="multipart/form-data">
 	        <!-- onsubmit="faktorKaydet();return false;" -->
 	         <form:hidden path="id" value="${faktorum.id}"/>  
@@ -100,15 +101,16 @@
 	        	</tr>
 	        	<tr>
     	        <td class="formyazi" align="right">Değer:</td>
-	        	<td><form:input  id="deger" class="required" value="${faktorum.deger}" path="deger" maxlength="20"  size="20"/></td>
+	        	<td><form:input  id="deger" class="required number" value="${faktorum.deger}" path="deger" maxlength="20"  size="20"/></td>
 	        	</tr>
 	        	<tr><td></td>
     			<td class="submit"><input type="submit" class="submit" id="idsubmit" value="Kaydet"></input></td>
     			</tr>
     			</table> 
     			</form:form>
+</fieldset>
   
-<table style="padding-left:30px;padding-top:100px;" width="400px"> 
+<table style="padding-left:30px;padding-top:100px;margin-left: auto;margin-right: auto;" width="400px;"> 
 <tr>
 <td width="250px" class="formyazi">Açıklama</td>
 <td width="80px" class="formyazi">Değer</td>

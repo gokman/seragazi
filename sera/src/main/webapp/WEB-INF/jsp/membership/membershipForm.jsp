@@ -3,35 +3,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-9" />
+		
+<script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
+
+<script>
+$(document).ready(function(){
+    $("#cmaForm").validate({
+    	rules:{
+    	pass2:{
+    	equalTo:"#pass"	
+    	}
+    	}
+    	
+    });
+});
 	
-			<!-- Acordion form js and css -->
-			<script type="text/javascript">
-			<!--
-			function isNumericKey(e) {
-			   var k = document.all ? e.keyCode : e.which;
-			   return ((k > 47 && k < 58) || k == 8);
-			}
-			function extractNumeric(str) {
-			   return str.replace(/\D/g,"");
-			}
-			// -->
-			</script>
-	
-			<script type="text/javascript" src="<c:url value="/resources/js/form/jquery-1.2.1.js"/>"></script>
-			<script type="text/javascript" src="<c:url value="/resources/js/form/jquery-1.2.js"/>"></script>
-			<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.form.js"/>"></script>
-			<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.metadata.js"/>"></script>
-			<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
-			<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.maskedinput-1.0.js"/>"></script>
-			<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.dimensions.js"/>"></script>
-			<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.accordion.js"/>"></script>
-			
-<link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css"/>
-<link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/form.css"/>" type="text/css" />
+</script>	
+
+<link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />
+<link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
 	</head>
@@ -43,64 +36,55 @@
 <c:url value="/login/membershipFormSave.htm" var="saveMember"></c:url>
 <form:form  name="cmaForm" id="cmaForm" action="${saveMember}" method="POST" modelAttribute="user"  enctype="multipart/form-data" >
 
-				<fieldset>
-				<legend> Üyelik Bilgileri</legend> 
-				<div class="requiredNotice">* Zorunlu Alan</div>
-				<h3 class="stepHeader">Üye Kayıt Formu</h3>
+				<fieldset style="width:500px;height:auto;margin-left: auto;margin-right: auto;margin-bottom:20px;border-color: #2581C5;">
+	<legend style="font-weight: bold;">Üye Kayıt Formu</legend>	
 				<table>
+				
 				<tr>
+				<td class="formyazi" align="right">İsim:</td>
 				<td>
-				<label for="name" class="input required">İsim:</label>
-				</td>
-				<td>
-				<form:input   path="name" name="name" class="formtext"  maxlength="50" />
-				<form:errors  path="name"></form:errors>
+				<form:input   path="name" name="name" class="required"  maxlength="50" />
 				</td>
 				</tr>
 				
 				<tr>
+				<td class="formyazi" align="right">Soy İsim:</td>
 				<td>
-				<label for="surname" class="input required">Soyisim:</label>
-				</td>
-				<td>
-				<form:input path="surname" name="surname" class="formtext"  maxlength="50" />
-				<form:errors  path="surname"></form:errors>
+				<form:input path="surname" name="surname" class="required"  maxlength="50" />
 				</td>
 				</tr>
 				
 				<tr>
+				<td class="formyazi" align="right">Kullanıcı Adı:</td>
 				<td>
-				<label for="username" class="input required">Kullanıcı adı:</label>
-				</td>
-				<td>
-				<form:input  path="username" name="username" class="formtext"  maxlength="50" />
-				<form:errors  path="username"></form:errors>
+				<form:input  path="username" name="username" class="required"  maxlength="50" />
 				</td>
 				</tr>
+				
 				<tr>
+				<td class="formyazi" align="right">Şifre:</td>
 				<td>
-				<label for="password" class="input required">Şifre:</label>
-				</td>
-				<td>
-				<form:input  path="password" name="password"  class="formtext"  maxlength="50" />
-				<form:errors  path="password"></form:errors>
+				<form:input type="password"  path="password" name="pass" id="pass"  class="required"  maxlength="50" />
 				</td>
 				</tr>
+				
 				<tr>
+				<td class="formyazi" align="right">Şifre Tekrar:</td>
 				<td>
-				<label for="email" class="input required">Email:</label>
+				<input type="password"  name="pass2"  class="required" id="pass2"  maxlength="50" />
 				</td>
+				</tr>
+				
+				<tr>
+				<td class="formyazi" align="right">Email:</td>
 				<td>
-				<form:input  path="email" name="email" class="formtext"  maxlength="50" />
-				<form:errors  path="email"></form:errors>
+				<form:input  path="email" name="email" class="required email"  maxlength="50" />
 				</td>
 				</tr>
 				
 				<tr><td></td>
-				<td>
-				<div id="divdugme" class="buttonWrapper">
-				<input name="kaydet" type="submit" id="kaydet" value="Kaydet" class="submitbutton" alt="Submit" title="Submit"/>
-				</div>
+				<td class="submit">
+				<input name="kaydet" type="submit" id="kaydet" value="Kaydet" class="submit" alt="Submit" title="Submit"/>
 				</td>
 				</tr>
 				</table>

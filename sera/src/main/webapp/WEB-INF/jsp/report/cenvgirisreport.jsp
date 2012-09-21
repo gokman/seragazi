@@ -1,32 +1,68 @@
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Değer Giriş Raporu</title>
-<link rel="stylesheet" href="<c:url value="/resources/css/form/general.css"/>"></link>
-<link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css" />
-<link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/form.css"/>" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/resources/css/yapi/agac.css"/>" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
-<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
+<!--<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/main.css"/>" type="text/css" />
+<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
+<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" /> -->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
-
+<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
+  <script>
+	  $(document).ready(
+		function(){ 
+			
+			$.validator.addMethod("donem",function(value,element){
+			
+			var filter = new RegExp("(0[123456789]|10|11|12)([-])([1-2][0-9][0-9][0-9])");
+				
+				return filter.test(value);		
+				},"Geçerli bir dönem giriniz."
+				);
+	          
+		        $.validator.addClassRules({
+		          donem:{donem:true}
+			    });
+	        
+	        $("#formrapor").validate();
+	       
+	  });  
+  </script>
 </head>
-<body class="genel">
+<body>
    
-	<jsp:include page="/WEB-INF/jsp/ana_sayfa/header.jsp" />
 	 <c:choose> 
 	<c:when test="${isAuthenticated=='true'}">
-	<div class="orta_div_sag">
-	<%@include file="/WEB-INF/jsp/report/cenvgirisreport.htm" %>
-    
+	<div>
+	<fieldset style="width:550px;height:auto;margin-left: auto;margin-right: auto;margin-bottom:20px;border-color: #2581C5;">
+	<legend style="font-weight: bold;">Sorgula</legend>
+		<form:form cssClass="formrapor" name="formrapor"  id="formrapor"  
+		           action="/sera/cenvgiris/degergirisraporsorgu.htm" method="POST" modelAttribute="raporParam" commandName="raporParam"
+		           enctype="multipart/form-data">
+		        	<table>
+			         <tr>
+			          <td class="formyazi" align="right">Dönem Başlangıç >= :</td>
+			          <td><form:input style="width:150px;"  id="textfield"  path="baslangic" 
+			                           size="10" maxlength="7"  class="required donem"/></td>
+			         </tr>
+			         <tr> 
+		    	      <td class="formyazi" align="right">Dönem Bitiş <= :</td>
+			          <td><form:input style="width:150px;" id="textfield2" class="required donem" path="bitis" maxlength="7"  size="10"/></td>
+			         </tr> 
+			         <tr>
+			          <td></td>
+		    		  <td class="submit"><input type="submit" class="submit" id="idsubmit" value="Çalıştır"></input></td>
+		    		 </tr>
+	    			</table> 
+	    </form:form>
+    </fieldset>
+<center>	
+<%@include file="/WEB-INF/jsp/report/cenvgirisreport.htm" %>
+<a href="<c:url value="/cenvgiris/pdf/cenvgirisreport.pdf"/>">PDF İndir</a>
+</center>
 	</div>
 	</c:when>
 	<c:otherwise>
@@ -35,6 +71,5 @@
 		</div>
 	</c:otherwise>
 	</c:choose>
-<%@include file="/WEB-INF/jsp/ana_sayfa/footer.jsp" %>
 </body>
 </html>

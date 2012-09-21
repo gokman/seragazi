@@ -15,8 +15,9 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/yapi/agac.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
-<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
+
 <script>
   $(document).ready(function(){
     $("#formgiris").validate();
@@ -80,25 +81,30 @@
 		        }
 		        
 		    if(tipp=="Yaprak" && tipp2=="Elle"){
-	        	$("#kok").append('<div style="margin-left:185px" class="yaprakdiv" id="yaprakid"></div>');
-	        	$("#yaprakid").append('<br/><form:form cssClass="formstil" name="formgiris" id="formgiris" action="/sera/cenvgiris/giriskaydet.htm" method="POST"  modelAttribute="cenvgiris" enctype="multipart/form-data">'+
+	        	$("#kok").append('<div align="center" class="yaprakdiv" id="yaprakid"></div>');
+	        	$("#yaprakid").append('<br/><form:form style="margin-left:-70px;"  cssClass="formstil" name="formgiris" id="formgiris" action="/sera/cenvgiris/giriskaydet.htm" method="POST"  modelAttribute="cenvgiris" enctype="multipart/form-data">'+
 	        	'<form:hidden path="baslikId" size="40" value="'+
 	        	aydi+
 	        	'"/><br/>'+
 	        	'<form:hidden id="girisid" path="id" size="40" value="3" />'+
 	        	'<table>'+
 	        	'<tr><td class="formyazi" align="right">Dönem:</td>'+
-	        	'<td><form:input id="txtDate" path="tarih" size="20" class="required" minlength="7" maxlength="7"/>(Örn:03-2012)</td>'+
+	        	'<td><form:input id="txtDate" readonly="true" path="tarih" size="20" class="required" minlength="7" maxlength="7"/>(Örn:03-2012)</td>'+
 	        	'</tr>'+
 	        	'<tr>'+
     	        '<td class="formyazi" align="right">Değer:</td>'+
 	        	'<td><form:input id="deger" class="required"  path="deger" size="20"/></td>'+
 	        	'</tr>'+
 	        	'<tr><td></td>'+
-    			'<td class="submit"><input type="submit" id="idsubmit" value="Kaydet"></input></td>'+
+    			'<td class="submit"><input type="submit" class="submit" id="idsubmit" value="Kaydet"></input></td>'+
     			'</tr>'+
     			'</table>'+
     			'</form:form>');
+	        	 //üstte bulunan döneme ne yazıldı ise buraya da onu yazmamız lazım
+	        	$("#txtDate").val($("#ustDonem").val());
+	        	 $("#txtDate").focus(); 
+	        	 //form oluştuktan sonra validate olayını deniyoruz. inşallah tutar
+	        	 $("#formgiris").validate();
 	        }
 		        
 		    
@@ -110,11 +116,11 @@
 	        });
 	        }
 	        </script>
-<script type="text/javascript">
+	        <script type="text/javascript">
 	         	//bir üst jquery versiyonunda live yerine on kullan
-	        		  $("#txtDate").live('blur',
+	        		  $("#ustDonem").live('blur',
 		        		   function() {
-		        		      if(!validateDate("txtDate"))
+		        		      if(!validateDate("ustDonem"))
 		        		      {
 		        		          alert('Geçersiz Tarih!!!');
 		        		      }
@@ -133,7 +139,7 @@
 	        		//Functions Ends
 	        </script>
 <script>
-	        $("#txtDate").live('blur',function kayitVarMiAjax() {
+            $("#txtDate").live('blur',function kayitVarMiAjax() {
 		        // get the form values
 		           //var id=aydi;
 		           var tarih=$("#txtDate").val();
@@ -157,6 +163,11 @@
 		        	//form a id ekle
 		        	
 		        }
+		        else {
+		        	$("#formgiris").attr("action","/sera/cenvgiris/giriskaydet.htm");
+		        	$("#idsubmit").attr("value","Kaydet");
+		        	$("#girisid").attr("value",response.id);
+		        }
 			    //bitir     
 		        },
 		        error: function(e){
@@ -165,7 +176,18 @@
 		        });
 		        }
 	        );
-	        </script>
+	        
+	       
+	        
+	        function anaDonemDegis(){
+	        	
+	        	$("#txtDate").val($("#ustDonem").val());
+	        	//mecbur değişir değişmez o elemana gitmeli yoksa kontrol edemiyoruz
+	        	$("#txtDate").focus(); 
+	        	
+	        }
+	         
+	        </script> 
 </head>
 <body class="genel">
    
@@ -178,6 +200,10 @@
 				<td>
 					<table width="230px" align="left" class="kok_table_giris">
 						<tbody>
+						    <tr align="center" style="font-weight: bold;">
+						        <td>Dönem (01-2012)<input type="text" id="ustDonem"  
+						        maxlength="7" size="20" onchange="anaDonemDegis()"></input></td>
+						    </tr>
 							<tr align="center" style="font-weight: bold;">
 								<td><input type="submit" class="detay_dugme"
 									value="${kok.baslik}"
@@ -188,7 +214,7 @@
 					</table></td>
 			</tr>
 		</table>
-		<div id="kok"></div>
+		<div align="center" id="kok"></div>
 		<div class="formspacer"></div>
 	</div>
 	</c:when>
@@ -197,7 +223,8 @@
 			Bu içeriğe erişmek için giriş yapmalısınız.
 		</div>
 	</c:otherwise>
-	</c:choose>
+	</c:choose> 
+	
 	</div>
 <%@include file="/WEB-INF/jsp/ana_sayfa/footer.jsp" %>
 </body>
