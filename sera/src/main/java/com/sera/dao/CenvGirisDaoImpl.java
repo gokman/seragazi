@@ -9,6 +9,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
@@ -70,11 +71,37 @@ public class CenvGirisDaoImpl implements CenvGirisDao {
 	@Override
 	public DegerGenel getGenelDeger(Long id) {
 		DegerGenel geneldeger=new DegerGenel();
-		SQLQuery query=sessionFactory.getCurrentSession().createSQLQuery(
-				"select a.id as id, a.baslik as baslik, b.id as parent_id, b.baslik as parent_baslik from sera.sera_cenv_deger_liste a," +
-				"sera.sera_cenv_deger_liste b"+
-                " where a.parent_id=b.id"+
+		Query query=sessionFactory.getCurrentSession().createQuery(
+				"select a.id as id, a.baslik as baslik, a.parentId as parent_id, b.baslik as parent_baslik from SeraCenvDegerListe a," +
+				"SeraCenvDegerListe b"+
+                " where a.parentId=b.id"+
                 " and a.id="+id);
+		
+	
+		geneldeger=(DegerGenel)query.setResultTransformer( Transformers.aliasToBean(DegerGenel.class)).list().get(0);
+		
+		
+//		Iterator ite=query.list().iterator();
+//		while(ite.hasNext()){
+//			Object[] results=(Object[])ite.next();
+//			geneldeger.setId( ((BigInteger)results[0]).longValue() );
+//			geneldeger.setParent_id((Long)results[2]);
+//			geneldeger.setBaslik((String)results[1]);
+//			geneldeger.setParent_baslik((String)results[3]);
+//		}
+        
+		return geneldeger;
+	}
+	
+	@Override
+	public DegerGenel getGenelDeger(Long id,String tarih) {
+		DegerGenel geneldeger=new DegerGenel();
+		Query query=sessionFactory.getCurrentSession().createQuery(
+				"select a.id as id, a.baslik as baslik, a.parentId as parent_id, b.baslik as parent_baslik from SeraCenvDegerListe a," +
+				"SeraCenvDegerListe b"+
+                " where a.parentId=b.id"+
+                " and a.id="+id+" and a.tarih='"+tarih+"'");
+		
 	
 		geneldeger=(DegerGenel)query.setResultTransformer( Transformers.aliasToBean(DegerGenel.class)).list().get(0);
 		
@@ -126,6 +153,15 @@ public class CenvGirisDaoImpl implements CenvGirisDao {
 			
 		return new JRBeanCollectionDataSource(listGiris);
 		
+	}
+
+	@Override
+	public JRDataSource listCenvGiris(String baslangicDonem,
+			String bitisDonem) {
+		List<SeraCenvGiris> listGiris=sessionFactory.getCurrentSession().
+		createCriteria(SeraCenvGiris.class).add(Restrictions.gt("tarih", baslangicDonem)).
+		add(Restrictions.lt("tarih", bitisDonem)).list();
+		return new JRBeanCollectionDataSource(listGiris);
 	}
 
 }

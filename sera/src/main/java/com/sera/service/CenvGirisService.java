@@ -18,8 +18,10 @@ public interface CenvGirisService {
      public void updateCenvGiris(SeraCenvGiris cenvdeger);
      public SeraCenvGiris getCenvGiris(Long id);
      public DegerGenel getGenelDeger(Long id); 
+     public DegerGenel getGenelDeger(Long id,String tarih);
      public SeraCenvDegerListe getKok();
      public SeraCenvGiris girisKayitKontrol(String tarih,Long id);
      
      public JRDataSource getCenvGirisReport(); 
+     public JRDataSource getCenvGirisReport(String basla,String bitir);
 }

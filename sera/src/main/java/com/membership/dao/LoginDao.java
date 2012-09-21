@@ -16,4 +16,6 @@ public interface LoginDao {
 	public List<User> listUsers(User user);
 	
 	public List<User> listByUsername(String username);
+	
+	public User loadUserObject(String username);
 }

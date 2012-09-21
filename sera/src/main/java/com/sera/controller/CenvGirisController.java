@@ -5,6 +5,7 @@ package com.sera.controller;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 
 
@@ -15,8 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 	import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -25,8 +28,10 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
+import org.apache.commons.io.IOUtils;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
@@ -46,6 +51,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sera.model.SeraCenvDegerListe;
 import com.sera.model.SeraCenvGiris;
 import com.sera.service.CenvGirisService;
+import com.sera.util.CenvGirisRaporParams;
 import com.sera.util.object.DegerGenel;
 import com.util.login.check.LoginCheck;
 
@@ -116,7 +122,7 @@ import com.util.login.check.LoginCheck;
 				 
 				   SimpleDateFormat format=new SimpleDateFormat("dd-MM-yyyy hh:MM");
 				   SeraCenvGiris cenvgir=cenvgirisservice.getCenvGiris(cenvgiris.getId());
-				   DegerGenel a= cenvgirisservice.getGenelDeger(cenvgiris.getId());
+				   DegerGenel a= cenvgirisservice.getGenelDeger(cenvgir.getBaslikId());
 				   cenvgir.setDeger(cenvgiris.getDeger());
 				   cenvgir.setCreatedBy(user.getUsername());
 				   cenvgiris.setParent(a.getPARENT_BASLIK());
@@ -146,8 +152,17 @@ import com.util.login.check.LoginCheck;
 		           
 			}
 			
-			@RequestMapping(value = "/girisrapor.htm",method=RequestMethod.GET)
-			public ModelAndView getirGirisRapor(ModelMap model) throws JRException, IOException{
+			@RequestMapping(value = "/degergirisrapor.htm")
+			public ModelAndView getirGirisRapor(@ModelAttribute("raporParam") CenvGirisRaporParams raporParam){
+		
+				ModelAndView modelAna=new ModelAndView("/report/cenvgirisreport");
+				loginInfo.getUserInfo(modelAna);
+				
+				return modelAna; 
+		    }   
+			
+			@RequestMapping(value = "/degergirisraporsorgu.htm",method=RequestMethod.POST)
+			public ModelAndView sorguGirisRapor(@ModelAttribute("raporParam") CenvGirisRaporParams raporParam,ModelMap model) throws JRException, IOException{
 				JasperReport report=null;
 				JasperPrint print;
 				JasperDesign design=null;
@@ -177,15 +192,47 @@ import com.util.login.check.LoginCheck;
 				model.addAttribute("format","html");
 				ModelAndView modelAndView=new ModelAndView("multiViewReport", model);*/
 			
-				print=JasperFillManager.fillReport(report, new HashMap(),cenvgirisservice.getCenvGirisReport());
-				JasperExportManager.exportReportToHtmlFile
-				(print,appContext.getResource("/WEB-INF/jsp/report/cenvgirisreport.htm").
+				print=JasperFillManager.
+				fillReport(report, new HashMap(),
+						   cenvgirisservice.getCenvGirisReport(raporParam.getBaslangic(), 
+								                               raporParam.getBitis()));
+				
+				JRExporter exporter=new JRHtmlExporter();
+			//	exporter.setParameter(JRHtmlExporterParameter.CHARACTER_ENCODING,"UTF-8");
+				exporter.setParameter(JRHtmlExporterParameter.JASPER_PRINT, print); 
+				exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, "" +
+						"<%@ page language=\"java\" contentType=\"text/html; charset=UTF-8\" pageEncoding=\"UTF-8\"%><html><head><title>Rapor Sayfası</title></head>"); 
+				exporter.setParameter(JRHtmlExporterParameter.OUTPUT_FILE_NAME, appContext.getResource("/WEB-INF/jsp/report/cenvgirisreport.htm").
+						getFile().getAbsolutePath());
+				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
+				exporter.exportReport();
+				
+				//pdf oluştur
+				JasperExportManager.exportReportToPdfFile
+				(print,appContext.getResource("classpath:/report/cenvgirisreport.pdf").
 						getFile().getAbsolutePath());
 				
-				//modelAna.addAllObjects(modelAndView.getModel());
 				
 				
 				return modelAna; 
-		    }   
+		    }
+			
+			@RequestMapping( value="/pdf/{filename}", method = RequestMethod.GET )
+			public void getFile(@PathVariable("filename")String file,HttpServletResponse response){
+				try{
+				  InputStream is=new FileInputStream(appContext.getResource("classpath:/report/cenvgirisreport.pdf").
+						getFile().getAbsolutePath().toString());
+				  
+				  IOUtils.copy(is, response.getOutputStream());
+				  response.setContentType("application/pdf");
+				  response.setHeader("content", "attachment; filename=cenvgirisreport.pdf");
+				  response.flushBuffer();
+				  
+				}catch(IOException ex){
+					
+				 throw new RuntimeException("pdf hata oldu");
+				 
+				}
+			}
 			
    }

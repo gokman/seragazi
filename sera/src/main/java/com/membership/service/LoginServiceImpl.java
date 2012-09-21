@@ -69,6 +69,10 @@ public class LoginServiceImpl implements LoginService{
 //		user.setMembershipStatus(ApplicationConstants.MEMBERSHIP_STATUS_CODES.ACTIVE);
 		return loginDao.listUsers(user);
 	}
+	
+	public User loadUserObject(String username){
+		return loginDao.loadUserObject(username);
+	}
 
 
 

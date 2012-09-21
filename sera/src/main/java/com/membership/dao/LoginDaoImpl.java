@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -43,7 +44,6 @@ public class LoginDaoImpl implements LoginDao {
 		} finally {
 			
 		}
-
 	}
 
 	// To get list of all articles
@@ -67,6 +67,14 @@ public class LoginDaoImpl implements LoginDao {
 		List<User> userList = sessionFactory.getCurrentSession().createCriteria(User.class).add(Example.create(user)).list();
 		
 		return  userList;
+	}
+
+	@Override
+	public User loadUserObject(String username) {
+		
+		return (User)sessionFactory.getCurrentSession().createCriteria(User.class).
+		add(Restrictions.eq("username", username)).list().get(0);
+		
 	}
 
 }

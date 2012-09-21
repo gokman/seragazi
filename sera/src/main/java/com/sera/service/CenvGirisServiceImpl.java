@@ -63,6 +63,11 @@ public class CenvGirisServiceImpl implements CenvGirisService {
 		return cenvgirisDao.getGenelDeger(id);
 	}
 	@Override
+	public DegerGenel getGenelDeger(Long id,String tarih) {
+		// TODO Auto-generated method stub
+		return cenvgirisDao.getGenelDeger(id,tarih);
+	}
+	@Override
 	public SeraCenvGiris girisKayitKontrol(String tarih, Long id) {
 		
 		return cenvgirisDao.getGirisKayit(tarih,id);
@@ -77,6 +82,11 @@ public class CenvGirisServiceImpl implements CenvGirisService {
 		// TODO Auto-generated method stub
 		return cenvgirisDao.getCenvGirisReport();
 		
+	}
+	@Override
+	public JRDataSource getCenvGirisReport(String basla, String bitir) {
+		
+		return cenvgirisDao.listCenvGiris(basla, bitir);
 	}
 
 	

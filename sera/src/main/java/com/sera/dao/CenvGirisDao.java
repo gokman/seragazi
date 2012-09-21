@@ -17,12 +17,16 @@ public interface CenvGirisDao {
 	
 	public SeraCenvGiris getCenvGiris(long id);
 	public DegerGenel getGenelDeger(Long id); 
-	public SeraCenvDegerListe getKok();
+	public DegerGenel getGenelDeger(Long id,String tarih);
+	public SeraCenvDegerListe getKok(); 
 	public SeraCenvGiris getGirisKayit(String tarih,Long id);
 	
 	public List<SeraCenvGiris> listCenvGiris();
 	public List<SeraCenvGiris> listCenvGiris(String donem);
 	public int getGirisQuantity(String donem);
 	
+	
 	public JRDataSource getCenvGirisReport();
+	public JRDataSource listCenvGiris(String baslangicDonem,String bitisDonem);
+	
 }

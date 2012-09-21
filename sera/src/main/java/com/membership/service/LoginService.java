@@ -20,4 +20,6 @@ public interface LoginService {
 		public User getUser(User user) ;
 
 		public List<User> listActiveCustomers();
+		
+		public User loadUserObject(String username);
 	}

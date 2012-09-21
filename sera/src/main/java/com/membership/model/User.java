@@ -41,9 +41,21 @@ public class User {
 	@Column(name = "membership_status")	//aktif,pasif,beklemede vs
 	private String membershipStatus;	
 
-	
+	public String getActivationString() {
+		return activationString;
+	}
+
+
+	public void setActivationString(String activationString) {
+		this.activationString = activationString;
+	}
+
+
 	@Column ( name = "email")
 	private String email;
+	
+	@Column ( name = "activation_string")
+	private String activationString;
 	
 	
 	public String getEmail() {

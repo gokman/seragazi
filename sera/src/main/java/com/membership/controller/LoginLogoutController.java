@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sera.validator.MembershipFormValidator;
 import com.util.constant.ApplicationConstants;
 import com.util.login.check.LoginCheck;
+import com.util.mailing.MailSender;
 import com.membership.service.LoginService;
 import com.membership.model.User;
 
@@ -83,7 +84,17 @@ public class LoginLogoutController{
 			returnView.addObject("user", user);
 			return returnView;
 		}
-	
+		
+		String to = user.getEmail();	
+		try {
+			String activationURL = "http://localhost:8080/sera/login/activateUserAccount";
+					//context.getMessage(activationURL, null, Locale.getDefault())
+			String activationString = MailSender.sendActivationEmail(user,activationURL);
+			user.setActivationString(activationString);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		loginService.addUser(user);
 			
 
@@ -97,7 +108,7 @@ public class LoginLogoutController{
 //		User kaydinin membership statusu aktife cekilicek.
 		
 		User exmpUser = new User();
-		exmpUser.setUsername(username);
+		exmpUser=loginService.loadUserObject(username);
 		User waitingUser = loginService.getWaitingMember(exmpUser);
 		
 		if(waitingUser != null){
@@ -106,8 +117,6 @@ public class LoginLogoutController{
 			loginService.updateMembershipStatus(waitingUser.getUserId());
 			return successPage;
 		}else{
-			//TODO aktivasyon hata sayfasi
-			
 			return new ModelAndView("/index.htm");
 		}
 	}	
@@ -137,6 +146,8 @@ public class LoginLogoutController{
 		if(existingUser != null){
 			ModelAndView mv = new ModelAndView("membership/requestPasswordSuccessPage");
 			mv.addObject("email", existingUser.getEmail());
+			//mail gönder
+			MailSender.sendForgottenPassword(existingUser);
 			return mv;
 		}else{
 			//TODO bu mail adresiyle kayitli kullanici bulunmamaktadir
