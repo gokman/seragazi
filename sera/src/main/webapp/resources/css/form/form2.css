@@ -57,6 +57,16 @@ background: #C2E0CA;
    
 
 }
+form.formstil select{
+	
+   background: #FFFFFF;
+   width: 220px;
+   padding: 5px;
+   font-size: 13px;
+   border: 1px solid #0000FF;
+   height: 34px;
+   font-family:Verdana;   
+}
 
 option {
 
