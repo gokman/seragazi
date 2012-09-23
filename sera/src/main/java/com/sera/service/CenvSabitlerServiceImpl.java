@@ -2,6 +2,8 @@ package com.sera.service;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRDataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,6 +24,13 @@ public class CenvSabitlerServiceImpl implements CenvSabitlerService {
 	public List<SeraCenvSabitler> listSabitler() {
 		// TODO Auto-generated method stub
 		return cenvsabitlerDao.listSabitler();
+	}
+	
+	@Override
+	public JRDataSource getCenvSabitlerReport() {
+		// TODO Auto-generated method stub
+		return cenvsabitlerDao.getSabitlerRep();
+		
 	}
 
 }

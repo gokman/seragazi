@@ -177,7 +177,7 @@ import com.util.login.check.LoginCheck;
 				} catch (JRException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}  
 				try {
 					report=JasperCompileManager.compileReport(design);
 				} catch (JRException e) {

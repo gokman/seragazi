@@ -28,8 +28,8 @@ import org.apache.log4j.Logger;
 @Table(name = "sera_cenv_sabitler")
 public class SeraCenvSabitler implements java.io.Serializable{
         // Raw attributes
-    private String baslik;
-    private Long sabit;
+    private String baslik; 
+    private Long sabit;  
     private Long deger;
     private String aciklama;
     private Long hasId;
