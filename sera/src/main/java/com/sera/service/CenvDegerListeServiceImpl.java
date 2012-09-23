@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import net.sf.jasperreports.engine.JRDataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -131,5 +133,17 @@ public class CenvDegerListeServiceImpl implements CenvDegerListeService {
 	public List<SeraCenvDegerListe> listEnAltDal() {
 		
 		return cenvDegerListeDao.ListEnAltDal();
+	}
+	
+	@Override
+	public JRDataSource getCenvDegerListeReport() {
+		// TODO Auto-generated method stub
+		return cenvDegerListeDao.getCenvDegerListeReport();
+		
+	}
+	@Override
+	public JRDataSource listCenvDegerListe() {
+		
+		return cenvDegerListeDao.listCenvDegerListe();
 	}
 }

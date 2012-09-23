@@ -28,5 +28,8 @@ public interface CenvDegerListeService {
      
      public List<SeraCenvDegerListe> listEnAltDal();
      
+	 public JRDataSource getCenvDegerListeReport();
+	 public JRDataSource listCenvDegerListe();
+     
      
 }
