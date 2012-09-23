@@ -11,11 +11,41 @@
 <script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
 <link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css"/>
 <link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css"/>
- <link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
+ <link href="<c:url value="/resources/css/form/form2.css"/>" rel="stylesheet" type="text/css" />
+<link href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" rel="stylesheet" type="text/css" />
+<link href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
 $(document).ready(function(){
+	
+	$("#sabit").live('blur',
+ 		   function() {
+ 		      if(!validateNum($("#sabit").val()))
+ 		      {
+ 		          alert('Geçersiz Sayı!');
+ 		      }
+ 		   }
+		  );	
+
+	//Functions Starts
+	function validateNum(txtNum){
+		   var strValidChars = "0123456789.-";
+		   var strChar;
+		   var blnResult = true;
+
+		   if (txtNum.length == 0) return true;
+
+		   //  test strString consists of valid characters listed above
+		   for (i = 0; i < txtNum.length && blnResult == true; i++)
+		      {
+		      strChar = txtNum.charAt(i);
+		      if (strValidChars.indexOf(strChar) == -1)
+		         {
+		         blnResult = false;
+		         }
+		      }
+		   return blnResult;
+	}​
+	//Functions Ends
 	
 	$("#checked").live(
 	'val',
@@ -51,8 +81,9 @@ $(document).ready(function(){
 		
 	}
 	);
-	
-	
+	$("#parentdiv").hide("fast"); 
+	$("#sabitdiv").hide("fast");
+	$("#sabit").attr('class','');	
    
 	if($("#checked").val()=="Kök"){
 		//show the hidden div
@@ -159,6 +190,7 @@ $(document).ready(function(){
   });
 </script> -->
 <script>
+
 function yapiKaydet(){
 	var parentId;
 	var tip1;
@@ -179,24 +211,18 @@ function yapiKaydet(){
     // dönen tip seçilen tipe eşit ise kaydet
     globalResponse=response;
     if(response!=""){
-	    if(tip1==globalResponse){
-	    	
+	    if(tip1==globalResponse){	    	
 	    	$("#yapiKayitForm").validate({
-	    	 	submitHandler : function(form){
-	    	 		
+	    	 	submitHandler : function(form){	    	 		
 	    			form.submit();
 	    		}
-	    	});
-						
-						
-	    	
+	    	});								    	
 	    }else{
 	       alert('Bu bölümün alt sınıfı olan '+response+' tipinde sınıf seçmelisiniz');
 	    }
     }else{
     	$("#yapiKayitForm").validate({
-    	 	submitHandler : function(form){
-    	 		
+    	 	submitHandler : function(form){    	 		
     			form.submit();
     		}
     	});
@@ -204,9 +230,7 @@ function yapiKaydet(){
         
     }
     });
-    //bitir
-	
-	
+    //bitir	
 }
 </script>
 
