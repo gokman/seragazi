@@ -128,6 +128,9 @@ $(document).ready(function(){
 			else if($("#checked").val()=="Dal"){
 				//otherwise, hide it
 				$("#parentdiv").show("slow");
+				$("#sabit").attr('class','');	 
+				$("#sabitdiv").hide("slow");
+				$("#sabit").attr("value","")
 				//ağaç tipine göre hesaplama listesini güncelle
 				//$("#hesapdiv1").show("fast");
 				$("#hesapliste1").empty().append('<option  value=""></option>');
@@ -162,6 +165,7 @@ $(document).ready(function(){
 		//otherwise, hide it
 		$("#sabitdiv").hide("slow");
 		$("#sabit").attr('class','');
+		$("#sabit").attr("value","")
 	}
 			});
 	
@@ -174,6 +178,7 @@ $(document).ready(function(){
 		else{
 			$("#sabitdiv").hide("slow");
 			$("#sabit").attr('class','');
+			$("#sabit").attr("value","")
 		}
 		
 	}		

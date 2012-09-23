@@ -38,6 +38,7 @@
 					 <li><a href="#">Raporlar</a>
 						  <ul>
 							   <li><a href="/sera/cenvgiris/degergirisrapor.htm">Değer Giriş Raporu</a></li>
+							   <li><a href="/sera/cenvyapi/degerlisterapor.htm">Değer Liste Raporu</a></li>
 							   
 						  </ul>
 					 </li>

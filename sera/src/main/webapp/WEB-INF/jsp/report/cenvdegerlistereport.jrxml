@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Flower Landscape" pageWidth="800" pageHeight="842" orientation="Landscape" columnWidth="790" leftMargin="5" rightMargin="5" topMargin="20" bottomMargin="20" uuid="8934add2-4f42-45e0-aba8-b64011508e78">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="47"/>
+	<property name="ireport.y" value="100"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="DejaVu Sans" fontSize="45" isBold="false" pdfFontName="Helvetica"/>
+	<style name="SubTitle" forecolor="#666666" fontName="DejaVu Sans" fontSize="18" isBold="false" pdfFontName="Helvetica"/>
+	<style name="Column header" forecolor="#666666" fontName="DejaVu Sans" fontSize="14" isBold="true" pdfFontName="Helvetica"/>
+	<style name="Detail" mode="Transparent" fontName="DejaVu Sans" pdfFontName="Helvetica"/>
+	<style name="Row" mode="Transparent" fontName="DejaVu Sans" pdfFontName="Helvetica">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="PieChartDataset" uuid="ac1283cd-e8ee-40c1-864c-f43c4c963317"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="baslik" class="java.lang.String">
+		<fieldDescription><![CDATA[baslik]]></fieldDescription>
+	</field>
+	<field name="parentId" class="java.lang.Long">
+		<fieldDescription><![CDATA[parentId]]></fieldDescription>
+	</field>
+	<field name="tip1" class="java.lang.String">
+		<fieldDescription><![CDATA[tip1]]></fieldDescription>
+	</field>
+	<field name="tip2" class="java.lang.String">
+		<fieldDescription><![CDATA[tip2]]></fieldDescription>
+	</field>
+	<field name="birim" class="java.lang.String">
+		<fieldDescription><![CDATA[birim]]></fieldDescription>
+	</field>
+	<background>
+		<band height="100" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="94" splitType="Stretch">
+			<frame>
+				<reportElement uuid="d7d04e33-326a-41a8-9b8d-015005cf6b7e" mode="Opaque" x="0" y="0" width="780" height="65" forecolor="#006699" backcolor="#006699"/>
+				<staticText>
+					<reportElement uuid="670e802c-f691-4bdd-82b0-03875fc98a5f" style="Title" positionType="Float" x="150" y="0" width="578" height="65"/>
+					<textElement textAlignment="Justified"/>
+					<text><![CDATA[Değer Liste Raporu]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement uuid="59a68440-f1a2-45b9-986f-30e89204c213" x="0" y="0" width="790" height="14"/>
+				<staticText>
+					<reportElement uuid="5c0be25e-6fac-4865-aad3-0acfd41f08e5" style="Column header" positionType="Float" x="495" y="0" width="150" height="14" forecolor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Tip2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="cc943260-c3ed-47ff-96fa-948eb3c26789" style="Column header" positionType="Float" x="645" y="0" width="140" height="14" forecolor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Birim]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="8976a4d3-0fd3-4ad1-a000-132296b5c67d" style="Column header" positionType="Float" stretchType="RelativeToBandHeight" x="405" y="0" width="90" height="14" forecolor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Tip1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="e30dddf9-f1b6-41cf-80b2-f424af413ace" style="Column header" positionType="Float" x="205" y="0" width="200" height="14" forecolor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Parent]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="bf1de96a-28d2-432b-ab38-6c6028309aa2" style="Column header" positionType="Float" x="0" y="0" width="200" height="14" forecolor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Başlık]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<line>
+				<reportElement uuid="007ac67f-a757-4f1a-9916-1a0d08ac547a" positionType="FixRelativeToBottom" x="0" y="14" width="780" height="1"/>
+			</line>
+			<frame>
+				<reportElement uuid="9bb99d9b-1f47-4efe-bbc6-de8b52b3e5e7" x="0" y="0" width="780" height="14"/>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement uuid="05c88fc0-b15f-4940-bf44-4b6aabb01725" style="Detail" positionType="Float" x="490" y="0" width="150" height="14"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tip2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement uuid="7d8a792b-2290-48a6-8d19-bf7ae9c58b19" style="Detail" positionType="Float" x="640" y="0" width="140" height="14"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{birim}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement uuid="c4699684-90e0-4b4f-95af-04794aff1bdb" style="Detail" positionType="Float" x="400" y="0" width="90" height="14"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tip1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement uuid="5547df2d-7559-48c0-89ee-272e4cc55884" style="Detail" positionType="Float" x="200" y="0" width="200" height="14"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{parentId}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="83c3a4c2-9b7e-47f9-8a25-0dc8dce6b69f" style="Detail" positionType="Float" x="0" y="0" width="200" height="14"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{baslik}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<frame>
+				<reportElement uuid="dac26283-64b9-4735-aa61-56bbf259253e" mode="Opaque" x="5" y="0" width="790" height="16" forecolor="#D0B48E" backcolor="#006699"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="bc2db258-220f-41e4-a3d6-57b45f3355d0" style="Column header" x="750" y="0" width="40" height="16" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="91a8e459-64a1-4c6e-aebd-215ab3e93290" style="Column header" x="673" y="0" width="80" height="16" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Sayfa "+$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+				</textField>
+				<textField pattern="M/d/yy h:mm a">
+					<reportElement uuid="4e87cdc9-42de-4507-9a8e-95b3ba4c8a12" style="Column header" x="2" y="0" width="197" height="16" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
