@@ -3,6 +3,9 @@ package com.sera.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.lookup.model.LookupMst;
 import com.sera.model.SeraCenvDegerListe;
+import com.sera.model.SeraCenvGiris;
 import com.sera.model.SeraCenvSabitler;
 
 @Repository("cenvdegerlistedao")
@@ -217,7 +221,22 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 		return listem;
 	}
 	
-	
+
+	@Override
+	public JRDataSource getCenvDegerListeReport() {
+		List<SeraCenvDegerListe> listDegerListe=sessionFactory.getCurrentSession().
+		createCriteria(SeraCenvDegerListe.class).list();
+			
+		return new JRBeanCollectionDataSource(listDegerListe);
+		
+	}
+
+	@Override
+	public JRDataSource listCenvDegerListe() {
+		List<SeraCenvDegerListe> listDegerListe=sessionFactory.getCurrentSession().
+		createCriteria(SeraCenvDegerListe.class).list();
+		return new JRBeanCollectionDataSource(listDegerListe);
+	}
 	
 	
 

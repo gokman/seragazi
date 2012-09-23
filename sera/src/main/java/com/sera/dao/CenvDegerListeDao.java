@@ -1,6 +1,9 @@
 package com.sera.dao;
 
 import java.util.List;
+
+import net.sf.jasperreports.engine.JRDataSource;
+
 import com.sera.model.SeraCenvDegerListe;
 import com.sera.model.SeraCenvSabitler;
 
@@ -32,6 +35,9 @@ public interface CenvDegerListeDao {
 	
 	public List<SeraCenvDegerListe> searchCenvDeger(String baslik);
 	
-	public boolean isKokExist();
+	public boolean isKokExist();	
+
+	public JRDataSource getCenvDegerListeReport();
+	public JRDataSource listCenvDegerListe();
 	
 }
