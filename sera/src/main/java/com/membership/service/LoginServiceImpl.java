@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.util.constant.ApplicationConstants;
+import com.membership.dao.AuthorityDao;
 import com.membership.dao.LoginDao;
+import com.membership.model.Authority;
 import com.membership.model.User;
 
 @Service("loginService")
@@ -18,20 +20,35 @@ public class LoginServiceImpl implements LoginService{
 
 	@Autowired
 	private LoginDao loginDao;
+	
+	@Autowired
+	private AuthorityDao authorityDao;
 
 	public LoginServiceImpl() {
 	}
 
-
-
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void addUser(User user) {
 		loginDao.saveUser(user);
+		
 	}
 
 	public void updateMembershipStatus(Long userID){
 		loginDao.updateMembershipStatus(userID);
 	}
+	
+	//burada kullanıcının üyelik durumunu pasiften aktife çekiyoruz aynı zamanda auhorities tablosuna
+	//da kaydını yapıyoruz ve rol veriyoruz.
+	public void activateMembershipStatus(Long userID,String username){
+		loginDao.updateMembershipStatus(userID);
+		//authorities tablosunu doldur. ilk aşamada kullanıcı sistemde bilinmeyen durumunda olacak.
+		//Daha sonra yönetici(administrator) onu idareci(manager) veya kullanıcı(user) yapabilecek.
+		Authority aut=new Authority();
+		aut.setAuthority(ApplicationConstants.AUTHORITIES_STATUS_CODES.USER);
+		aut.setUsername(username);
+		authorityDao.saveAuthority(aut);
+	}
+	
 	
 	public List<User> listUsers() {
 		return loginDao.listUsers();

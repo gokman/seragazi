@@ -29,6 +29,7 @@ import com.util.constant.ApplicationConstants;
 import com.util.login.check.LoginCheck;
 import com.util.mailing.MailSender;
 import com.membership.service.LoginService;
+import com.membership.model.Authority;
 import com.membership.model.User;
 
 
@@ -85,6 +86,7 @@ public class LoginLogoutController{
 			return returnView;
 		}
 		
+		
 		String to = user.getEmail();	
 		try {
 			String activationURL = "http://localhost:8080/sera/login/activateUserAccount";
@@ -95,6 +97,7 @@ public class LoginLogoutController{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		loginService.addUser(user);
 			
 
@@ -114,7 +117,7 @@ public class LoginLogoutController{
 		if(waitingUser != null){
 			ModelAndView successPage = new ModelAndView("membership/activationSuccessPage");
 			loginInfo.getUserInfo(successPage);
-			loginService.updateMembershipStatus(waitingUser.getUserId());
+			loginService.activateMembershipStatus(waitingUser.getUserId(),username);
 			return successPage;
 		}else{
 			return new ModelAndView("/index.htm");

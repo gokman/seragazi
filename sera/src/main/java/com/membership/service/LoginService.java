@@ -11,6 +11,8 @@ public interface LoginService {
 		
 		public void updateMembershipStatus(Long userID); 
 		
+		public void activateMembershipStatus(Long userID,String username);
+		
 		public List<User> listUsers();
 		
 		public List<User> getByUsername(String username);

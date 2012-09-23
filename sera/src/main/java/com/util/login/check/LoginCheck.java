@@ -12,16 +12,19 @@ public class LoginCheck {
 
 		boolean isAuthenticated = false;
 		String principalResult ="";
+		String membershipStatus="";
 	    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	    if (principal == null)
 	    	principalResult = null;
 	    if (principal instanceof String)
 	    	principalResult = (String) principal;
-	    if (principal instanceof User)
+	    if (principal instanceof User){
 	    	principalResult = ((User) principal).getUsername();
+	    }
 		
 	    if(!principalResult.equals("anonymousUser")){
 	    	isAuthenticated = true ;
+	    
 	    }	    
 	    
 		currentPage.addObject("isAuthenticated", isAuthenticated);
