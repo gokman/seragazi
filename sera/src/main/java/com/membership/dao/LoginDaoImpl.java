@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -58,6 +59,12 @@ public class LoginDaoImpl implements LoginDao {
 		return (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class).add(Example.create(user)).list();
 
 	}
+	
+	@Override
+	public List<User> listUsers(String type) {
+		return (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("membershipStatus", type)).list();
+
+	}
 
 	@Override
 	public List<User> listByUsername(String username) {
@@ -75,6 +82,30 @@ public class LoginDaoImpl implements LoginDao {
 		return (User)sessionFactory.getCurrentSession().createCriteria(User.class).
 		add(Restrictions.eq("username", username)).list().get(0);
 		
+	}
+
+	@Override
+	public boolean isUserExist(String username) {
+		int sonuc;
+		sonuc=(Integer)sessionFactory.getCurrentSession().createCriteria(User.class)
+		.add(Restrictions.eq("username", username))
+		.setProjection(Projections.rowCount()).uniqueResult();;
+		if(sonuc>0){
+			return true;
+		}else
+			return false;
+	}
+	
+	@Override 
+	public boolean isEmailExist(String email) {
+		int sonuc;
+		sonuc=(Integer)sessionFactory.getCurrentSession().createCriteria(User.class)
+		.add(Restrictions.eq("email", email))
+		.setProjection(Projections.rowCount()).uniqueResult();;
+		if(sonuc>0){
+			return true;
+		}else
+			return false;
 	}
 
 }
