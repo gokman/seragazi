@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -159,7 +160,22 @@ public class LoginLogoutController{
 		}
 	}
 	
+	@RequestMapping(value="/usernameUnique.htm", method = RequestMethod.GET)
+	public @ResponseBody boolean usernameUniqueControl(@RequestParam(value="username", required=true) String username){	
+		
+				return  loginService.isUserExist(username);
+				
+	}
+	
+	@RequestMapping(value="/emailUnique.htm", method = RequestMethod.GET)
+	public @ResponseBody boolean emailUniqueControl(@RequestParam(value="email", required=true) String email){	
+		
+				return  loginService.isEmailExist(email);
+				
+	}
+	
 	@RequestMapping(method=RequestMethod.GET, value="/accessDenied.do")
 	public void accessDenied(ModelMap model,HttpServletRequest request) {
 	}
+	
 }
