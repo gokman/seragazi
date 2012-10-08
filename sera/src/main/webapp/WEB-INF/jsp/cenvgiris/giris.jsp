@@ -25,7 +25,10 @@
   </script>
 <script type="text/javascript">
        var globalid;
+       var dateKontrol;
 	        function doAjaxPost(aydi,seviye,tip,tip2) {
+	        	
+	        if (dateKontrol==1){	
 	        // get the form values
 	           globalid=aydi;
 	           var sev=seviye;
@@ -89,7 +92,7 @@
 	        	'<form:hidden id="girisid" path="id" size="40" value="3" />'+
 	        	'<table>'+
 	        	'<tr><td class="formyazi" align="right">Dönem:</td>'+
-	        	'<td><form:input id="txtDate" readonly="true" path="tarih" size="20" class="required" minlength="7" maxlength="7"/>(Örn:03-2012)</td>'+
+	        	'<td><form:input id="txtDate" readonly="true" path="tarih" size="20" class="required" minlength="7" maxlength="7"/>(Örn:2012-01)</td>'+
 	        	'</tr>'+
 	        	'<tr>'+
     	        '<td class="formyazi" align="right">Değer:</td>'+
@@ -113,16 +116,19 @@
 	        error: function(e){
 	        alert('Error: ' + e);
             } 
-	        });
+	        }); 
 	        }
-	        </script>
-	        <script type="text/javascript">
+	        }
+	        
 	         	//bir üst jquery versiyonunda live yerine on kullan
 	        		  $("#ustDonem").live('blur',
 		        		   function() {
 		        		      if(!validateDate("ustDonem"))
-		        		      {
+		        		      { 
 		        		          alert('Geçersiz Tarih!!!');
+		        		          dateKontrol=-1;
+		        		      }else{
+		        		    	  dateKontrol=1;
 		        		      }
 		        		   }
 	        		  );	
@@ -130,7 +136,7 @@
 	        		//Functions Starts
 	        		function validateDate(txtDate){
 	        		   var txtVal = document.getElementById(txtDate).value;
-	        		   var filter = new RegExp("(0[123456789]|10|11|12)([-])([1-2][0-9][0-9][0-9])");
+	        		   var filter = new RegExp("([1-2][0-9][0-9][0-9])([-])(0[123456789]|10|11|12)");
 	        		   if(filter.test(txtVal))
 	        		      return true;
 	        		   else
@@ -201,7 +207,7 @@
 					<table width="230px" align="left" class="kok_table_giris">
 						<tbody>
 						    <tr align="center" style="font-weight: bold;">
-						        <td>Dönem (01-2012)<input type="text" id="ustDonem"  
+						        <td>Dönem (Örn:2012-01)<input type="text" id="ustDonem"  
 						        maxlength="7" size="20" onchange="anaDonemDegis()"></input></td>
 						    </tr>
 							<tr align="center" style="font-weight: bold;">

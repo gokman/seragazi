@@ -103,8 +103,8 @@ $(document).ready(function(){
 				$("#parentdiv").show("slow");
 				//ağaç tipine göre hesaplama listesini güncelle
 				//$("#hesapdiv1").show("fast");
-				$("#hesapliste1").empty().append('<option  value=""></option>');
-				$("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+				//$("#hesapliste1").empty().append('<option  value=""></option>');
+				$("#hesapliste1").empty().append('<option  value="Hesap">Hesap</option>');
 				//$("#hesapdiv2").hide("fast");
 			}
 			else
@@ -113,8 +113,8 @@ $(document).ready(function(){
 				$("#parentdiv").hide("fast");
 				//ağaç tipine göre hesaplama listesini güncelle
 				//$("#hesapdiv1").show("fast");
-				$("#hesapliste1").empty().append('<option  value=""></option>');
-				$("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+				//$("#hesapliste1").empty().append('<option  value=""></option>');
+				$("#hesapliste1").empty().append('<option  value="Hesap">Hesap</option>');
 				//$("#hesapdiv2").hide("fast");
 			}	
 			
@@ -232,10 +232,8 @@ function yapiKaydet(){
 <tr><td>
 <a>Sınıf </a>
 </td>
-<td><form:select class="required" path="tip1" id="checked" name="checked">
+<td><form:select  class="required" path="tip1" id="checked" name="checked">
 <form:option value="${cenvDoluVeriler.tip1}" label="${cenvDoluVeriler.tip1}"/>
-<form:option  value="Yaprak" label="Yaprak"/>
-<form:option value="Dal" label="Dal"/>
 <c:choose>
 <c:when test="${kokKontrol==false}">
 <form:option value="Kök" label="Kök"/>
@@ -257,7 +255,9 @@ function yapiKaydet(){
 <a>Birim </a>
 </td>
 <td>
-<form:input name="birim" class="required" value="${cenvDoluVeriler.birim}" id="birim" path="birim" maxlength="100" size="100" />
+<form:select class="required" path="birim" id="checked2" name="checked2">
+<form:options items="${birimler}" itemValue="deger" itemLabel="deger"/>
+</form:select>
 <form:errors path="birim"></form:errors>
 </td>
 </tr>
@@ -288,7 +288,6 @@ function yapiKaydet(){
 </td><td>
 <form:select name="parentId" id="parentId" class="required" path="parentId">
 <form:option value="${parentOlayi2.id}" label="${parentOlayi2.baslik}"/>
-<form:options items="${parentOlayi}" itemValue="id" itemLabel="baslik"/>
 </form:select>
 <form:errors path="parentId"></form:errors>
 </td></tr>

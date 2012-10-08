@@ -36,6 +36,8 @@ class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBea
 			<value>com.sera.model.SeraCenvDonemSonuc</value>
 			<value>com.sera.model.SeraCenvHesaplama</value>
 			<value>com.sera.cevreselfaktor.model.SeraCevreselFaktor</value>
+			<value>com.sera.birim.model.Birim</value>
+			<value>com.sera.yetki.model.SeraCenvYetkiler</value>
 		</list>
     </property>
  

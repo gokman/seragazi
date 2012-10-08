@@ -25,7 +25,6 @@
     $("#formfaktor").validate();
     var kontrol=${faktorum.id};
     if (kontrol!=0){ 
-    	alert(1);
     	$("#formfaktor").attr("action","/sera/faktor/faktorguncelle.htm");
     	$("#idsubmit").attr("value","Güncelle");
     }

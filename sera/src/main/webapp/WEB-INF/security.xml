@@ -24,11 +24,13 @@
 		
 		<intercept-url pattern="/login/membershipForm.htm" access="permitAll" />
 		<intercept-url pattern="/login/membershipFormSave.htm" access="permitAll" />
+		<intercept-url pattern="/login/usernameUnique.htm" access="permitAll" />
+		<intercept-url pattern="/login/emailUnique.htm" access="permitAll" />
         <intercept-url pattern="/login/activateUserAccount/**" access="permitAll" />
         <intercept-url pattern="/login/requestPassword.htm" access="permitAll" />
 		<intercept-url pattern="/login/sendForgottenPassword.htm" access="permitAll" />
 		<intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')" />
-		
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
 		
 		<form-login login-page="/index.htm"  authentication-failure-url="/index.htm" />
 		

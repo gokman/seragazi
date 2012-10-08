@@ -26,13 +26,17 @@
 					     <li><a href="/sera/cenvyapi/yapiSil.htm">Yapı Arama ve Silme</a></li>
 					 </ul>
 					 </li>
-					 <li><a href="#">İşlemler</a>
+					 <li><a href="#">Ana İşlemler</a>
 						  <ul> 
 							   <li><a href="/sera/cenvgiris/girisgetir.htm">Değer Girişi</a></li>
-							   <li><a href="/sera/faktor/faktorgiris.htm">Çevresel Faktör Girişi</a></li>
 							    <li><a href="/sera/hesaplama/hesaplamaGiris.htm">Dal Hesaplama</a></li>
 							   <li><a href="/sera/donemsonuc/donemsonucgir.htm">Dönem Hesaplama</a></li>
-							   <li><a href="#">Sonuç</a></li>
+						  </ul>
+					 </li>
+					 <li><a href="#">Yardımcı İşlemler</a>
+						  <ul>    
+							   <li><a href="/sera/faktor/faktorgiris.htm">Çevresel Faktör Girişi</a></li>
+							   <li><a href="/sera/birim/birimgiris.htm">Birim Girişi</a></li>
 						  </ul>
 					 </li>
 					 <li><a href="#">Raporlar</a>
@@ -40,6 +44,12 @@
 							   <li><a href="/sera/cenvgiris/degergirisrapor.htm">Değer Giriş Raporu</a></li>
 							   <li><a href="/sera/cenvyapi/degerlisterapor.htm">Değer Liste Raporu</a></li>
 							   <li><a href="/sera/cenvsabit/sabitlerrapor.htm">Sabitler Raporu</a></li>
+						  </ul>
+					 </li>
+					 <li><a href="#">Yetkiler</a>
+						  <ul>
+							   <li><a href="/sera/yetki/yetkiver.htm">Yetki Verme</a></li>
+							   
 						  </ul>
 					 </li>
 					

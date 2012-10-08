@@ -6,25 +6,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Insert title here</title>
+<title>Yapı Oluşturma Sayfası</title>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
+
 <link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css"/>
 <link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css"/>
- <link href="<c:url value="/resources/css/form/form2.css"/>" rel="stylesheet" type="text/css" />
+<link href="<c:url value="/resources/css/form/form2.css"/>" rel="stylesheet" type="text/css" />
 <link href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" rel="stylesheet" type="text/css" />
 <link href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
-$(document).ready(function(){
-	
-	$("#sabit").live('blur',
- 		   function() {
- 		      if(!validateNum($("#sabit").val()))
- 		      {
- 		          alert('Geçersiz Sayı!');
- 		      }
- 		   }
-		  );	
+$(document).ready(function(){	
 
 	//Functions Starts
 	function validateNum(txtNum){
@@ -64,8 +56,8 @@ $(document).ready(function(){
 			//show the hidden div
 			$("#parentdiv").show("slow");
 			//$("#hesapdiv1").show("fast");
-		 $("#hesapliste1").empty().append('<option  value=""></option>');
-         $("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+		// $("#hesapliste1").empty().append('<option  value=""></option>');
+         $("#hesapliste1").empty().append('<option  value="Hesap">Hesap</option>');
 			//$("#hesapdiv2").hide("fast");
 		}
 		else
@@ -89,16 +81,16 @@ $(document).ready(function(){
 		//show the hidden div
 		$("#parentdiv").hide("slow");
 		//$("#hesapdiv1").show("fast");
-		$("#hesapliste1").empty().append('<option  value=""></option>');
-		$("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+		//$("#hesapliste1").empty().append('<option  value=""></option>');
+		$("#hesapliste1").empty().append('<option  value="Hesap">Hesap</option>');
 		//$("#hesapdiv2").hide("fast");
 	}
 	else if($("#checked").val()=="Dal"){
 		//show the hidden div
 		$("#parentdiv").show("slow");
 		//$("#hesapdiv1").show("fast");
-		$("#hesapliste1").empty().append('<option  value=""></option>');
-		$("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+		//$("#hesapliste1").empty().append('<option  value=""></option>');
+		$("#hesapliste1").empty().append('<option  value="Hesap">Hesap</option>');
 		//$("#hesapdiv2").hide("fast");
 	}
 	else
@@ -133,8 +125,8 @@ $(document).ready(function(){
 				$("#sabit").attr("value","")
 				//ağaç tipine göre hesaplama listesini güncelle
 				//$("#hesapdiv1").show("fast");
-				$("#hesapliste1").empty().append('<option  value=""></option>');
-				$("#hesapliste1").append('<option  value="Hesap">Hesap</option>');
+				//$("#hesapliste1").empty().append('<option  value=""></option>');
+				$("#hesapliste1").empty().append('<option  value="Hesap">Hesap</option>');
 				//$("#hesapdiv2").hide("fast");
 			}
 			else
@@ -278,11 +270,13 @@ function yapiKaydet(){
 <a>Birim </a>
 </td>
 <td>
-<form:input name="birim" class="required" id="birim" path="birim" maxlength="100" size="100" />
+<form:select class="required" path="birim" id="checked2" name="checked2">
+<form:options items="${birimler}" itemValue="deger" itemLabel="deger"/>
+</form:select>
 <form:errors path="birim"></form:errors>
 </td>
 </tr>
-<tr><td>
+<tr id="degertipdiv"><td>
 <a>Değer Tipi  </a>
 </td><td>
 

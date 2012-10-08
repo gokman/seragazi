@@ -26,7 +26,7 @@
 function donemSonucKaydetBasla(){
 	
 	 $.Zebra_Dialog('Devam etmek istiyor musunuz?', {
-	    'type':     'question',
+	    'type':     'question', 
 	    'title':    '',
 	    'buttons':  [
 						{caption: 'Vazgeç', callback: function() { }},
@@ -37,8 +37,83 @@ function donemSonucKaydetBasla(){
 	
 }
 
-</script>
-   <script type="text/javascript">
+function donemSonucSilBasla(){
+	
+	 $.Zebra_Dialog('Devam etmek istiyor musunuz?', {
+	    'type':     'question', 
+	    'title':    '',
+	    'buttons':  [
+						{caption: 'Vazgeç', callback: function() { }},
+	                    {caption: 'Evet', callback: function() { donemSonucSil()}},
+	                ]
+	});	
+	
+	
+}
+
+function donemSonucSil(){
+	
+	//öncelikle tarihi kontrol et
+	 if(!validateDate("txtDate"))
+		        		      {
+		        		          alert('Geçersiz Tarih!!!');
+		        		          return;
+		        		          
+		        		      }
+	
+	//başla
+	//donem sonucu var mı yok mu onu kontrol et daha sonra silme işlemini yap
+	 $.ajax({
+type: "POST",
+url: "/sera/donemsonuc/donemSonucKayitKontrol.htm",
+data: "donem=" + $("#txtDate").val(),
+cache: false,
+async: false,
+success: function(response){
+// we have the response
+
+globalKontrol=response;  
+if(globalKontrol==false){
+
+alert('Bu döneme ait sonuç kayıtları bulunmamaktadır.');
+
+}
+//kayıtlar var ise sil
+else{
+	ajaxDonemSonucSil($("#txtDate").val());
+}
+
+},
+error: function(e){
+alert('Error dönemsonuç: ' + e);
+} 
+});
+//bitir
+	 
+	
+}
+
+function ajaxDonemSonucSil(donem){
+	//başla
+	 $.ajax({
+type: "POST",
+url: "/sera/donemsonuc/donemsonucsil.htm",
+data: "donem=" + donem,
+cache: false,
+async: false,
+success: function(response){
+//we have the response
+  
+alert('Silindi'+response);
+
+},
+error: function(e){
+alert('Error dönemsonuç: ' + e);
+} 
+});
+//bitir
+}
+
 	         	//bir üst jquery versiyonunda live yerine on kullan
 	         	
 	         	
@@ -55,7 +130,7 @@ function donemSonucKaydetBasla(){
 	        		//Functions Starts
 	        		function validateDate(txtDate){
 	        		   var txtVal = document.getElementById(txtDate).value;
-	        		   var filter = new RegExp("(0[123456789]|10|11|12)([-])([1-2][0-9][0-9][0-9])");
+	        		   var filter = new RegExp("([1-2][0-9][0-9][0-9])([-])(0[123456789]|10|11|12)");
 	        		   if(filter.test(txtVal)){
 	        			  
 	        		      return true;
@@ -65,7 +140,7 @@ function donemSonucKaydetBasla(){
 	        		   }
 	        		}​
 	        		//Functions Ends
-	        		function donemHesapla(){
+	        		function donemHesapla(){ 
 	        			var donem=$("#txtDate").val();
 	        			var globalKontrol=false;
 	        			var kontrol=0,kontrol2=0;
@@ -201,14 +276,17 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: top; 
 	<form:form cssStyle="padding-left:50px;padding-top:40px;" id="donemSonucForm" name="donemSonucForm" cssClass="formstil" action="/sera/donemsonuc/donemsonuchesapla.htm" method="POST"  modelAttribute="donemsonuc" enctype="multipart/form-data">
 	<table>
 	<tr>
-	<td><a>Dönem(mm-yyyy) : </a></td>
+	<td><a>Dönem (Örn:2012-01): </a></td>
 	<td><form:input id="txtDate" class="required" path="donem" minlength="7" maxlength="7" size="20px"/>
 	<form:errors path="donem"></form:errors>
 	</td>
 	</tr>
 	<tr>
 	<td></td>
-	<td class="submit"><input type="submit" onclick="donemSonucKaydetBasla(); return false;" value="Hesapla" ></input></td>
+	<td class="submit">
+	<input type="submit" onclick="donemSonucKaydetBasla(); return false;" value="Hesapla" ></input>
+	<input type="button" onclick="donemSonucSilBasla();" value="Sil" ></input>
+	</td>
 	</tr>
 	</table>
 	</form:form>
