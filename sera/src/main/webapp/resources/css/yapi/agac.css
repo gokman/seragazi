@@ -77,6 +77,19 @@ font-weight: normal;
 
 }
 
+.yetkiver_dugme{
+
+color:#666666;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:12px;
+letter-spacing:1px;
+border-style:none;
+width:220px;
+height:30px;
+font-weight: normal;
+
+}
+
 .cizgi{
 
 background-color: #7AA3CB;
