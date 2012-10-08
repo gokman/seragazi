@@ -3,12 +3,10 @@ package com.sera.controller;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,18 +34,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
-import com.lookup.model.LookupMst;
-import com.lookup.service.LookupMstService;
+import com.sera.birim.model.Birim;
+import com.sera.birim.service.BirimService;
 import com.sera.model.SeraCenvDegerListe;
-import com.sera.model.SeraCenvGiris;
 import com.sera.model.SeraCenvSabitler;
 import com.sera.model.SeraDegerSabitForm;
 import com.sera.service.CenvDegerListeService;
 import com.sera.service.CenvGirisService;
 import com.sera.util.CenvGirisRaporParams;
-import com.sera.util.ElemanTip;
 import com.sera.validator.CenvDegerListeValidator;
 import com.util.login.check.LoginCheck;
 
@@ -62,6 +57,9 @@ public class CenvDegerListeController {
 	private CenvDegerListeService cenvdegerservice;
 	
 	@Autowired
+	private BirimService birimservice;
+	
+	@Autowired
 	private CenvGirisService cenvgirisservice;
 	
 	private LoginCheck loginInfo = new LoginCheck();
@@ -73,6 +71,7 @@ public class CenvDegerListeController {
 		boolean kokKontrol;
 		List<SeraCenvDegerListe> dalkokliste=cenvdegerservice.listDalKokCenv();
 		kokKontrol=cenvdegerservice.isKokExist();
+		List<Birim> birimliste=birimservice.listBirim();
 		
 		
 		
@@ -85,6 +84,7 @@ public class CenvDegerListeController {
 			seralar.setId((long)0);
 			model.addObject("cenvDoluVeriler",seralar);
 			model.addObject("kokKontrol",kokKontrol);
+		 	model.addObject("birimler",birimliste);
 			loginInfo.getUserInfo(model);
 		
 		}
@@ -94,6 +94,7 @@ public class CenvDegerListeController {
 			SeraCenvDegerListe detay=cenvdegerservice.detayCenvDeger(Long.parseLong(id));
             model.addObject("cenvDoluVeriler",detay);
             model.addObject("kokKontrol",kokKontrol);
+            model.addObject("birimler",birimliste);
             loginInfo.getUserInfo(model);
             //değer sabit ise o zaman sabit nesnemizi çekmeliyiz.
             if(detay.gettip2().equals("Sabit")){
@@ -121,6 +122,7 @@ public class CenvDegerListeController {
 	@RequestMapping(value = "/yapiKaydet.htm") 
 	public ModelAndView saveCenvDegerListe(HttpServletRequest req,@ModelAttribute("cenvdeger") SeraDegerSabitForm seragazi,
 			BindingResult result) {
+		
 		ModelAndView model=new ModelAndView("cenvyapi/yapiGiris");
 	    SeraCenvDegerListe deger=new SeraCenvDegerListe(seragazi);
 	    
@@ -162,10 +164,10 @@ public class CenvDegerListeController {
 	@RequestMapping(value = "/yapiGuncelle.htm") 
 	public ModelAndView updateCenvDegerListe(HttpServletRequest req,@ModelAttribute("cenvdeger") SeraDegerSabitForm seragazi,
 			BindingResult result) {
-		ModelAndView model=new ModelAndView("cenvyapi/hello");
+		ModelAndView model=new ModelAndView("redirect:/cenvyapi/yapiGiris/ana.htm");
 	    SeraCenvDegerListe deger=new SeraCenvDegerListe(seragazi);
 	    
-	    CenvDegerListeValidator validator=new CenvDegerListeValidator();
+	   /* CenvDegerListeValidator validator=new CenvDegerListeValidator();
 		validator.validate(deger, result);
 		
 		if(result.hasErrors()){
@@ -173,7 +175,7 @@ public class CenvDegerListeController {
 			ModelAndView returnview=new ModelAndView("cenvyapi/yapiGiris");
 			returnview.addObject("parentOlayi", dalkokliste);
 			return returnview;
-		}
+		}*/
 		if(deger.gettip1().equals("Kök")){
 			deger.setParentId((long)0);
 			deger.setSeviye((long)0);
