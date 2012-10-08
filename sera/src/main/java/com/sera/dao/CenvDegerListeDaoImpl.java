@@ -65,15 +65,17 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 	
 	@Override
 	public List<SeraCenvDegerListe> getParent(long id) {
-		List<Long> parent_id;
+		Long parent_id;
 		List<SeraCenvDegerListe> list;
+		SeraCenvDegerListe parent;
 		try{
-		parent_id=sessionFactory.getCurrentSession().createSQLQuery("select parent_id from sera.sera_cenv_deger_liste where id="+id).list();
+		parent=(SeraCenvDegerListe)sessionFactory.getCurrentSession().createQuery("from SeraCenvDegerListe where id="+id).list().get(0);
+		parent_id=parent.getParentId();
 		}catch(Exception e){
 			parent_id=null;
 		}
 		try{
-		list=sessionFactory.getCurrentSession().createQuery("from SeraCenvDegerListe where id="+parent_id.get(0)).list();
+		list=sessionFactory.getCurrentSession().createQuery("from SeraCenvDegerListe where id="+parent_id).list();
 		}catch(Exception e){
 			list=null;
 		}

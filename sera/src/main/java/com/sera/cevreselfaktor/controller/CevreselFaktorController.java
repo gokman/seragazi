@@ -69,6 +69,7 @@ public class CevreselFaktorController {
 		ModelAndView model=new ModelAndView("redirect:/faktor/faktorgiris.htm");
 		User user= getLoggedInUser();
 		cevreselFaktor.setCreatedBy(user.getUsername());
+		cevreselFaktor.setLastUpdatedBy(user.getUsername());
 		SimpleDateFormat format=new SimpleDateFormat("dd-MM-yyyy hh:MM");
 		cevreselFaktor.setCreateDate(format.getCalendar().getInstance().getTime());
 		cevreselFaktor.setLastUpdateDate(format.getCalendar().getInstance().getTime());
@@ -109,9 +110,11 @@ public class CevreselFaktorController {
 	@RequestMapping(value = "/faktorguncelle.htm")
 	public ModelAndView guncelleFaktor(@ModelAttribute("cevreselfaktor") SeraCevreselFaktor cevreselFaktor){
 		  
+		User user= getLoggedInUser();
 		ModelAndView model=new ModelAndView("/cevreselfaktor/faktorgiris");
 		SimpleDateFormat format=new SimpleDateFormat("dd-MM-yyyy hh:MM");
 		cevreselFaktor.setLastUpdateDate(format.getCalendar().getInstance().getTime());
+		cevreselFaktor.setLastUpdatedBy(user.getUsername());
 		cevreselfaktorservice.updateCevreselFaktor(cevreselFaktor);
 		if(cevreselfaktorservice.listCevreselFaktor().size()>0){
 			  model.addObject("faktorler",cevreselfaktorservice.listCevreselFaktor());

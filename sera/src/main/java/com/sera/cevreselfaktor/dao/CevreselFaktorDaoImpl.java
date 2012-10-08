@@ -5,6 +5,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.sera.birim.model.Birim;
 import com.sera.cevreselfaktor.model.SeraCevreselFaktor;
 
 @Repository("cevreselfaktordao")
@@ -12,6 +14,7 @@ public class CevreselFaktorDaoImpl implements CevreselFaktorDao {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
 
 	
 	@Override
@@ -23,8 +26,12 @@ public class CevreselFaktorDaoImpl implements CevreselFaktorDao {
 	
 	@Override
 	public void updateCevreselFaktor(SeraCevreselFaktor cevreselFaktor) {
-		
-		sessionFactory.getCurrentSession().update(cevreselFaktor);
+		SeraCevreselFaktor faktortemp=(SeraCevreselFaktor)sessionFactory.getCurrentSession().load(SeraCevreselFaktor.class, cevreselFaktor.getId());
+		faktortemp.setLastUpdateDate(cevreselFaktor.getLastUpdateDate());
+		faktortemp.setLastUpdatedBy(cevreselFaktor.getLastUpdatedBy());
+		faktortemp.setDeger(cevreselFaktor.getDeger());
+		faktortemp.setAciklama(cevreselFaktor.getAciklama());
+		sessionFactory.getCurrentSession().update(faktortemp);
 		
 	}
 

@@ -19,8 +19,9 @@ public class SeraCevreselFaktor  {
     private String aciklama;
     private Date createDate;
     private String createdBy;
+    private String lastUpdatedBy;
     private Long id; // pk
-    private Long deger;
+    private Double deger;
 
     // ---------------------------
     // Constructors
@@ -51,11 +52,11 @@ public class SeraCevreselFaktor  {
     // -- [deger] ------------------------
 
     @Column(name = "DEGER", precision = 19)
-    public Long getDeger() {
+    public Double getDeger() {
         return deger;
     }
 
-    public void setDeger(Long deger) {
+    public void setDeger(Double deger) {
         this.deger = deger;
     }
 
@@ -92,6 +93,16 @@ public class SeraCevreselFaktor  {
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
+    
+    
+    @Column(name = "LAST_UPDATED_BY", precision = 19)
+    public String getLastUpdatedBy() {
+		return lastUpdatedBy;
+	}
+
+	public void setLastUpdatedBy(String lastUpdatedBy) {
+		this.lastUpdatedBy = lastUpdatedBy;
+	}
 
 
     // -- [id] ------------------------
