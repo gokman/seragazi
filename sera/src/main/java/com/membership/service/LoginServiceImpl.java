@@ -91,7 +91,23 @@ public class LoginServiceImpl implements LoginService{
 		return loginDao.loadUserObject(username);
 	}
 
+	@Override
+	public boolean isUserExist(String username) {
+		// TODO Auto-generated method stub
+		return  loginDao.isUserExist(username);
+	}
 
+	@Override
+	public boolean isEmailExist(String email) {
+		// TODO Auto-generated method stub
+		return  loginDao.isEmailExist(email);
+	}
+
+	@Override
+	public List<User> listUsers(String type) {
+		// TODO Auto-generated method stub
+		return loginDao.listUsers(type);
+	}
 
 
 }

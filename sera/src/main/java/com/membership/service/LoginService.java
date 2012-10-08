@@ -15,6 +15,8 @@ public interface LoginService {
 		
 		public List<User> listUsers();
 		
+		public List<User> listUsers(String type);
+		
 		public List<User> getByUsername(String username);
 		
 		public User getWaitingMember(User user);
@@ -24,4 +26,8 @@ public interface LoginService {
 		public List<User> listActiveCustomers();
 		
 		public User loadUserObject(String username);
+		
+		public boolean isUserExist(String username);
+		
+		public boolean isEmailExist(String email);
 	}
