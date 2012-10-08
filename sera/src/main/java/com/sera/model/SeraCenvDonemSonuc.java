@@ -28,12 +28,12 @@ public class SeraCenvDonemSonuc  {
     private Date baslangicTarihi;
     private Date bitisTarihi;
     private Long baslikId;
-    private Long sonuc;
+    private double sonuc;
     private Long ilkSonuc;
-    private Long co2;
-    private Long ch4;
-    private Long n2o;
-    private Long tco2e;
+    private double co2;
+    private double ch4;
+    private double n2o;
+    private double tco2e;
     private Long id; // pk
 
    
@@ -101,11 +101,11 @@ public class SeraCenvDonemSonuc  {
     // -- [sonuc] ------------------------
 
     @Column(name = "SONUC", precision = 19)
-    public Long getSonuc() {
+    public double getSonuc() {
         return sonuc;
     }
 
-    public void setSonuc(Long sonuc) {
+    public void setSonuc(double sonuc) {
         this.sonuc = sonuc;
     }
 
@@ -123,44 +123,44 @@ public class SeraCenvDonemSonuc  {
     // -- [co2] ------------------------
 
     @Column(name = "CO2", precision = 19)
-    public Long getCo2() {
+    public double getCo2() {
         return co2;
     }
 
-    public void setCo2(Long co2) {
+    public void setCo2(double co2) {
         this.co2 = co2;
     }
 
     // -- [ch4] ------------------------
 
     @Column(name = "CH4", precision = 19)
-    public Long getCh4() {
+    public double getCh4() {
         return ch4;
     }
 
-    public void setCh4(Long ch4) {
+    public void setCh4(double ch4) {
         this.ch4 = ch4;
     }
 
     // -- [n2o] ------------------------
 
     @Column(name = "N2O", precision = 19)
-    public Long getN2o() {
+    public double getN2o() {
         return n2o;
     }
 
-    public void setN2o(Long n2o) {
+    public void setN2o(double n2o) {
         this.n2o = n2o;
     }
 
     // -- [tco2e] ------------------------
 
     @Column(name = "TCO2E", precision = 19)
-    public Long getTco2e() {
+    public double getTco2e() {
         return tco2e;
     }
 
-    public void setTco2e(Long tco2e) {
+    public void setTco2e(double tco2e) {
         this.tco2e = tco2e;
     }
 

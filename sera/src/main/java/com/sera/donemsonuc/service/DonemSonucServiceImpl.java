@@ -79,7 +79,7 @@ public class DonemSonucServiceImpl implements DonemSonucService{
 		List<SeraCenvDonemSonuc> listeDonemSonuc;
 		List<SeraCenvDegerListe> dalveKokler;
 	    SeraCenvDonemSonuc donemsonuctemp;
-		long sonuc;
+		Double sonuc;
 		/*
 		 * 1 en alt dallar içinde dön
 		 * 2 her dalın hesaplama tablosunda karşılığını bul
@@ -96,7 +96,7 @@ public class DonemSonucServiceImpl implements DonemSonucService{
 		 */
 		for(int i=0;i<enAltDallar.size();i++){
 			//elimizdeki en alt dala ait tüm hesaplama listesi mevcut
-			Long hesapsonuc=(long) 0,toplamhesapsonuc=(long) 0;
+			double hesapsonuc=0,toplamhesapsonuc=0;
 			List<SeraCenvHesaplama> hesaplamalar=hesaplamadao.listHesaplama(enAltDallar.get(i).getId());
 			//hesaplamalar tablosundan sıra ile çek
 			for(int j=0;j<hesaplamalar.size();j++){
@@ -169,10 +169,12 @@ public class DonemSonucServiceImpl implements DonemSonucService{
 	*bu yöntem hesaplama tablosundaki hesaplama alanındaki id leri değerleri ile değiştirip
 	*sonuç döndürecek
 	*/
-	public Long HesapCozumle(String hesap,String donem) throws ScriptException{
+	public double HesapCozumle(String hesap,String donem) throws ScriptException{
 		int basnerede=0,sonnerede=0;
 		String mevcuteleman,yenieleman;
-		long deger,eldekiid,eldekideger;
+		long eldekiid;
+		Double eldekideger,deger;
+		
 		//önce tüm çevresel faktörleri al
 		while (hesap.indexOf("f")!=-1){
 	    	//faktörü bulduk yani elemanın ilk adresini
@@ -217,7 +219,10 @@ public class DonemSonucServiceImpl implements DonemSonucService{
 		ScriptEngineManager mgr=new ScriptEngineManager();
 		ScriptEngine engine=mgr.getEngineByName("JavaScript");
 		
-		return Long.parseLong(String.valueOf(engine.eval(hesap)));
+		
+		return Double.parseDouble(engine.eval(hesap).toString());
+		
+		//return Long.parseLong(String.valueOf(engine.eval(hesap)));
 	}
 
 	@Override
@@ -261,6 +266,12 @@ public class DonemSonucServiceImpl implements DonemSonucService{
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false)
 	public void updateDonemSonuc(SeraCenvDonemSonuc donemsonuc) {
 		donemsonucdao.updateDonemSonuc(donemsonuc);
+		
+	}
+
+	@Override
+	public void deleteDonemSonuc(String donem) {
+		donemsonucdao.deleteDonemSonuc(donem);
 		
 	}
 }

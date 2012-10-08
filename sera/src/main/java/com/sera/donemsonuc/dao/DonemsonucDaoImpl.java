@@ -107,5 +107,32 @@ public class DonemsonucDaoImpl implements DonemSonucDao {
 	}
 
 
+	@Override
+	public void deleteDonemSonuc(String donem) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		Transaction transaction = null;
+		try {
+		transaction = session.beginTransaction();
+		List<SeraCenvDonemSonuc> donemSonucList=
+			session.createCriteria(SeraCenvDonemSonuc.class).add(Restrictions.eq("donem", donem)).list();
+		
+		for(int i=0;i<donemSonucList.size();i++){
+			session.delete(donemSonucList.get(i));
+		}
+		
+		session.flush();
+		transaction.commit();
+		
+		} catch (HibernateException e) {
+		transaction.rollback();
+		e.printStackTrace();
+		} finally {
+			
+		}
+		
+	}
+
+
 
 }

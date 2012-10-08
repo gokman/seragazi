@@ -17,5 +17,7 @@ public interface DonemSonucService {
 	//en alt dallara ait hesaplama kayıtları tam mı onu denetleyeceğiz.
 	public boolean HesaplamaKayitKontrol();
 	public void updateDonemSonuc(SeraCenvDonemSonuc donemsonuc);
+	
+	public void deleteDonemSonuc(String donem);
 
 	}

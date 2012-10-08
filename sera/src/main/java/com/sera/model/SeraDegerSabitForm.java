@@ -10,7 +10,7 @@ public class SeraDegerSabitForm {
     private String tip2;
     private Long seviye;
     private String birim; 
-    private Long sabit;
+    private Double sabit;
     private Long sabitId;
     
     
@@ -64,10 +64,10 @@ public class SeraDegerSabitForm {
 	}
 	
 	
-	public Long getsabit() {
+	public Double getsabit() {
 		return sabit;
 	}
-	public void setsabit(Long sabit) {
+	public void setsabit(Double sabit) {
 		this.sabit = sabit;
 	}
 }

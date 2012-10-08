@@ -57,7 +57,7 @@ import com.util.login.check.LoginCheck;
 			
 					//kayıt işlemi başlacak
 					donemservice.fillDonemSonuc(donem.getDonem());
-					ModelAndView returnView = new ModelAndView("donemsonuc/donemsonucgiris");
+					ModelAndView returnView = new ModelAndView("redirect:/donemsonuc/donemsonucgir.htm");
 					loginInfo.getUserInfo(returnView);
 					return returnView;
 				
@@ -77,8 +77,18 @@ import com.util.login.check.LoginCheck;
 					@RequestParam(value="donem", required=true) String donem) {
 				boolean a=donemservice.isControlGirisFull(donem);
 				return a;		
-				
-		 
+			
+			}
+			
+			@RequestMapping(value = "/donemsonucsil.htm")
+			public @ResponseBody boolean deleteDonem(@ModelAttribute("donemsonuc") Donem donemsonuc) {
+				try{
+				donemservice.deleteDonemSonuc(donemsonuc.getDonem());
+				}catch(Exception e){
+					return false;
+				}
+				return true;
+		           
 			}
 			
 			@RequestMapping(value = "/donemSonucKayitKontrol.htm", method = RequestMethod.POST)

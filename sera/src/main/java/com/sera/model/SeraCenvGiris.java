@@ -25,7 +25,7 @@ public class SeraCenvGiris  {
     // Raw attributes
     private String tarih;
     private String baslik;
-    private Long deger;
+    private double deger;
     private Date creationDate;
     private String createdBy;
     private Long baslikId;
@@ -72,11 +72,11 @@ public class SeraCenvGiris  {
     // -- [deger] ------------------------
 
     @Column(name = "DEGER", precision = 19)
-    public Long getDeger() {
+    public double getDeger() {
         return deger;
     }
 
-    public void setDeger(Long deger) {
+    public void setDeger(double deger) {
         this.deger = deger;
     }
 
