@@ -3,6 +3,7 @@ package com.membership.dao;
 import java.util.List;
 
 
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,8 +12,8 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
-
 import com.membership.model.User;
 import com.util.constant.ApplicationConstants;
 
@@ -64,6 +65,11 @@ public class LoginDaoImpl implements LoginDao {
 	public List<User> listUsers(String type) {
 		return (List<User>) sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("membershipStatus", type)).list();
 
+	}
+	
+	@Override
+	public User getLoggedInUser(){
+		return listByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get(0);
 	}
 
 	@Override
