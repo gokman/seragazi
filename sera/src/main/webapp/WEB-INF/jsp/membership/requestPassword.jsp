@@ -45,7 +45,7 @@
                 </tr>
                 <tr>
                 <td class="formyazi" align="right">Email</td>
-				<td>
+				<td class="inputyazi">
 				<input  name="email"  class="required email" title="Email" maxlength="50"  onblur="recordClientCity.value = this.value" />
                 </td>
                 </tr>

@@ -12,21 +12,27 @@
 	<style name="Row" mode="Transparent" fontName="DejaVu Sans" pdfFontName="Helvetica">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
-			<style mode="Opaque" backcolor="#F0EFEF"/>
+			<style mode="Opaque" backcolor="#F0EFEF"/> 
 		</conditionalStyle>
 	</style>
 	<subDataset name="PieChartDataset" uuid="ac1283cd-e8ee-40c1-864c-f43c4c963317"/>
 	<queryString>
-		<![CDATA[]]>  
+		<![CDATA[]]>
 	</queryString>
+	<field name="donem" class="java.lang.String">
+		<fieldDescription><![CDATA[donem]]></fieldDescription>
+	</field>
+	<field name="deger" class="java.lang.String">
+		<fieldDescription><![CDATA[deger]]></fieldDescription>
+	</field>
 	<field name="baslik" class="java.lang.String">
 		<fieldDescription><![CDATA[baslik]]></fieldDescription>
 	</field>
-	<field name="sabit" class="java.lang.Double">
-		<fieldDescription><![CDATA[sabit]]></fieldDescription>
+	<field name="parentBaslik" class="java.lang.String">
+		<fieldDescription><![CDATA[parentBaslik]]></fieldDescription>
 	</field>
-	<field name="createDate" class="java.util.Date">
-		<fieldDescription><![CDATA[createDate]]></fieldDescription>
+	<field name="sonuc" class="java.lang.Double">
+		<fieldDescription><![CDATA[sonuc]]></fieldDescription>
 	</field>
 	<background>
 		<band height="100" splitType="Stretch"/>
@@ -36,9 +42,9 @@
 			<frame>
 				<reportElement uuid="d7d04e33-326a-41a8-9b8d-015005cf6b7e" mode="Opaque" x="0" y="0" width="780" height="65" forecolor="#006699" backcolor="#006699"/>
 				<staticText>
-					<reportElement uuid="670e802c-f691-4bdd-82b0-03875fc98a5f" style="Title" positionType="Float" x="190" y="0" width="360" height="65"/>
+					<reportElement uuid="670e802c-f691-4bdd-82b0-03875fc98a5f" style="Title" positionType="Float" x="110" y="0" width="510" height="65"/>
 					<textElement textAlignment="Justified"/>
-					<text><![CDATA[Sabitler Raporu]]></text>
+					<text><![CDATA[Dönem Sonuç Raporu]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -51,25 +57,39 @@
 			<frame>
 				<reportElement uuid="59a68440-f1a2-45b9-986f-30e89204c213" x="0" y="0" width="790" height="14"/>
 				<staticText>
-					<reportElement uuid="cc943260-c3ed-47ff-96fa-948eb3c26789" style="Column header" positionType="Float" x="430" y="0" width="200" height="14" forecolor="#000000"/>
+					<reportElement uuid="e30dddf9-f1b6-41cf-80b2-f424af413ace" style="Column header" positionType="Float" x="0" y="0" width="110" height="14" forecolor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica"/>
 					</textElement>
-					<text><![CDATA[Oluşturma Tarihi]]></text>
+					<text><![CDATA[Dönem]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="e30dddf9-f1b6-41cf-80b2-f424af413ace" style="Column header" positionType="Float" x="260" y="0" width="170" height="14" forecolor="#000000"/>
+					<reportElement uuid="bf1de96a-28d2-432b-ab38-6c6028309aa2" style="Column header" positionType="Float" x="110" y="0" width="120" height="14" forecolor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica"/>
 					</textElement>
-					<text><![CDATA[Sabit]]></text>
+					<text><![CDATA[Değer]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="bf1de96a-28d2-432b-ab38-6c6028309aa2" style="Column header" positionType="Float" x="0" y="0" width="260" height="14" forecolor="#000000"/>
+					<reportElement uuid="bf1de96a-28d2-432b-ab38-6c6028309aa2" style="Column header" positionType="Float" x="230" y="0" width="200" height="14" forecolor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica"/>
 					</textElement>
 					<text><![CDATA[Başlık]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="bf1de96a-28d2-432b-ab38-6c6028309aa2" style="Column header" positionType="Float" x="430" y="0" width="210" height="14" forecolor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Bağlı Olduğu Bölüm]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="bf1de96a-28d2-432b-ab38-6c6028309aa2" style="Column header" positionType="Float" x="640" y="0" width="140" height="14" forecolor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="DejaVu Sans" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Sonuç]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -77,27 +97,41 @@
 	<detail>
 		<band height="35" splitType="Stretch">
 			<frame>
-				<reportElement uuid="9bb99d9b-1f47-4efe-bbc6-de8b52b3e5e7" x="0" y="0" width="710" height="14"/>
+				<reportElement uuid="9bb99d9b-1f47-4efe-bbc6-de8b52b3e5e7" x="0" y="0" width="775" height="14"/>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-					<reportElement uuid="83c3a4c2-9b7e-47f9-8a25-0dc8dce6b69f" style="Detail" positionType="Float" x="0" y="0" width="260" height="14"/>
+					<reportElement uuid="83c3a4c2-9b7e-47f9-8a25-0dc8dce6b69f" style="Detail" positionType="Float" x="0" y="0" width="110" height="14"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{donem}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement uuid="83c3a4c2-9b7e-47f9-8a25-0dc8dce6b69f" style="Detail" positionType="Float" x="110" y="0" width="120" height="14"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{deger}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement uuid="83c3a4c2-9b7e-47f9-8a25-0dc8dce6b69f" style="Detail" positionType="Float" x="230" y="0" width="200" height="14"/>
 					<textElement textAlignment="Center">
 						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{baslik}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-					<reportElement uuid="83c3a4c2-9b7e-47f9-8a25-0dc8dce6b69f" style="Detail" positionType="Float" x="260" y="0" width="170" height="14"/>
+					<reportElement uuid="83c3a4c2-9b7e-47f9-8a25-0dc8dce6b69f" style="Detail" positionType="Float" x="430" y="0" width="210" height="14"/>
 					<textElement textAlignment="Center">
 						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{sabit}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{parentBaslik}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-					<reportElement uuid="83c3a4c2-9b7e-47f9-8a25-0dc8dce6b69f" style="Detail" positionType="Float" x="430" y="0" width="200" height="14"/>
+					<reportElement uuid="83c3a4c2-9b7e-47f9-8a25-0dc8dce6b69f" style="Detail" positionType="Float" x="640" y="0" width="135" height="14"/>
 					<textElement textAlignment="Center">
 						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{createDate}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{sonuc}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

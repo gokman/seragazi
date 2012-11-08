@@ -49,7 +49,7 @@ function emailUniqueFunc(email){
 		
 		},
 		error: function(e){
-		alert('Error giriş: ' + e);
+		$.Zebra_Dialog('Error giriş: ' + e);
 		} 
 	});
 	//bitir
@@ -80,7 +80,7 @@ $(document).ready(function(){
 			
 			},
 			error: function(e){
-			alert('Error giriş: ' + e);
+			$.Zebra_Dialog('Error giriş: ' + e);
 			} 
 		});
 		//bitir	
@@ -138,42 +138,42 @@ $(document).ready(function(){
 				
 				<tr>
 				<td class="formyazi" align="right">İsim:</td>
-				<td>
+				<td class="inputyazi">
 				<form:input   path="name" name="name" class="required"  maxlength="50" />
 				</td>
 				</tr>
 				
 				<tr>
 				<td class="formyazi" align="right">Soy İsim:</td>
-				<td>
+				<td class="inputyazi">
 				<form:input path="surname" name="surname" class="required"  maxlength="50" />
 				</td>
 				</tr>
 				
 				<tr>
 				<td class="formyazi" align="right">Kullanıcı Adı:</td>
-				<td>
+				<td class="inputyazi">
 				<form:input id="username"  path="username" name="username" class="required usernamerepeat"  maxlength="50" />
 				</td>
 				</tr>
 				
 				<tr>
 				<td class="formyazi" align="right">Şifre:</td>
-				<td>
+				<td class="inputyazi">
 				<form:input type="password"  path="password" name="pass" id="pass"  class="required"  maxlength="50" />
 				</td>
 				</tr>
 				
 				<tr>
 				<td class="formyazi" align="right">Şifre Tekrar:</td>
-				<td>
+				<td class="inputyazi">
 				<input type="password"  name="pass2"  class="required" id="pass2"  maxlength="50" />
 				</td>
 				</tr>
 				
 				<tr>
 				<td class="formyazi" align="right">Email:</td>
-				<td>
+				<td class="inputyazi">
 				<form:input  path="email" name="email" class="required email emailrepeat"  maxlength="50" />
 				</td>
 				</tr>
