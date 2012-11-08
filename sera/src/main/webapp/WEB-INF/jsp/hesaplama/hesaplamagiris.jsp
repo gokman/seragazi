@@ -122,8 +122,8 @@ $(document).ready(function(){
 			
 		}
 		
-			 alert("kaydedilen işlem="+islem);
-			 //alert("kullanıcının göreceği işlem="+gorunenislem);
+			 $.Zebra_Dialog("kaydedilen işlem="+islem);
+			 //$.Zebra_Dialog("kullanıcının göreceği işlem="+gorunenislem);
 		
 	}
 		function pencere(aydi) {
@@ -155,7 +155,7 @@ $(document).ready(function(){
 				             
 			        },
 			        error: function(e){
-			        alert('Error: ' + e);
+			        $.Zebra_Dialog('Error: ' + e);
 		            } 
 			        });
 	        	
@@ -193,7 +193,7 @@ $(document).ready(function(){
 		         
 		        },
 		        error: function(e){
-		        alert('Error: ' + e);
+		        $.Zebra_Dialog('Error: ' + e);
 	            } 
 		        });
 	        }
@@ -255,7 +255,7 @@ $(document).ready(function(){
 		             
 	        },
 	        error: function(e){
-	        alert('Error: ' + e);
+	        $.Zebra_Dialog('Error: ' + e);
             } 
 	        });
         }
@@ -275,7 +275,7 @@ $(document).ready(function(){
 			        	
 			        },
 			        error: function(e){
-			        alert('Error: ' + e);
+			        $.Zebra_Dialog('Error: ' + e);
 		            }
 			        });
 	        	
@@ -387,7 +387,7 @@ $(document).ready(function(){
 				             
 			        },
 			        error: function(e){
-			        alert('Error: ' + e);
+			        $.Zebra_Dialog('Error: ' + e);
 		            } 
 			        });
 	        	
@@ -433,7 +433,7 @@ $(document).ready(function(){
 				             
 			        },
 			        error: function(e){
-			        alert('Error: ' + e);
+			        $.Zebra_Dialog('Error: ' + e);
 		            } 
 			        });
 	        	
@@ -621,9 +621,9 @@ $(document).ready(function(){
 					<fieldset>
 						<label for="gaz">Gaz </label>
 						<select name="gaz" id="gazlistid">
-						  <option value="CO2">CO2</option>
-						  <option value="CH4">CH4</option>
-						  <option value="N2O">N2O</option>
+							<c:forEach items="${gazlar}" var="gazim">
+							<option value="${gazim.name}">${gazim.name}</option>
+							</c:forEach>  
 						</select>
 						<label for="kutu" id="kutulabelid">Elemanlar</label>
 						<div id="kutuelemanlardivid"><</div>

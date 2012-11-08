@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-9" />
 <title>Dönem Değerlerini Hesapla</title>
+
 <link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />
@@ -56,7 +57,8 @@ function donemSonucSil(){
 	//öncelikle tarihi kontrol et
 	 if(!validateDate("txtDate"))
 		        		      {
-		        		          alert('Geçersiz Tarih!!!');
+		                          $.Zebra_Dialog('Geçersiz Tarih!');        
+		        		         // $.Zebra_Dialog('Geçersiz Tarih!!!');
 		        		          return;
 		        		          
 		        		      }
@@ -75,7 +77,7 @@ success: function(response){
 globalKontrol=response;  
 if(globalKontrol==false){
 
-alert('Bu döneme ait sonuç kayıtları bulunmamaktadır.');
+$.Zebra_Dialog('Bu döneme ait sonuç kayıtları bulunmamaktadır.');
 
 }
 //kayıtlar var ise sil
@@ -85,7 +87,7 @@ else{
 
 },
 error: function(e){
-alert('Error dönemsonuç: ' + e);
+$.Zebra_Dialog('Error dönemsonuç: ' + e);
 } 
 });
 //bitir
@@ -104,11 +106,11 @@ async: false,
 success: function(response){
 //we have the response
   
-alert('Silindi'+response);
+$.Zebra_Dialog('Silindi'+response);
 
 },
 error: function(e){
-alert('Error dönemsonuç: ' + e);
+$.Zebra_Dialog('Error dönemsonuç: ' + e);
 } 
 });
 //bitir
@@ -121,7 +123,8 @@ alert('Error dönemsonuç: ' + e);
 		        		   function() {
 		        		      if(!validateDate("txtDate"))
 		        		      {
-		        		          alert('Geçersiz Tarih!!!');
+		        		    	  $.Zebra_Dialog('Geçersiz Tarih!!!');
+		        		          //$.Zebra_Dialog('Geçersiz Tarih!!!');
 		        		          
 		        		      }
 		        		   }
@@ -159,7 +162,7 @@ alert('Error dönemsonuç: ' + e);
 	        
 	        
 	        if(globalKontrol==false){
-    			alert('Bu döneme ait değer girişleri eksik');	
+    			$.Zebra_Dialog('Bu döneme ait değer girişleri eksik');	
     			kontrol=0;
     		}
 	        
@@ -175,7 +178,7 @@ alert('Error dönemsonuç: ' + e);
 	               
 	        },
 	        error: function(e){
-	        alert('Error giriş: ' + e);
+	        $.Zebra_Dialog('Error giriş: ' + e);
             } 
 	        });
 	        //bitir
@@ -195,7 +198,7 @@ alert('Error dönemsonuç: ' + e);
 	        
 	        
 	        if(globalKontrol==false){
-    			alert('Hesaplama Tablo Kayıtları Eksik');	
+    			$.Zebra_Dialog('Hesaplama Tablo Kayıtları Eksik');	
     			kontrol2=0;
     		}else{
     			kontrol2=1;
@@ -204,7 +207,7 @@ alert('Error dönemsonuç: ' + e);
 	              
 	        },
 	        error: function(e){
-	        alert('Error hesaplama: ' + e);
+	        $.Zebra_Dialog('Error hesaplama: ' + e);
             } 
 	        });
 	        
@@ -226,7 +229,7 @@ alert('Error dönemsonuç: ' + e);
 	        globalKontrol=response;  
 	        if(globalKontrol==true){
 	        	
-	           alert('Bu döneme ait sonuç kayıtları bulunmaktadır. Devam edemezsiniz.');
+	           $.Zebra_Dialog('Bu döneme ait sonuç kayıtları bulunmaktadır. Devam edemezsiniz.');
 	           
 	        }
 	        
@@ -238,7 +241,7 @@ alert('Error dönemsonuç: ' + e);
 	               
 	        },
 	        error: function(e){
-	        alert('Error dönemsonuç: ' + e);
+	        $.Zebra_Dialog('Error dönemsonuç: ' + e);
             } 
 	        });
 	        //bitir
@@ -277,7 +280,7 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: top; 
 	<table>
 	<tr>
 	<td><a>Dönem (Örn:2012-01): </a></td>
-	<td><form:input id="txtDate" class="required" path="donem" minlength="7" maxlength="7" size="20px"/>
+	<td class="inputyazi"><form:input id="txtDate" class="required" path="donem" minlength="7" maxlength="7" size="20px"/>
 	<form:errors path="donem"></form:errors>
 	</td>
 	</tr>
