@@ -8,34 +8,42 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
 </head>
 <body>
-<div class="kullanici_giris">
+<div class="kullanici_giris" style="background-image:url(<c:url value="/resources/image/ana_sayfa/ust_resim.jpg"/>);">
 									<c:choose>
 											<c:when test="${isAuthenticated=='true' }">
-											<table class="merhabakutu">
-											<tr><td>
-												<a id="merhaba">Merhaba</a>
-											</td></tr>
+											<table align="right"  style="padding-right:10px;padding-top: 120px;" class="merhabakutu" >
 											<tr><td>
 												<a id="username"><c:out value="${username}"></c:out></a>
-										    </td></tr>
-										    <tr><td>
+										    </td><td>
 												<a id="logout" href="<c:url value="/j_spring_security_logout"/>" value="Logout">Çıkış</a>
 											</td></tr>
 											</table>
 											</c:when>
 											<c:otherwise>
-											
-												<form class="formkullanicigiris" method="post" action="j_spring_security_check"><br />
-												<a>Kullanıcı adı</a> <br />
-												<input id="textfield" type="text" name="j_username" /><br />
-												<a>Şifre</a> <br />
-												<input id="textfield" name="j_password" type="password"/><br />
+											<form  class="formkullanicigiris" method="post" action="j_spring_security_check">
+											<table align="right" style="padding-right:10px;">
+												<tr><td>
+												<a>Kullanıcı adı</a>
+												</td><td> 
+												<input id="textfield" type="text" name="j_username" />
+												</td></tr>
+												<tr><td>
+												<a>Şifre</a> 
+												</td><td>
+												<input id="textfield" name="j_password" type="password"/>
+												</td></tr>
+												<tr><td></td><td>
 												<input id="button" type="submit"  value="Giriş" />
-												<br />
-												<a href="<c:url value="/login/requestPassword.htm"/>">Şifremi Unuttum</a><br/> 
+												</td></tr>
+												<tr><td></td><td>
+												<a href="<c:url value="/login/requestPassword.htm"/>">Şifremi Unuttum</a>
+												</td></tr>
+												<tr><td></td><td>
 												<a href="<c:url value="/login/membershipForm.htm"/>">Üye Ol</a>
-												</form>
-											
+												</td></tr>
+												
+											</table>
+											</form>
 											</c:otherwise>
 									</c:choose>		 
 								</div>
