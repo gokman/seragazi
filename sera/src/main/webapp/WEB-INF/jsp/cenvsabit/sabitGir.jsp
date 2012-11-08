@@ -65,7 +65,7 @@
 	               
 	        },
 	        error: function(e){
-	        alert('Error: ' + e);
+	        $.Zebra_Dialog('Error: ' + e);
             } 
 	        });
 	        }

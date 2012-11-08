@@ -7,16 +7,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Değer Giriş Ekranı</title>
-<link rel="stylesheet" href="<c:url value="/resources/css/form/general.css"/>"></link>
-<link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="<c:url value="/resources/css/form/general.css"/>"></link> 
+<link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css" />  
 <link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/form.css"/>" type="text/css" />
+<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/form.css"/>" type="text/css" />  
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/yapi/agac.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
+
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
+
+<script type="text/javascript" src="<c:url value="/resources/js/zebra/zebra_dialog.js"/>"></script>
+<link rel="stylesheet" href="<c:url value="/resources/css/zebra/zebra_dialog.css"/>" type="text/css" />
 
 <script>
   $(document).ready(function(){
@@ -26,6 +30,21 @@
 <script type="text/javascript">
        var globalid;
        var dateKontrol;
+       function girisKaydet(){
+    	   $.ajax({ 
+   	        type: "POST",
+   	        url: $("#formgiris").attr('action'),
+   	        data:$("#formgiris").serialize(),
+   	        cache: false,
+   	        async: false,
+   	        error: function(e){
+   	        $.Zebra_Dialog('Error: ' + e);
+               } 
+   	        });
+    	   $.Zebra_Dialog('Kaydedildi');
+    	   return true;
+    	   
+        }
 	        function doAjaxPost(aydi,seviye,tip,tip2) {
 	        	
 	        if (dateKontrol==1){	
@@ -37,7 +56,7 @@
 	           var tipp2=tip2;
 	          // var tirnak="'";
 	        
-	        $.ajax({
+	        $.ajax({ 
 	        type: "POST",
 	        url: "/sera/cenvsabit/sabitGir/dalgetir.htm",
 	        data: "id=" + globalid ,
@@ -85,18 +104,18 @@
 		        
 		    if(tipp=="Yaprak" && tipp2=="Elle"){
 	        	$("#kok").append('<div align="center" class="yaprakdiv" id="yaprakid"></div>');
-	        	$("#yaprakid").append('<br/><form:form style="margin-left:-70px;"  cssClass="formstil" name="formgiris" id="formgiris" action="/sera/cenvgiris/giriskaydet.htm" method="POST"  modelAttribute="cenvgiris" enctype="multipart/form-data">'+
+	        	$("#yaprakid").append('<br/><form:form style="margin-left:-70px;" onsubmit="girisKaydet();return false;" cssClass="formstil" name="formgiris" id="formgiris" action="/sera/cenvgiris/giriskaydet.htm" method="POST"  modelAttribute="cenvgiris" enctype="multipart/form-data">'+
 	        	'<form:hidden path="baslikId" size="40" value="'+
 	        	aydi+
 	        	'"/><br/>'+
 	        	'<form:hidden id="girisid" path="id" size="40" value="3" />'+
 	        	'<table>'+
 	        	'<tr><td class="formyazi" align="right">Dönem:</td>'+
-	        	'<td><form:input id="txtDate" readonly="true" path="tarih" size="20" class="required" minlength="7" maxlength="7"/>(Örn:2012-01)</td>'+
+	        	'<td class="inputyazi"><form:input id="txtDate" readonly="true" path="tarih" size="20" class="required" minlength="7" maxlength="7"/>(Örn:2012-01)</td>'+
 	        	'</tr>'+
 	        	'<tr>'+
     	        '<td class="formyazi" align="right">Değer:</td>'+
-	        	'<td><form:input id="deger" class="required"  path="deger" size="20"/></td>'+
+	        	'<td class="inputyazi"><form:input id="deger" class="required"  path="deger" size="20"/></td>'+
 	        	'</tr>'+
 	        	'<tr><td></td>'+
     			'<td class="submit"><input type="submit" class="submit" id="idsubmit" value="Kaydet"></input></td>'+
@@ -114,7 +133,7 @@
 	               
 	        },
 	        error: function(e){
-	        alert('Error: ' + e);
+	        $.Zebra_Dialog('Error: ' + e);
             } 
 	        }); 
 	        }
@@ -125,7 +144,7 @@
 		        		   function() {
 		        		      if(!validateDate("ustDonem"))
 		        		      { 
-		        		          alert('Geçersiz Tarih!!!');
+		        		          $.Zebra_Dialog('Geçersiz Tarih!!!');
 		        		          dateKontrol=-1;
 		        		      }else{
 		        		    	  dateKontrol=1;
@@ -177,7 +196,7 @@
 			    //bitir     
 		        },
 		        error: function(e){
-		        alert('Error: ' + e);
+		        $.Zebra_Dialog('Error: ' + e);
 	            } 
 		        });
 		        }
