@@ -48,26 +48,17 @@ background: #d94e09;
 }
 
 .kullanici_giris{
-width:auto;
+width:980px;
 background-color:#FFFFFF;
 padding-left:20px;
-padding-bottom:10px;
-padding-top:10px;
+padding-bottom:5px;
+padding-top:5px;
 color:#666666;
-border-width:2px;
-border-style:ridge;
-border-color:#0099FF;
+float: right;
+height:150px;
 }
 
 table.merhabakutu a#username{
-
-font-family: Verdana;
-color: #0099ff;
-font-size: 15px;
-	
-}
-
-table.merhabakutu a#merhaba{
 
 font-family: Verdana;
 color: #330000;
@@ -77,9 +68,11 @@ vertical-align: middle;
 	
 }
 
+
+
 #logout{
 
-	padding-left: 130px;
+	padding-left: 100px;
 	text-decoration: none;
 	font-family: Verdana;
 	font-size: 13px;
