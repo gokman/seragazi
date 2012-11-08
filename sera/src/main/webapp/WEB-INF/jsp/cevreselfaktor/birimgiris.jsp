@@ -70,7 +70,7 @@
 	               
 	        },
 	        error: function(e){
-	        alert('Error: ' + e);
+	        $.Zebra_Dialog('Error: ' + e);
         } 
 	        });
 	  
@@ -95,7 +95,7 @@
 	         <form:hidden path="id" value="${birimim.id}"/>  
 	        	<table>
 	        	<tr><td class="formyazi" align="right">Değer:</td>
-	        	<td><form:input  id="deger" value="${birimim.deger}" path="deger" size="30" class="required"/></td>
+	        	<td class="inputyazi"><form:input  id="deger" value="${birimim.deger}" path="deger" size="30" class="required"/></td>
 	        	</tr>
 	        	<tr><td></td>
     			<td class="submit"><input type="submit" class="submit" id="idsubmit" value="Kaydet"></input></td>
