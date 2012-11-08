@@ -3,13 +3,19 @@ package com.sera.donemsonuc.dao;
 import java.util.List;
 
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,6 +25,9 @@ import com.membership.model.User;
 import com.sera.model.SeraCenvDegerListe;
 import com.sera.model.SeraCenvDonemSonuc;
 import com.sera.model.SeraCenvGiris;
+import com.sera.util.DonemSonucRaporParams;
+import com.sera.util.DonemSonucRep;
+import com.sera.util.SeraCenvSabitlerRep;
 import com.util.constant.ApplicationConstants;
 
 @Repository("donemsonucDao")
@@ -131,6 +140,40 @@ public class DonemsonucDaoImpl implements DonemSonucDao {
 			
 		}
 		
+	}
+	
+	@Override
+	public JRDataSource getDonemSonucRep(DonemSonucRaporParams params) {
+		List<DonemSonucRep> donemsonuclist;
+		
+		if (params.getDonembasla().equals("")){
+			params.setDonembasla(null);
+		}
+		if (params.getDonembitis().equals("")){
+			params.setDonembitis(null);
+		}
+		
+		Query query=sessionFactory.getCurrentSession().createSQLQuery(
+				"select a.deger as deger,a.donem as donem,b.baslik as baslik,c.baslik as parentBaslik,a.sonuc as sonuc " +
+				"from sera.sera_cenv_donem_sonuc a,sera.sera_cenv_deger_liste b left outer join "+
+				"sera.sera_cenv_deger_liste c on "+
+				"b.parent_id=c.id "+
+				"where a.baslik_id=b.id and b.baslik like '%"+params.getBaslik()+"%' "+
+				"and a.donem >= IFNULL('"+params.getDonembasla()+"','2000-01') "+
+				"and a.donem <= IFNULL('"+params.getDonembitis()+"','2040-01')")
+				.addScalar("deger",Hibernate.STRING)
+				.addScalar("donem",Hibernate.STRING)
+				.addScalar("baslik",Hibernate.STRING)
+				.addScalar("parentBaslik",Hibernate.STRING)
+				.addScalar("sonuc",Hibernate.DOUBLE)
+				;
+		
+		
+		
+	
+		donemsonuclist=(List<DonemSonucRep>)query.setResultTransformer( Transformers.aliasToBean(DonemSonucRep.class)).list();
+
+		return new JRBeanCollectionDataSource(donemsonuclist);
 	}
 
 

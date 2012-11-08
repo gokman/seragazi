@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.membership.service.LoginService;
 import com.sera.birim.model.Birim;
 import com.sera.birim.service.BirimService;
 import com.util.login.check.LoginCheck;
@@ -27,6 +29,9 @@ public class BirimController {
 	
 	@Autowired
 	private BirimService birimservice;
+	
+	@Autowired
+	private LoginService loginservice;
 	
 	private LoginCheck loginInfo = new LoginCheck();
 	
@@ -48,8 +53,8 @@ public class BirimController {
 		  
 		ModelAndView model=new ModelAndView("redirect:/birim/birimgiris.htm");
 		User user= getLoggedInUser();
-		birim.setCreatedBy(user.getUsername());
-		birim.setLastUpdatedBy(user.getUsername());
+		birim.setCreatedBy(loginservice.getLoggedInUser().getUserId());
+		birim.setLastUpdatedBy(loginservice.getLoggedInUser().getUserId());
 		SimpleDateFormat format=new SimpleDateFormat("dd-MM-yyyy hh:MM");
 		birim.setCreateDate(format.getCalendar().getInstance().getTime());
 		birim.setLastUpdateDate(format.getCalendar().getInstance().getTime());
@@ -93,7 +98,7 @@ public class BirimController {
 		ModelAndView model=new ModelAndView("/birim/birimgiris");
 		SimpleDateFormat format=new SimpleDateFormat("dd-MM-yyyy hh:MM");
 		birim.setLastUpdateDate(format.getCalendar().getInstance().getTime());
-		birim.setLastUpdatedBy(user.getUsername());
+		birim.setLastUpdatedBy(loginservice.getLoggedInUser().getUserId());
 		birimservice.updateBirim(birim);
 		if(birimservice.listBirim().size()>0){
 			  model.addObject("birimler",birimservice.listBirim());

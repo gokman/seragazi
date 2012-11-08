@@ -19,6 +19,9 @@ public interface CenvDegerListeService {
      public List<SeraCenvDegerListe> listChildren(long id);
      public List<SeraCenvDegerListe> listDalKokCenv();
      public List<SeraCenvDegerListe> listEnAltDal();
+     public List<SeraCenvDegerListe> listAncestors(long id);
+     public List<SeraCenvDegerListe> listDescendants(long id);
+     public List<SeraCenvDegerListe> listTumYapi(); 
      
      public void updateCenvDeger(SeraCenvDegerListe cenvdeger);
      public void updateCenvSabit(SeraCenvSabitler cenvsabit);
@@ -34,7 +37,6 @@ public interface CenvDegerListeService {
      public void deleteAllDescendant(Long id);
      
 	 public JRDataSource getCenvDegerListeReport();
-	 public JRDataSource listCenvDegerListe();
      
      
 }

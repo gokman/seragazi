@@ -18,8 +18,8 @@ public class Birim  {
     private Date lastUpdateDate;
     private Date createDate;
     private String deger;
-    private String createdBy;
-    private String lastUpdatedBy;
+    private Long createdBy;
+    private Long lastUpdatedBy;
     private Long id; // pk
 
     // ---------------------------
@@ -76,22 +76,22 @@ public class Birim  {
     // -- [createdBy] ------------------------
 
     @Column(name = "CREATED_BY", precision = 19)
-    public String getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
     
  // -- [lastUpdatedBy] ------------------------
 
     @Column(name = "LAST_UPDATED_BY", precision = 19)
-    public String getLastUpdatedBy() {
+    public Long getLastUpdatedBy() {
         return lastUpdatedBy;
     }
 
-    public void setLastUpdatedBy(String lastUpdatedBy) {
+    public void setLastUpdatedBy(Long lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 

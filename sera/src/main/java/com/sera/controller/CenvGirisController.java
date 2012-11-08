@@ -1,26 +1,17 @@
 package com.sera.controller;
 
 
-	import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
-
-
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
-	import java.util.List;
-import java.util.Map;
-
-	import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -30,33 +21,28 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-
 import org.apache.commons.io.IOUtils;
-	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-	import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-	import org.springframework.validation.BindingResult;
-	import org.springframework.web.bind.annotation.ModelAttribute;
-	import org.springframework.web.bind.annotation.PathVariable;
-	import org.springframework.web.bind.annotation.RequestMapping;
-	import org.springframework.web.bind.annotation.RequestParam;
-	import org.springframework.web.bind.annotation.RequestMethod;
-	import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import com.membership.service.LoginService;
 import com.sera.model.SeraCenvDegerListe;
 import com.sera.model.SeraCenvGiris;
 import com.sera.service.CenvGirisService;
 import com.sera.util.CenvGirisRaporParams;
 import com.sera.util.object.DegerGenel;
 import com.util.login.check.LoginCheck;
-
-
-
 
 	@Controller
 	@RequestMapping("/cenvgiris")
@@ -68,6 +54,9 @@ import com.util.login.check.LoginCheck;
 			
 			@Autowired
 			private CenvGirisService cenvgirisservice;
+			
+			@Autowired
+			private LoginService loginservice;
 			
 			private LoginCheck loginInfo = new LoginCheck();
 			
@@ -89,26 +78,24 @@ import com.util.login.check.LoginCheck;
 			} 
 			 
 			@RequestMapping(value = "/giriskaydet.htm",method = RequestMethod.POST)
-			public ModelAndView kaydetGiris(HttpServletRequest req,
+			public void kaydetGiris(HttpServletRequest req,
 					    @ModelAttribute("cenvgiris") SeraCenvGiris cenvgiris,
 					    BindingResult result) throws ParseException{
-				User user= getLoggedInUser();
-				ModelAndView model=new ModelAndView("/cenvgiris/giris");
+				   User user= getLoggedInUser();
+				   //ModelAndView model=new ModelAndView("redirect:/cenvgiris/girisgetir.htm");
 				
 				   SimpleDateFormat format=new SimpleDateFormat("dd-MM-yyyy hh:MM");
 				   DegerGenel a= cenvgirisservice.getGenelDeger(cenvgiris.getBaslikId());
-				   cenvgiris.setBaslik(a.getBASLIK());
-				   cenvgiris.setCreatedBy(user.getUsername());
+				
+				   cenvgiris.setCreatedBy(loginservice.getByUsername(user.getUsername()).get(0).getUserId());
 				   cenvgiris.setCreationDate(format.getCalendar().getInstance().getTime());
-				   cenvgiris.setParent(a.getPARENT_BASLIK());
-				   cenvgiris.setParentId(a.getPARENT_ID());
 				   cenvgiris.setTarih(cenvgiris.getTarih());
 		           cenvgirisservice.saveCenvGiris(cenvgiris);
 		           
 		          SeraCenvDegerListe kok=cenvgirisservice.getKok();	
-	              model.addObject("kok",kok);
-	              loginInfo.getUserInfo(model);
-		          return model;
+	              //model.addObject("kok",kok);
+	              //loginInfo.getUserInfo(model);
+		          //return model;
 		           
 			}
 			
@@ -124,9 +111,7 @@ import com.util.login.check.LoginCheck;
 				   SeraCenvGiris cenvgir=cenvgirisservice.getCenvGiris(cenvgiris.getId());
 				   DegerGenel a= cenvgirisservice.getGenelDeger(cenvgir.getBaslikId());
 				   cenvgir.setDeger(cenvgiris.getDeger());
-				   cenvgir.setCreatedBy(user.getUsername());
-				   cenvgiris.setParent(a.getPARENT_BASLIK());
-				   cenvgiris.setParentId(a.getPARENT_ID());
+				   cenvgir.setCreatedBy(loginservice.getByUsername(user.getUsername()).get(0).getUserId());
 				   cenvgir.setCreationDate(format.getCalendar().getInstance().getTime());
 		           cenvgirisservice.updateCenvGiris(cenvgir);
 		           

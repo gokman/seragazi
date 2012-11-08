@@ -7,9 +7,11 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,7 @@ import com.lookup.model.LookupMst;
 import com.sera.model.SeraCenvDegerListe;
 import com.sera.model.SeraCenvGiris;
 import com.sera.model.SeraCenvSabitler;
+import com.sera.util.DegerListeRep;
 
 @Repository("cenvdegerlistedao")
 public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
@@ -33,6 +36,13 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 	@Override
 	public List<SeraCenvDegerListe> listDalKokCenv() {
 		List<SeraCenvDegerListe> list=(List<SeraCenvDegerListe>)sessionFactory.getCurrentSession().createQuery("from SeraCenvDegerListe where tip1!='Yaprak'").list();
+	
+		return list;
+	}
+	
+	@Override
+	public List<SeraCenvDegerListe> listTumYapi() {
+		List<SeraCenvDegerListe> list=(List<SeraCenvDegerListe>)sessionFactory.getCurrentSession().createQuery("from SeraCenvDegerListe order by seviye asc").list();
 	
 		return list;
 	}
@@ -74,6 +84,7 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 		}catch(Exception e){
 			parent_id=null;
 		}
+		
 		try{
 		list=sessionFactory.getCurrentSession().createQuery("from SeraCenvDegerListe where id="+parent_id).list();
 		}catch(Exception e){
@@ -226,19 +237,17 @@ public class CenvDegerListeDaoImpl implements CenvDegerListeDao {
 
 	@Override
 	public JRDataSource getCenvDegerListeReport() {
-		List<SeraCenvDegerListe> listDegerListe=sessionFactory.getCurrentSession().
-		createCriteria(SeraCenvDegerListe.class).list();
-			
+		@SuppressWarnings("unchecked")
+		List<DegerListeRep> listDegerListe=new ArrayList<DegerListeRep>();
+		Query query=sessionFactory.getCurrentSession().createQuery("select eleman.baslik as baslik,baba.baslik as parentBaslik," +
+				"eleman.tip1 as tip1,eleman.tip2 as tip2,eleman.birim as birim " +
+				"from SeraCenvDegerListe eleman, SeraCenvDegerListe baba "+
+                "where eleman.parentId=baba.id");
+		listDegerListe=query.setResultTransformer(Transformers.aliasToBean(DegerListeRep.class)).list();	
 		return new JRBeanCollectionDataSource(listDegerListe);
 		
 	}
 
-	@Override
-	public JRDataSource listCenvDegerListe() {
-		List<SeraCenvDegerListe> listDegerListe=sessionFactory.getCurrentSession().
-		createCriteria(SeraCenvDegerListe.class).list();
-		return new JRBeanCollectionDataSource(listDegerListe);
-	}
 	
 	
 

@@ -3,6 +3,8 @@ package com.sera.cevreselfaktor.service;
 import java.util.List;
 
 
+import net.sf.jasperreports.engine.JRDataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -67,6 +69,13 @@ public class CevreselFaktorServiceImpl implements CevreselFaktorService{
 	public SeraCevreselFaktor getCevreselFaktor(long id) {
 		// TODO Auto-generated method stub
 		return cevreselfaktordao.getCevreselFaktor(id);
+	}
+
+
+	@Override
+	public JRDataSource getCevreselFaktorReport() {
+		// TODO Auto-generated method stub
+		return cevreselfaktordao.getCevreselFaktorReport();
 	}
 
 	

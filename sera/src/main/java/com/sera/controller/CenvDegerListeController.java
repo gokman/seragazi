@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +46,7 @@ import com.sera.service.CenvDegerListeService;
 import com.sera.service.CenvGirisService;
 import com.sera.util.CenvGirisRaporParams;
 import com.sera.validator.CenvDegerListeValidator;
+import com.sera.yetki.service.YetkiService;
 import com.util.login.check.LoginCheck;
 
 @Controller
@@ -61,6 +64,9 @@ public class CenvDegerListeController {
 	
 	@Autowired
 	private CenvGirisService cenvgirisservice;
+	
+	@Autowired
+	private YetkiService yetkiservice;
 	
 	private LoginCheck loginInfo = new LoginCheck();
 	
@@ -120,21 +126,12 @@ public class CenvDegerListeController {
 	}
 	
 	@RequestMapping(value = "/yapiKaydet.htm") 
-	public ModelAndView saveCenvDegerListe(HttpServletRequest req,@ModelAttribute("cenvdeger") SeraDegerSabitForm seragazi,
+	public ModelAndView saveCenvDegerListe(HttpServletRequest req,@ModelAttribute("cenvdeger") SeraDegerSabitForm cenvdeger,
 			BindingResult result) {
 		
-		ModelAndView model=new ModelAndView("cenvyapi/yapiGiris");
-	    SeraCenvDegerListe deger=new SeraCenvDegerListe(seragazi);
+		ModelAndView model=new ModelAndView("redirect:/cenvyapi/yapiGiris/ana.htm");
+	    SeraCenvDegerListe deger=new SeraCenvDegerListe(cenvdeger);
 	    
-	    CenvDegerListeValidator validator=new CenvDegerListeValidator();
-		validator.validate(deger, result);
-		
-		if(result.hasErrors()){
-			List<SeraCenvDegerListe> dalkokliste=cenvdegerservice.listDalKokCenv();
-			ModelAndView returnview=new ModelAndView("cenvyapi/yapiGiris");
-			returnview.addObject("parentOlayi", dalkokliste);
-			return returnview;
-		}
 		if(deger.gettip1().equals("Kök")){
 			deger.setParentId((long)0);
 			deger.setSeviye((long)0);
@@ -144,7 +141,7 @@ public class CenvDegerListeController {
 			
 		  
         cenvdegerservice.saveKokCenvDegerListe(deger);
-        SeraCenvSabitler sabit=new SeraCenvSabitler(seragazi);
+        SeraCenvSabitler sabit=new SeraCenvSabitler(cenvdeger);
         
 	        if (deger.gettip1().equals("Yaprak")&&deger.gettip2().equals("Sabit")){ 	
 		        sabit.sethasId(deger.getId());
@@ -243,18 +240,35 @@ public class CenvDegerListeController {
 		
         return "1";
 	}
+	//elimizde id si olan elemanın ya atalarını(ancestors) ya da torunlarını(descendants) listeler
+	//silme işlemi için torunlarını, kaydetme için atalarını listeler
+	@RequestMapping(value = "/getAllTieds.htm", method = RequestMethod.POST)
+	public @ResponseBody List<Long> getAllTiedElements(@RequestParam(value="elemanId", required=true) Long id,
+			@RequestParam(value="userId", required=true) Long userId) {
+		List<Long> Ids=new ArrayList<Long>();
+		//yetki var ise atalarını al,yok ise torunlarını al
+		//çünkü yetkinin olması demek kullanıcının yetki sayfasında yetki verdiği anlamına gelir, tersi de yetkiyi kaldırdığı anlamına gelir
+		if(yetkiservice.controlYetkiVarMi(userId, id)==true){
+			List<SeraCenvDegerListe> ancestors=cenvdegerservice.listAncestors(id);
+			for(int i=0;i<ancestors.size();i++){
+				Ids.add(ancestors.get(i).getId());
+			}
+		}else{
+			List<SeraCenvDegerListe> descendants=cenvdegerservice.listDescendants(id);
+			for(int i=0;i<descendants.size();i++){
+				Ids.add(descendants.get(i).getId());
+			}
+		}
+		
+		
+        return Ids;
+	}
+	
+	
+	   
 	
 	@RequestMapping(value = "/degerlisterapor.htm")
-	public ModelAndView getirListeRapor(@ModelAttribute("raporParam") CenvGirisRaporParams raporParam){
-
-		ModelAndView modelAna=new ModelAndView("/report/cenvdegerlistereport");
-		loginInfo.getUserInfo(modelAna);
-		
-		return modelAna;  
-    }   
-	
-	@RequestMapping(value = "/degerlisteraporsorgu.htm",method=RequestMethod.POST)
-	public ModelAndView sorguListeRapor(@ModelAttribute("raporParam") CenvGirisRaporParams raporParam,ModelMap model) throws JRException, IOException{
+	public ModelAndView getirListeRapor() throws JRException, IOException{
 		JasperReport report=null;
 		JasperPrint print;
 		JasperDesign design=null;
@@ -300,4 +314,19 @@ public class CenvDegerListeController {
 		
 		return modelAna; 
     }
+	
+	@RequestMapping(value = "/yapiTum.htm") 
+	public ModelAndView showTumAgac() {
+                ModelAndView modell=new ModelAndView("agac/agac");
+		        loginInfo.getUserInfo(modell);
+		return modell;
+	}
+	
+	@RequestMapping(value = "/listTumAgac.htm", method = RequestMethod.POST)
+	public @ResponseBody List<SeraCenvDegerListe> listTumAgac() {
+		
+		
+        return cenvdegerservice.listTumYapi();
+	}
+	
 }

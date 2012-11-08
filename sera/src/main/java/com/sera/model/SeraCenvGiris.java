@@ -24,14 +24,11 @@ public class SeraCenvGiris  {
     
     // Raw attributes
     private String tarih;
-    private String baslik;
     private double deger;
     private Date creationDate;
-    private String createdBy;
+    private Long createdBy;
     private Long baslikId;
     private Long id; // pk
-    private String parent;
-    private Long parentId;
     private Long ilkDeger;
 
     // ---------------------------
@@ -57,17 +54,6 @@ public class SeraCenvGiris  {
         this.tarih = tarih;
     }
 
-    // -- [baslik] ------------------------
-
-    @Size(max = 64)
-    @Column(name = "BASLIK", length = 64)
-    public String getBaslik() {
-        return baslik;
-    }
-
-    public void setBaslik(String baslik) {
-        this.baslik = baslik;
-    }
 
     // -- [deger] ------------------------
 
@@ -76,7 +62,16 @@ public class SeraCenvGiris  {
         return deger;
     }
 
-    public void setDeger(double deger) {
+    @Column(name = "CREATED_BY", length = 10)
+    public Long getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Long createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public void setDeger(double deger) {
         this.deger = deger;
     }
 
@@ -91,16 +86,6 @@ public class SeraCenvGiris  {
         this.creationDate = creationDate;
     }
 
-    // -- [createdBy] ------------------------
-
-    @Column(name = "CREATED_BY", precision = 19)
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
 
     // -- [baslikId] ------------------------
 
@@ -127,28 +112,6 @@ public class SeraCenvGiris  {
         this.id = id;
     }
 
-    // -- [parent] ------------------------
-
-    @Size(max = 64)
-    @Column(name = "PARENT", length = 64)
-    public String getParent() {
-        return parent;
-    }
-
-    public void setParent(String parent) {
-        this.parent = parent;
-    }
-
-    // -- [parentId] ------------------------
-
-    @Column(name = "PARENT_ID", precision = 19)
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
 
     // -- [ilkDeger] ------------------------
 

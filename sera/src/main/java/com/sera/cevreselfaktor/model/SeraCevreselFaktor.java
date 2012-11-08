@@ -18,8 +18,8 @@ public class SeraCevreselFaktor  {
     private Date lastUpdateDate;
     private String aciklama;
     private Date createDate;
-    private String createdBy;
-    private String lastUpdatedBy;
+    private Long createdBy;
+    private Long lastUpdatedBy;
     private Long id; // pk
     private Double deger;
 
@@ -86,21 +86,21 @@ public class SeraCevreselFaktor  {
     // -- [createdBy] ------------------------
 
     @Column(name = "CREATED_BY", precision = 19)
-    public String getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
     
     
     @Column(name = "LAST_UPDATED_BY", precision = 19)
-    public String getLastUpdatedBy() {
+    public Long getLastUpdatedBy() {
 		return lastUpdatedBy;
 	}
 
-	public void setLastUpdatedBy(String lastUpdatedBy) {
+	public void setLastUpdatedBy(Long lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
 

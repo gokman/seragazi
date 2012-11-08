@@ -36,11 +36,11 @@ public class YetkiDaoImpl implements YetkiDao {
 		Session session=sessionFactory.getCurrentSession();
 		Transaction transaction=null;
 		List<SeraCenvYetkiler> yetkiler=new ArrayList<SeraCenvYetkiler>();
-		SeraCenvYetkiler yetki=new SeraCenvYetkiler();
+		SeraCenvYetkiler yetki;
 		SimpleDateFormat format=new SimpleDateFormat("dd-MM-yyyy hh:MM");
 		
 		for(int i=0;i<id.size();i++){
-			
+			yetki=new SeraCenvYetkiler();
 			yetki.setUserId(userId);
 			yetki.setCreateDate(format.getCalendar().getInstance().getTime());
 			yetki.setCreatedBy(loggedId);
@@ -51,8 +51,15 @@ public class YetkiDaoImpl implements YetkiDao {
 		try {
 			
 			transaction=session.beginTransaction();
-			//burada ne lazım ise onları bulup kaydet	
-			session.save(yetkiler);
+			//burada ne lazım ise onları bulup kaydet
+			for(int a=0;a<yetkiler.size();a++){
+				
+			 //bir üst katmanda bu idnin babalarından(parent) birine yetki verildi ise onun kaydı olacağından önce kontrol et yok ise kaydet
+				 if(controlYetkiVarMi(userId,yetkiler.get(a).getBaslikId())==false){
+				  session.save(yetkiler.get(a));
+				 }
+			}
+			
 			session.flush();
 			transaction.commit();
 			
@@ -76,8 +83,11 @@ public class YetkiDaoImpl implements YetkiDao {
 		try {
 			
 			transaction=session.beginTransaction();
-			//burada ne lazım ise onları bulup kaydet	
-			session.delete(yetkiler);
+			//burada ne lazım ise onları bulup sil
+			for(int a=0;a<yetkiler.size();a++){
+				 session.delete(yetkiler.get(a));
+			}
+			
 			session.flush();
 			transaction.commit();
 			

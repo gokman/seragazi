@@ -27,7 +27,7 @@ public class SeraCenvHesaplama  {
     private Long parentId;
     private String hesaplama;
     private Date creationDate;
-    private String createdBy;
+    private Long createdBy;
     private String detay;
     private Long id; // pk
 
@@ -69,11 +69,11 @@ public class SeraCenvHesaplama  {
     // -- [createdBy] ------------------------
 
     @Column(name = "CREATED_BY")
-    public String getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 

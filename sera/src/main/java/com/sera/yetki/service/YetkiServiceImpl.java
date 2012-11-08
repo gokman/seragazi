@@ -53,22 +53,30 @@ public class YetkiServiceImpl implements YetkiService{
 
 	@Override
 	public void degistirYetki(Long userId, Long id) {
-		List<SeraCenvDegerListe> parents=seracenvdegerlisteDao.getAncestors(id);
+		List<SeraCenvDegerListe> ancestors=seracenvdegerlisteDao.getAncestors(id);
+		List<SeraCenvDegerListe> descendants=seracenvdegerlisteDao.listDescendant(id);
 		List<Long> parentIdler=new ArrayList<Long>();
+		List<Long> childIdler=new ArrayList<Long>();
 		//giriş yapanın id sini çeker
 		Long loggedId=loginDao.loadUserObject(SecurityContextHolder.getContext().getAuthentication().getName()).getUserId();
-		//parent id leri al
-		for(int i=0;i<parents.size();i++){
-			parentIdler.add(parents.get(i).getId());
-		}
 		//yetki var ise tablodaki kayıtları sil
 		if(yetkiDao.controlYetkiVarMi(userId, id)==true){
+			//child id leri al
+			//çünkü silme işleminde bunun tüm torunlarına(descendant) gitmeyi engellemem lazım
+			for(int i=0;i<descendants.size();i++){
+				childIdler.add(descendants.get(i).getId());
+			}
 			//kendi kaydını sil
 			yetkiDao.deleteYetki(userId, id);
 			//tüm parent kayıtlarını sil
-			yetkiDao.deleteYetki(userId, parentIdler);
+			yetkiDao.deleteYetki(userId, childIdler);
 		//yetki yok ise tabloya kayıt ekle
 		}else{
+			//parent id leri al
+			//çünkü kaydetme işleminde bunun tüm babalarına(parent) gitmem lazım ki o yolu izleyip aşağı kadar inebilsin
+			for(int i=0;i<ancestors.size();i++){
+				parentIdler.add(ancestors.get(i).getId());
+			}
 			//kendi kaydını ekle
 			//kullanıcı id yi de gönder çek
 			yetkiDao.saveYetki(userId, id,loggedId);

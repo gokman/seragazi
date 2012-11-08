@@ -23,6 +23,7 @@ public interface CenvDegerListeDao {
 	public List<SeraCenvDegerListe> listyaprak(String tip);
 	public List<SeraCenvDegerListe> listDescendant(Long id);
 	public List<SeraCenvDegerListe> ListEnAltDal();
+	public List<SeraCenvDegerListe> listTumYapi();
 	
 	public SeraCenvSabitler getCenvSabit(long id);
 	public List<SeraCenvDegerListe> getAncestors(Long id);
@@ -38,6 +39,5 @@ public interface CenvDegerListeDao {
 	public boolean isKokExist();	
 
 	public JRDataSource getCenvDegerListeReport();
-	public JRDataSource listCenvDegerListe();
 	
 }

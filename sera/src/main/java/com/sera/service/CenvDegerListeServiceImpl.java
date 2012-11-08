@@ -141,9 +141,23 @@ public class CenvDegerListeServiceImpl implements CenvDegerListeService {
 		return cenvDegerListeDao.getCenvDegerListeReport();
 		
 	}
+	
+
 	@Override
-	public JRDataSource listCenvDegerListe() {
+	public List<SeraCenvDegerListe> listAncestors(long id) {
+		// TODO Auto-generated method stub
+		return cenvDegerListeDao.getAncestors(id);
+	}
+
+	@Override
+	public List<SeraCenvDegerListe> listDescendants(long id) {
+		// TODO Auto-generated method stub
+		return cenvDegerListeDao.listDescendant(id);
+	}
+
+	@Override
+	public List<SeraCenvDegerListe> listTumYapi() {
 		
-		return cenvDegerListeDao.listCenvDegerListe();
+		return cenvDegerListeDao.listTumYapi();
 	}
 }

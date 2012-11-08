@@ -2,9 +2,12 @@ package com.sera.donemsonuc.service;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRDataSource;
+
 
 import com.membership.model.User;
 import com.sera.model.SeraCenvDonemSonuc;
+import com.sera.util.DonemSonucRaporParams;
 
 public interface DonemSonucService {
     
@@ -19,5 +22,6 @@ public interface DonemSonucService {
 	public void updateDonemSonuc(SeraCenvDonemSonuc donemsonuc);
 	
 	public void deleteDonemSonuc(String donem);
+	public JRDataSource getCenvDonemSonucReport(DonemSonucRaporParams params);
 
 	}

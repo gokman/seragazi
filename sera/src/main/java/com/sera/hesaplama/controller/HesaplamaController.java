@@ -22,7 +22,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
+import com.membership.service.LoginService;
 import com.sera.donemsonuc.service.DonemSonucService;
+import com.sera.gaz.service.GazService;
 import com.sera.hesaplama.dao.HesaplamaDao;
 import com.sera.hesaplama.service.HesaplamaService;
 import com.sera.model.SeraCenvDegerListe;
@@ -52,6 +54,12 @@ import com.util.login.check.LoginCheck;
 		
 			@Autowired
 			private HesaplamaService hesaplamaservice;
+			
+			@Autowired
+			private GazService gazservice;
+			
+			@Autowired
+			private LoginService loginservice;
 			
 			private LoginCheck loginInfo = new LoginCheck();
 			
@@ -94,7 +102,7 @@ import com.util.login.check.LoginCheck;
 				hesaplama.setParentId(id); 
 				hesaplama.setHesaplama(hesap);
 				hesaplama.setCreationDate(Calendar.getInstance().getTime());
-				hesaplama.setCreatedBy(user.getUsername());
+				hesaplama.setCreatedBy(loginservice.getByUsername(user.getUsername()).get(0).getUserId());
 				hesaplama.setDetay(detay);
 				hesaplamaservice.saveHesaplama(hesaplama);
 				
@@ -121,7 +129,7 @@ import com.util.login.check.LoginCheck;
 				hesaplama.setParentId(id); 
 				hesaplama.setHesaplama(hesap);
 				hesaplama.setCreationDate(Calendar.getInstance().getTime());
-				hesaplama.setCreatedBy(user.getUsername());
+				hesaplama.setCreatedBy(loginservice.getByUsername(user.getUsername()).get(0).getUserId());
 				hesaplama.setDetay(detay);
 				hesaplamaservice.updateHesaplama(hesaplama);
 				
@@ -142,6 +150,7 @@ import com.util.login.check.LoginCheck;
                 ModelAndView model=new ModelAndView("/hesaplama/hesaplamagiris");
                 SeraCenvDegerListe kok=cenvgirisservice.getKok();	
                 model.addObject("kok",kok);
+                model.addObject("gazlar",gazservice.listGaz());
 				loginInfo.getUserInfo(model);
 				return model; 
 			}	

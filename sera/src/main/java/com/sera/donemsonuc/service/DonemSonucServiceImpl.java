@@ -7,6 +7,8 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 
+import net.sf.jasperreports.engine.JRDataSource;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,15 @@ import com.sera.dao.CenvDegerListeDao;
 import com.sera.dao.CenvGirisDao;
 import com.sera.dao.CenvSabitlerDao;
 import com.sera.donemsonuc.dao.DonemSonucDao;
+import com.sera.gaz.dao.GazDao;
+import com.sera.gaz.model.Gaz;
 import com.sera.hesaplama.dao.HesaplamaDao;
 import com.sera.model.SeraCenvDegerListe;
 import com.sera.model.SeraCenvDonemSonuc;
 import com.sera.model.SeraCenvGiris;
 import com.sera.model.SeraCenvHesaplama;
 import com.sera.model.SeraCenvSabitler;
+import com.sera.util.DonemSonucRaporParams;
 import com.util.constant.ApplicationConstants;
 import com.membership.dao.LoginDao;
 import com.membership.model.User;
@@ -46,6 +51,9 @@ public class DonemSonucServiceImpl implements DonemSonucService{
 	
 	@Autowired
 	private HesaplamaDao hesaplamadao;
+	
+	@Autowired
+	private GazDao gazdao;
 	
 	@Autowired
 	private CevreselFaktorDao cevreselfaktordao;
@@ -175,6 +183,19 @@ public class DonemSonucServiceImpl implements DonemSonucService{
 		long eldekiid;
 		Double eldekideger,deger;
 		
+		//boş kutuları sil yani i li olanları
+		while (hesap.indexOf("i")!=-1){
+	    	//faktörü bulduk yani elemanın ilk adresini
+	    	basnerede=hesap.indexOf("i");
+	    	//bundan sonraki @ işaretini bul yani elemanın bittiği yeri
+	    	sonnerede=hesap.indexOf("@", basnerede);
+	    	//elemanımızı elde ettik
+	    	mevcuteleman=hesap.substring(basnerede, sonnerede);
+		    	
+	    	//şimdi de örneğin f12 yerine f24.5 yazacağız
+	    	hesap=hesap.replaceAll(mevcuteleman, "");
+	    }
+		
 		//önce tüm çevresel faktörleri al
 		while (hesap.indexOf("f")!=-1){
 	    	//faktörü bulduk yani elemanın ilk adresini
@@ -213,6 +234,7 @@ public class DonemSonucServiceImpl implements DonemSonucService{
 	    	//şimdi de örneğin f12 yerine f24.5 yazacağız
 	    	hesap=hesap.replaceAll(mevcuteleman, String.valueOf(eldekideger));
 	    }
+		
 		//yaprak ve çevresel faktörler bittikten sonra şimdi de tüm @ işaretlerini kaldır
 		hesap=hesap.replaceAll("@", "");
 		//elimizde matematiksel bi işlem stringi var bunu oku
@@ -235,24 +257,24 @@ public class DonemSonucServiceImpl implements DonemSonucService{
 	public boolean HesaplamaKayitKontrol() {
 		//en alt dalları getir
 		List<SeraCenvDegerListe> enAltDallar=degerlistedao.ListEnAltDal();
-		int kontrol=0;
-		SeraCenvHesaplama hesapCO2,hesapCH4,hesapN2O;
+		int kontrol=1;
+		SeraCenvHesaplama sonucKontrol;
+		//şimdi de sistemde kayıtlı olan gazların listesini alacağız
+		List<Gaz> gazlar=gazdao.listGaz();
 		//en alt dalların idlerini kontrol et. her id ye ait 3 er tane kayıt olmalı
 		for(int i=0;i<enAltDallar.size();i++){
 			//şimdi her gaz için kayıtları kontrol et
-			hesapCO2=hesaplamadao.getRow("CO2", enAltDallar.get(i).getId());
-			hesapCH4=hesaplamadao.getRow("CH4", enAltDallar.get(i).getId());
-			hesapN2O=hesaplamadao.getRow("N2O", enAltDallar.get(i).getId());
-			
-				if(hesapCO2!=null||hesapCH4!=null||hesapN2O!=null){
-					kontrol=1;
-				    
-				}else{
+			for(int j=0;j<gazlar.size();j++){
+				sonucKontrol=hesaplamadao.getRow(gazlar.get(j).getName(), enAltDallar.get(i).getId());
+				//eğer sonuç null çıkarsa sonuç false dönmeli
+				if(sonucKontrol==null){
 					kontrol=-1;
-					//sorun var ise i yi size a eşitle döngüden çıksın
+					//olumsuz bir sonuç alır almaz çıkmamız lazım
+					j=gazlar.size();
 					i=enAltDallar.size();
-				}	
-			
+				}
+			}
+				
 		}
 		
 		if(kontrol==-1){
@@ -274,4 +296,12 @@ public class DonemSonucServiceImpl implements DonemSonucService{
 		donemsonucdao.deleteDonemSonuc(donem);
 		
 	}
+	
+	@Override
+	public JRDataSource getCenvDonemSonucReport(DonemSonucRaporParams params) {
+		// TODO Auto-generated method stub
+		return donemsonucdao.getDonemSonucRep(params);
+		
+	}
+	
 }

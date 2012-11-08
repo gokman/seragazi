@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
 public class SeraCenvSabitlerRep implements java.io.Serializable{
         // Raw attributes
     private String baslik; 
-    private Long sabit;  
+    private Double sabit;  
     private Date createDate;
 
    	
@@ -51,11 +51,11 @@ public class SeraCenvSabitlerRep implements java.io.Serializable{
 
 
     
-    public Long getsabit() {
+    public Double getsabit() {
         return sabit;
     }
 
-    public void setsabit(Long sabit) {
+    public void setsabit(Double sabit) {
         this.sabit = sabit;
     }
 
