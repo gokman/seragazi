@@ -70,7 +70,7 @@
 	               
 	        },
 	        error: function(e){
-	        alert('Error: ' + e);
+	        $.Zebra_Dialog('Error: ' + e);
         } 
 	        });
 	  
@@ -96,11 +96,11 @@
 	         <form:hidden path="id" value="${faktorum.id}"/>  
 	        	<table>
 	        	<tr><td class="formyazi" align="right">Açıklama:</td>
-	        	<td><form:input  id="aciklama" value="${faktorum.aciklama}" path="aciklama" size="30" class="required"/></td>
+	        	<td class="inputyazi"><form:input  id="aciklama" value="${faktorum.aciklama}" path="aciklama" size="30" class="required"/></td>
 	        	</tr>
 	        	<tr>
     	        <td class="formyazi" align="right">Değer:</td>
-	        	<td><form:input  id="deger" class="required number" value="${faktorum.deger}" path="deger" maxlength="20"  size="20"/></td>
+	        	<td class="inputyazi"><form:input  id="deger" class="required number" value="${faktorum.deger}" path="deger" maxlength="20"  size="20"/></td>
 	        	</tr>
 	        	<tr><td></td>
     			<td class="submit"><input type="submit" class="submit" id="idsubmit" value="Kaydet"></input></td>
