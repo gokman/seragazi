@@ -32,6 +32,11 @@ public class LoginServiceImpl implements LoginService{
 		loginDao.saveUser(user);
 		
 	}
+	
+	public User getLoggedInUser(){
+		
+		return loginDao.getLoggedInUser();
+	}
 
 	public void updateMembershipStatus(Long userID){
 		loginDao.updateMembershipStatus(userID);

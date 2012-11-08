@@ -30,4 +30,7 @@ public interface LoginService {
 		public boolean isUserExist(String username);
 		
 		public boolean isEmailExist(String email);
+		
+		public User getLoggedInUser();
+		
 	}
