@@ -9,15 +9,78 @@
 <title>Yapı Oluşturma Sayfası</title>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery.ui.core.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery-ui-1.8.22.custom.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery.cookie.js"/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/dynatree/ui.dynatree.css"/>" />
+<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery.dynatree-1.2.2.js"/>"></script>
 
 <link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css"/>
 <link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css"/>
 <link href="<c:url value="/resources/css/form/form2.css"/>" rel="stylesheet" type="text/css" />
 <link href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" rel="stylesheet" type="text/css" />
 <link href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" rel="stylesheet" type="text/css" />
-<script type="text/javascript">
-$(document).ready(function(){	
 
+
+<script type="text/javascript" src="<c:url value="/resources/js/zebra/zebra_dialog.js"/>"></script>
+<link rel="stylesheet" href="<c:url value="/resources/css/zebra/zebra_dialog.css"/>" type="text/css" />
+
+<!-- ağacı pencere içerisinde göstermemizi sağlayan jscript kodları bulunmaktadır  -->
+<script type="text/javascript">
+	function agacGetir(){
+		$("#tree").empty(); 
+	 	$("#tree").dynatree("destroy");
+		$.ajax({
+	        type: "POST",
+	        url: "/sera/cenvyapi/listTumAgac.htm",
+	        cache: false,
+	        async: false,
+	        success: function(response){
+	        // we have the response
+	        //kökü ekle öncelikle
+	           for(var i=0;i<response.length;i++){
+	        	   if(response[i].seviye==0){
+	        		   $("#tree").append(
+	        				   '<ul>'+ 
+	        				   '<li  id="li'+response[i].id+'" class="folder">'+response[i].baslik+
+	        				   '<ul id="ul'+response[i].id+'"></ul>'+
+	        				   '</ul>'
+	        				            );
+	        	   }else{
+		        		  //şimdi iç içe ekleye ekleye gideceğiz ve böylece elemanlar baba oğul şeklinde dizilecek
+		        		  //yaprakların class ı folder olmayacak
+		        		  if(response[i].tip1=="Yaprak"){
+		        			  $("#ul"+response[i].parentId).append(
+			        				   '<li  id="li'+response[i].id+'">'+response[i].baslik+
+			        				   '<ul id="ul'+response[i].id+'"></ul>'
+			        				            ); 
+		        		  }else{
+		        		      $("#ul"+response[i].parentId).append(
+		        				   '<li  id="li'+response[i].id+'" class="folder">'+response[i].baslik+
+		        				   '<ul id="ul'+response[i].id+'"></ul>'
+		        				            );
+		        		  }
+	        	   }
+	           }
+	        
+	        },
+	        error: function(e){
+	        $.Zebra_Dialog('Error: ' + e);
+	        } 
+	        });
+		$("#tree").dynatree();
+		$("#tree").dynatree("getRoot").visit(function(node){
+			node.expand(true);
+		});
+	} 
+	
+	   </script> 
+<!--  ağaç yapısı kodu bitiş  -->
+
+
+<script type="text/javascript">  
+$(document).ready(function(){	
+     agacGetir();
 	//Functions Starts
 	function validateNum(txtNum){
 		   var strValidChars = "0123456789.-";
@@ -45,6 +108,7 @@ $(document).ready(function(){
 		if($("#checked").val()=="Kök"){
 			//show the hidden div
 			$("#parentdiv").hide("slow");
+			$("#parentId").attr('class','');
 			//$("#hesapdiv1").show("fast");
 	         $('#hesapliste1')
          .empty().append($("<option></option>")
@@ -55,6 +119,7 @@ $(document).ready(function(){
 		else if($("#checked").val()=="Dal"){
 			//show the hidden div
 			$("#parentdiv").show("slow");
+			$("#parentId").attr('class','required');
 			//$("#hesapdiv1").show("fast");
 		// $("#hesapliste1").empty().append('<option  value=""></option>');
          $("#hesapliste1").empty().append('<option  value="Hesap">Hesap</option>');
@@ -64,6 +129,7 @@ $(document).ready(function(){
 		{
 			//otherwise, hide it
 			$("#parentdiv").show("slow");
+			$("#parentId").attr('class','required');
 			//$("#hesapdiv2").show("fast");
 			$("#hesapliste1").empty().append('<option  value=""></option>');
 			$("#hesapliste1").append('<option  value="Sabit">Sabit</option>');
@@ -77,7 +143,7 @@ $(document).ready(function(){
 	$("#sabitdiv").hide("fast");
 	$("#sabit").attr('class','');	
    
-	if($("#checked").val()=="Kök"){
+	/*if($("#checked").val()=="Kök"){
 		//show the hidden div
 		$("#parentdiv").hide("slow");
 		//$("#hesapdiv1").show("fast");
@@ -102,7 +168,7 @@ $(document).ready(function(){
 		$("#hesapliste1").append('<option  value="Sabit">Sabit</option>');
 			$("#hesapliste1").append('<option  value="Elle">Elle</option>');
 		//$("#hesapdiv1").hide("fast");
-	}
+	}*/
 	
 	// Add onclick handler to checkbox w/id checkme
    $("#checked").change(
@@ -110,6 +176,7 @@ $(document).ready(function(){
 		if($("#checked").val()=="Yaprak"){
 				//otherwise, hide it
 				$("#parentdiv").show("slow");
+				$("#parentId").attr('class','required');
 				//ağaç tipine göre hesaplama listesini güncelle
 				//$("#hesapdiv2").show("fast");
 				$("#hesapliste1").empty().append('<option  value=""></option>');
@@ -120,6 +187,9 @@ $(document).ready(function(){
 			else if($("#checked").val()=="Dal"){
 				//otherwise, hide it
 				$("#parentdiv").show("slow");
+				$("#parentId").attr('class','required');
+				
+				
 				$("#sabit").attr('class','');	 
 				$("#sabitdiv").hide("slow");
 				$("#sabit").attr("value","")
@@ -133,6 +203,7 @@ $(document).ready(function(){
 			{
 				//show the hidden div
 				$("#parentdiv").hide("fast");
+				$("#parentId").attr('class','');
 				//ağaç tipine göre hesaplama listesini güncelle
 				//$("#hesapdiv1").show("fast");
 				$("#hesapliste1").empty().append('<option  value=""></option>');
@@ -147,19 +218,20 @@ $(document).ready(function(){
 			
 	function(){
 				
-    if($("#hesapliste1").val()=="Sabit"){
-		 //show the hidden div
-	     $("#sabitdiv").show("slow");
-	     $("#sabit").attr('class','required number');
-	}
-	else
-	{
-		//otherwise, hide it
-		$("#sabitdiv").hide("slow");
-		$("#sabit").attr('class','');
-		$("#sabit").attr("value","")
-	}
-			});
+	    if($("#hesapliste1").val()=="Sabit"){
+			 //show the hidden div
+		     $("#sabitdiv").show("slow");
+		     $("#sabit").attr('class','required number');
+		}
+		else
+		{
+			//otherwise, hide it
+			$("#sabitdiv").hide("slow");
+			$("#sabit").attr('class','');
+			$("#sabit").attr("value","")
+		}
+	    
+	});
 	
 	$("#hesapliste1").change(
 	function sabitekle(){
@@ -181,15 +253,14 @@ $(document).ready(function(){
 
 
 </script>
-<!-- <script>
+<script>
   $(document).ready(function(){
     $("#yapiKayitForm").validate();
   });
-</script> -->
+</script> 
 <script>
-
-function yapiKaydet(){
-	var parentId;
+function cocukKontrol(){
+	var parentId,sonuc=1;
 	var tip1;
 	var globalResponse="";
 	tip1=$("#checked").val();
@@ -198,37 +269,40 @@ function yapiKaydet(){
     //bağlı olduğu bölümün yaprağı var mı onu kontrol et
     //yaprak var ise dal kaydetmeye izin verme.
     //dal var ise de yaprak kaydetmeye izin verme
-    			//başla
-    			 $.ajax({
+  
+   if(parentId!=""){
+   //başla
+  $.ajax({
     type: "POST",
     url: "/sera/cenvyapi/cocukTipOgren.htm",
     data: "parentId=" + parentId,
     cache: false,
+    async: false,
     success: function(response){
     // dönen tip seçilen tipe eşit ise kaydet
     globalResponse=response;
     if(response!=""){
-	    if(tip1==globalResponse){	    	
-	    	$("#yapiKayitForm").validate({
-	    	 	submitHandler : function(form){	    	 		
-	    			form.submit();
-	    		}
-	    	});								    	
-	    }else{
-	       alert('Bu bölümün alt sınıfı olan '+response+' tipinde sınıf seçmelisiniz');
+	    if(tip1!=globalResponse){	    	
+	    	
+		       $.Zebra_Dialog('Bu bölümün alt sınıfı olan '+response+' tipinde sınıf seçmelisiniz');	
+		       sonuc=-1;
 	    }
-    }else{
-    	$("#yapiKayitForm").validate({
-    	 	submitHandler : function(form){    	 		
-    			form.submit();
-    		}
-    	});
     }
         
     }
     });
     //bitir	
+   }
+	if(sonuc==1){
+		//sonuc bir ise sorun yoktur kayıt işlemini yapabiliriz
+		return true;
+	}
+	
+		return false;
+	
 }
+
+
 </script>
 
 </head>
@@ -239,9 +313,14 @@ function yapiKaydet(){
 <label id="kayitKontrol">${kayitKontrol}</label>
  <c:choose> 
 	<c:when test="${isAuthenticated=='true'}">
-<form:form id="yapiKayitForm" onsubmit="yapiKaydet(); return false;"   class="cmaForm" name="yapiKayitForm" cssClass="formstil" cssStyle="padding-left:50px;padding-top:50px"  action="/sera/cenvyapi/yapiKaydet.htm" method="POST"  modelAttribute="cenvdeger" enctype="multipart/form-data">
+	
+<table>
+<tr><td>
+
+<form:form id="yapiKayitForm"  class="cmaForm" onsubmit="return cocukKontrol();" name="yapiKayitForm" cssClass="formstil" cssStyle="padding-left:50px;padding-top:50px"  action="/sera/cenvyapi/yapiKaydet.htm" method="POST"  modelAttribute="cenvdeger" enctype="multipart/form-data">
 <table >
 <form:hidden path="id" value="${cenvDoluVeriler.id}"/>
+
 <tr><td>
 <a>Sınıf </a>
 </td>
@@ -258,10 +337,21 @@ function yapiKaydet(){
 <form:errors path="tip1"></form:errors>
 </td>
 </tr>
+
+<tr id="parentdiv"><td>
+<a>Bağlı Olduğu Bölüm </a>
+</td><td>
+<form:select name="parentId" class="required" id="parentId" path="parentId">
+<form:option value="${parentOlayi2.id}" label="${parentOlayi2.baslik}"/>
+<form:options items="${parentOlayi}" itemValue="id" itemLabel="baslik"/>
+</form:select>
+<form:errors path="parentId"></form:errors>
+</td></tr>
+
 <tr><td>
 <a>Başlık </a>
 </td>
-<td>
+<td class="inputyazi">
 <form:input name="baslik" class="required " id="baslik" path="baslik" maxlength="100" size="100"  />
 <form:errors path="baslik"></form:errors>
 </td>
@@ -291,30 +381,31 @@ function yapiKaydet(){
 <tr id="sabitdiv">
 <td><a>Sabit Değer </a></td>
 <form:hidden path="sabitId" value="${sabitdeger.id}"></form:hidden>
-<td>
-<form:input  name="sabit"  id="sabit" path="sabit" maxlength="20" size="20" value="${sabitdeger.sabit}"  />
+<td class="inputyazi">
+<form:input  name="sabit" class="required"  id="sabit" path="sabit" maxlength="20" size="20" value="${sabitdeger.sabit}"  />
 <form:errors path="sabit"></form:errors>
 </td>
 </tr>
 
-<tr id="parentdiv"><td>
-<a>Bağlı Olduğu Bölüm </a>
-</td><td>
-<form:select name="parentId" id="parentId" class="required" path="parentId">
-<form:option value="${parentOlayi2.id}" label="${parentOlayi2.baslik}"/>
-<form:options items="${parentOlayi}" itemValue="id" itemLabel="baslik"/>
-</form:select>
-<form:errors path="parentId"></form:errors>
-</td></tr>
-
 <tr>
 <td></td>
 <td class="submit">
-<input id="button" type="submit"  value="Kaydet"  />
+<input id="button" class="submit"  type="submit"  value="Kaydet"  />
 </td>
 </tr>
 </table>
 </form:form>
+</td>
+<td style="padding-left: 300px;padding-top:50px;">
+<table align="right"  frame="border"><tr><td  width="350px" height="400px">
+<input src="<c:url value="/resources/image/refresh.png"/>" onclick="agacGetir();" type="image" alt="submit"></input>
+<div style="width:100%;height:100%;overflow:scroll;" id="tree"></div>
+</td>
+</tr>
+</table>
+</td></tr>
+</table>
+
 </c:when>
 	<c:otherwise>
 		<div class="orta_div_sag">

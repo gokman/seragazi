@@ -200,7 +200,7 @@ function yapiKaydet(){
 						
 	    	
 	    }else{
-	       alert('Bu bölümün alt sınıfı olan '+response+' tipinde sınıf seçmelisiniz');
+	       $.Zebra_Dialog('Bu bölümün alt sınıfı olan '+response+' tipinde sınıf seçmelisiniz');
 	    }
     }else{
     	$("#yapiKayitForm").validate({
@@ -243,10 +243,20 @@ function yapiKaydet(){
 <form:errors path="tip1"></form:errors>
 </td>
 </tr>
+
+<tr id="parentdiv"><td>
+<a>Bağlı Olduğu Bölüm </a>
+</td><td>
+<form:select name="parentId" id="parentId" class="required" path="parentId">
+<form:option value="${parentOlayi2.id}" label="${parentOlayi2.baslik}"/>
+</form:select>
+<form:errors path="parentId"></form:errors>
+</td></tr>
+
 <tr><td>
 <a>Başlık </a>
 </td>
-<td>
+<td class="inputyazi">
 <form:input name="baslik" class="required" value="${cenvDoluVeriler.baslik}" id="baslik" path="baslik" maxlength="100" size="100"  />
 <form:errors path="baslik"></form:errors>
 </td>
@@ -277,20 +287,12 @@ function yapiKaydet(){
 <tr id="sabitdiv">
 <td><a>Sabit Değer </a></td>
 <form:hidden path="sabitId" value="${sabitdeger.id}"></form:hidden>
-<td>
+<td class="inputyazi">
 <form:input  name="sabit"  id="sabit" path="sabit" maxlength="20" size="20" value="${sabitdeger.sabit}"  />
 <form:errors path="sabit"></form:errors>
 </td>
 </tr>
 
-<tr id="parentdiv"><td>
-<a>Bağlı Olduğu Bölüm </a>
-</td><td>
-<form:select name="parentId" id="parentId" class="required" path="parentId">
-<form:option value="${parentOlayi2.id}" label="${parentOlayi2.baslik}"/>
-</form:select>
-<form:errors path="parentId"></form:errors>
-</td></tr>
 
 <tr>
 <td></td>

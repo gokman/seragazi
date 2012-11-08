@@ -1,21 +1,28 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Yapı Silme Ekranı</title>
-
-<link rel="stylesheet" href="<c:url value="/resources/css/form/general.css"/>"></link>
-<link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css"/>
-<link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/form.css"/>" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/resources/css/yapi/agac.css"/>" type="text/css" />
+<title>Yapı İşlemleri</title>
 
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery.ui.core.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery-ui-1.8.22.custom.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery.cookie.js"/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/dynatree/ui.dynatree.css"/>" />
+<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery.dynatree-1.2.2.js"/>"></script>
+
+ <link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css" />
+ <link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css" />
+ <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
+ <link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />
+ <link rel="stylesheet" href="<c:url value="/resources/css/yapi/agac.css"/>" type="text/css" />
+ <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
+ <link rel="stylesheet" href="<c:url value="/resources/css/jquery.ui.all.css"/>" type="text/css" />
+  
 <script type="text/javascript" src="<c:url value="/resources/js/zebra/zebra_dialog.js"/>"></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/zebra/style.css"/>" type="text/css" />
 <link rel="stylesheet" href="<c:url value="/resources/css/zebra/zebra_dialog.css"/>" type="text/css" />
@@ -23,83 +30,91 @@
 <script type="text/javascript" src="<c:url value="/resources/js/zebra/highlight.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/zebra/functions.js"/>"></script>
 
-<link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
- 
-<script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
-   <script>
-  $(document).ready(function(){
-    $("#formgiris").validate();
-  });
-  </script>
 <script type="text/javascript">
-       var globalid;
-	        function doAjaxPost(aydi,seviye,tip,tip2) {
-	        // get the form values
-	           globalid=aydi;
-	           var sev=seviye;
-	           var tipp=tip;
-	           //tip2 lazım oldu. çünkü sabit ise form gelmeyecek. elle ise gelecek
-	           var tipp2=tip2;
-	          // var tirnak="'";
-	        
-	        $.ajax({
+	$(document).ready(function (){
+		$("#tree").dynatree("destroy");
+		$.ajax({
 	        type: "POST",
-	        url: "/sera/cenvsabit/sabitGir/dalgetir.htm",
-	        data: "id=" + globalid ,
+	        url: "/sera/cenvyapi/listTumAgac.htm",
 	        cache: false,
+	        async: false,
 	        success: function(response){
 	        // we have the response
+	        //kökü ekle öncelikle
+	           for(var i=0;i<response.length;i++){
+	        	   if(response[i].seviye==0){
+	        			   $("#tree").append('<ul>'+ 
+	        				   '<li  id="li'+response[i].id+'"  class="folder">'+
+	        				   response[i].baslik+
+	        				   '<ul id="ul'+response[i].id+'"></ul>'+
+	        				   '</ul>'
+	        				   );
+	        	   }else{
+		        		  //şimdi iç içe ekleye ekleye gideceğiz ve böylece elemanlar baba oğul şeklinde dizilecek
+		        		  //yaprakların class ı folder olmayacak
+		        		  if(response[i].tip1=="Yaprak"){
+		        			  $("#ul"+response[i].parentId).append(
+			        				   '<li  id="li'+response[i].id+'">'+
+			        				   response[i].baslik+
+			        				   '<ul id="ul'+response[i].id+'"></ul>'
+			        				            ); 
+		        		  }else{
+		        		      $("#ul"+response[i].parentId).append(
+		        				   '<li  id="li'+response[i].id+'" class="folder">'+
+		        				   response[i].baslik+
+		        				   '<ul id="ul'+response[i].id+'"></ul>'
+		        				            );
+		        		  }
+	        	   }
+	           }
 	        
-	        var elements=$('.katmanlar').filter(function(){
-		    	return (this.id.replace('div','')>sev);
-		    });
-	        
-	        $(".yaprakdiv").remove();
-	        $(elements).remove();
-	           
-		        for(var i =0 ; i < response.length ; i++){
-		        	
-		        	 if (i==0){
-					      $("#kok").append('<table width="600px" align="center" id="div'+response[i].seviye+'" class="katmanlar"><tbody><tr></tr></tbody></table>');
-					      
-					    }
-		        		
-		        	
-					    	$("#div"+response[i].seviye).append(
-						    		'<table width="200px" align="left" class="table_sil">'+
-						    		'<tr align="center">'+
-						    		'<input type="submit" class="baslik_dugme" '+
-			                		'value="'+
-			        		         response[i].baslik+
-			        		        '" onclick="doAjaxPost('+
-			        		         response[i].id+
-			        				','+response[i].seviye+
-			        				',\''+response[i].tip1+'\''+
-			        				',\''+response[i].tip2+'\')"'+
-			        				'/>'+
-			        				'</tr><tr align="center">'+
-			        				'<input type="submit" class="sil_dugme" '+
-			                		'value="Sil" onclick="onayAl('+
-			        		         response[i].id+
-			        		        ')"'+
-			        				'/>'+
-						    		'</tr>'+
-			        				'</table>');
-					   if(i+1==response.length){
-						   $("#div"+response[i].seviye).append('<tr><div class="cizgi"></div></tr>');
-					   } 	
-					    	
-			     }
-		
-		           
 	        },
 	        error: function(e){
-	        alert('Error: ' + e);
-            } 
+	        $.Zebra_Dialog('Error1: ' + e);
+	        } 
 	        });
-	        }
-	        </script>
-	        <script type="text/javascript">
+		
+	
+       
+         
+    }); 
+	$(function() {
+		
+		 // Attach the dynatree widget to an existing <div id="tree"> element
+       // and pass the tree options as an argument to the dynatree() function:
+       $("#tree").dynatree({
+           onActivate: function(node) {
+           	
+              $("#sil_dugme").attr('onclick',"onayAl("+node.data.key.substring(2)+")");
+              $("#guncelle_dugme").attr('onclick',"guncelleGit("+node.data.key.substring(2)+")");
+             	$( "#dialog-form" ).dialog( "open" );
+           }
+       });
+       $("#tree").dynatree("getRoot").visit(function(node){
+			node.expand(true);
+		});
+       
+	});
+</script>
+<script>    
+	
+	$(function() {	
+		// a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
+		$( "#dialog:ui-dialog" ).dialog( "destroy" );
+		
+		$( "#dialog-form" ).dialog({
+			autoOpen: false,
+			modal: true,
+			height:90,
+			width:170,
+			resizable:false,
+			title:"İşlem Seçiniz",
+			close: function() {
+				$( this ).dialog( "close" );
+			}
+		});
+	});
+
 	        function yapiSil(id) {
 	        
 	        $.ajax({
@@ -110,60 +125,61 @@
 	        success: function(response){
 	        // we have the response
 	        if(response=="1"){
-	        	alert("Silindi");
+	        	$.Zebra_Dialog("Silindi");
 	        	location.reload();
+	        	
 	        }
 		           
 	        },
 	        error: function(e){
-	        alert('Error: ' + e);
+	        $.Zebra_Dialog('Error2: ' + e);
             } 
 	        });
 	        }
-	        </script>
-	    <script>
+	        
 	function onayAl(id) {
-		
+		$("#dialog-form").dialog("destroy");
 		$.Zebra_Dialog('Bunu ve tüm alt sınıflarını silmek istiyor musunuz?', {
 		    'type':     'question',
 		    'title':    '',
 		    'buttons':  [
-							{caption: 'Vazgeç', callback: function() { }},
-		                    {caption: 'Sil', callback: function() { yapiSil(id)}},
+							{caption: 'Hayır', callback: function() { }},
+		                    {caption: 'Evet', callback: function() { yapiSil(id)}},
 		                ]
 		});		
 	}
+	
+	function guncelleGit(id){ 
+		$("#dialog-form").dialog("destroy");
+		window.open("/sera/cenvyapi/yapiGiris/"+id+".htm");
+	}
 	</script> 
-	        
+
 </head>
 <body class="genel">
-	
-					<%@include file="/WEB-INF/jsp/ana_sayfa/header.jsp" %>
+
+   
+	<jsp:include page="/WEB-INF/jsp/ana_sayfa/header.jsp" />
 	<c:choose>
 	<c:when test="${isAuthenticated=='true'}">
-<div class="orta_div_sag">
-<table width="100%"><tr><td>
-<table width="200px"  align="left" class="kok_table_sil">
-				<tbody><tr align="center"><td>
-				<input type="submit" class="baslik_dugme" value="${kok.baslik}" onclick="doAjaxPost(${kok.id},${kok.seviye},'${kok.tip1}','${kok.tip2}')"/>
-			    </td></tr><tr align="center"><td>
-			    <input type="submit" class="sil_dugme" value="Sil" onclick="onayAl(${kok.id})" />
-			    </td></tr></tbody>
-</table>
-</td></tr></table>
-<div align="center"  id="kok">
-
-</div>
-<div class="formspacer"></div>
-</div>
-</c:when>
+	<div class="orta_div_sag">
+	<div id="dialog-form">
+	<input type="button" id="sil_dugme" value="Sil" onclick=""></input>
+	<input type="button" id="guncelle_dugme" value="Güncelle" onclick=""></input>
+	</div>
+		<div id="tree"></div>
+		
+	</div>
+	</c:when>
 	<c:otherwise>
 		<div class="orta_div_sag">
 			Bu içeriğe erişmek için giriş yapmalısınız.
 		</div>
 	</c:otherwise>
-	</c:choose>
-</div>
- <%@include file="/WEB-INF/jsp/ana_sayfa/footer.jsp" %>
+	</c:choose> 
+	
+	</div>
+<%@include file="/WEB-INF/jsp/ana_sayfa/footer.jsp" %>
+
 </body>
 </html>
