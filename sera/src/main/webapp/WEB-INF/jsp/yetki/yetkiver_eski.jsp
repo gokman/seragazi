@@ -10,12 +10,15 @@
 
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/form/jquery.validate.js"/>"></script>
-  <link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css" />
+
+<!-- <link rel="stylesheet" href="<c:url value="/resources/css/form/general.css"/>"></link>  -->
+ <link href="<c:url value="/resources/css/form/cenv_deger_giris.css"/>" rel="stylesheet" type="text/css" />
  <link href="<c:url value="/resources/css/ana_sayfa/main.css"/>" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />  
+<!-- <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/form.css"/>" type="text/css" />  -->
+ <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/menu.css"/>" type="text/css" />
+ <link rel="stylesheet" href="<c:url value="/resources/css/form/form2.css"/>" type="text/css" />
  <link rel="stylesheet" href="<c:url value="/resources/css/yapi/agac.css"/>" type="text/css" />
  <link rel="stylesheet" href="<c:url value="/resources/css/ana_sayfa/kullanici_giris.css"/>" type="text/css" />
- <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/dynatree/ui.dynatree.css"/>" />  
  
 <script type="text/javascript" src="<c:url value="/resources/js/zebra/zebra_dialog.js"/>"></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/zebra/style.css"/>" type="text/css" />
@@ -24,82 +27,87 @@
 <script type="text/javascript" src="<c:url value="/resources/js/zebra/highlight.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/zebra/functions.js"/>"></script>
 
-<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery.ui.core.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery-ui-1.8.22.custom.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery.cookie.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/dynatree/jquery.dynatree-1.2.2.js"/>"></script>
-
-<script type="text/javascript">
-	$(document).ready(function (){
-		$.ajax({
-	        type: "POST",
-	        url: "/sera/cenvyapi/listTumAgac.htm",
-	        cache: false,
-	        async: false,
-	        success: function(response){
-	        // we have the response
-	        //kökü ekle öncelikle
-	           for(var i=0;i<response.length;i++){
-	        	   if(response[i].seviye==0){
-	        		   $("#tree").append(  '<ul>'+ 
-				        				   '<li  id="li'+response[i].id+'" class="folder">'+response[i].baslik+
-				        				   '<input style="margin-left:5px" class="yetkiver_dugme" type="image"  '+ 
-										   'id="kutu'+response[i].id+'"'+ 
-										   'onclick="yetkiEkrani('+response[i].id+')"  />'+
-				        				   '<ul id="ul'+response[i].id+'"></ul>'+
-				        				   '</ul>' );
-	        	   }else{
-		        		  //şimdi iç içe ekleye ekleye gideceğiz ve böylece elemanlar baba oğul şeklinde dizilecek
-		        		  //yaprakların class ı folder olmayacak
-		        		  if(response[i].tip1=="Yaprak"){
-		        			  $("#ul"+response[i].parentId).append(
-			        				   '<li  id="li'+response[i].id+'">'+response[i].baslik+
-			        				   '<input style="margin-left:5px" class="yetkiver_dugme" type="image"  '+ 
-									   'id="kutu'+response[i].id+'"'+ 
-									   'onclick="yetkiEkrani('+response[i].id+')"  />'+
-			        				   '<ul id="ul'+response[i].id+'"></ul>'
-			        				            ); 
-		        		  }else{
-		        		      $("#ul"+response[i].parentId).append(
-		        				   '<li  id="li'+response[i].id+'" class="folder">'+response[i].baslik+
-		        				   '<input style="margin-left:5px" class="yetkiver_dugme" type="image"  '+ 
-								   'id="kutu'+response[i].id+'"'+ 
-								   'onclick="yetkiEkrani('+response[i].id+')"  />'+
-		        				   '<ul id="ul'+response[i].id+'"></ul>'
-		        				            );
-		        		  }
-	        	   }
-	        	   yetkiVarMi(response[i].id);
-	           }
-	        
-	        },
-	        error: function(e){
-	        $.Zebra_Dialog('Error: ' + e);
-	        } 
-	        });
-	});
-	$(function(){
-	    // Attach the dynatree widget to an existing <div id="tree"> element
-	    // and pass the tree options as an argument to the dynatree() function:
-	    $("#tree").dynatree({
-	    		
-	    });
-	    $("#tree").dynatree("getRoot").visit(function(node){
-			node.expand(true);
-		});
-	});
-
-</script>
-
 <script type="text/javascript">
 $(document).ready(function(){
 	kullaniciDegis($("#checked3").val());
 });
 
-
-
        var globalid;
        var dateKontrol;
+	        function doAjaxPost(aydi,seviye,tip,tip2) {
+	        	
+	       	
+	        // get the form values
+	           globalid=aydi;
+	           var sev=seviye;
+	           var tipp=tip;
+	           //tip2 lazım oldu. çünkü sabit ise form gelmeyecek. elle ise gelecek
+	           var tipp2=tip2;
+	          // var tirnak="'";
+	        
+	        $.ajax({
+	        type: "POST",
+	        url: "/sera/cenvsabit/sabitGir/dalgetir.htm",
+	        data: "id=" + globalid ,
+	        cache: false,
+	        success: function(response){
+	        // we have the response
+	        
+	        var elements=$('.katmanlar').filter(function(){
+		    	return (this.id.replace('div','')>sev);
+		    });
+	        
+	        $(".yaprakdiv").remove();
+	        $(elements).remove();
+	           
+		        for(var i =0 ; i < response.length ; i++){
+		        		
+		        	//$("input:[id>"+response[i].seviye+"]").remove();
+					    if (i==0){
+					    	 $("#kok").append('<table width="690px" align="center" id="div'+response[i].seviye+'" class="katmanlar"><tbody><tr></tr></tbody></table>');  
+					    }
+					
+					    
+					    $("#div"+response[i].seviye).append(
+					    		'<table width="230px" align="left" class="table_sil">'+
+					    		'<tr align="center">'+
+					    		'<input type="submit" class="detay_dugme" '+
+		                		'value="'+
+		        		         response[i].baslik+
+		        		        '" onclick="doAjaxPost('+
+		        		         response[i].id+
+		        				','+response[i].seviye+
+		        				',\''+response[i].tip1+'\''+
+		        				',\''+response[i].tip2+'\')"'+
+		        				'/>'+
+		        				'</tr>'+
+		        				'<tr align="center" style="font-weight: bold;">'+
+								'<td><input type="submit" class="yetkiver_dugme"'+
+								'value="Yetki Ver/Kaldır"'+
+								'onclick="yetkiEkrani('+
+								 response[i].id+
+								')" id="kutu'+response[i].id+'"  />'+
+								'</td>'+
+							    '</tr>'+
+		        				'</table>');
+					    //yetki olup olmama durumunu kontrol edip ona göre yazıyı değiştir
+					    yetkiVarMi(response[i].id);
+					    
+				   if(i+1==response.length){
+					   $("#div"+response[i].seviye).append('<tr><div class="cizgi2"></div></tr>');
+				   } 	
+		        	
+		                         
+		                
+		        }
+		          
+	        },
+	        error: function(e){
+	        $.Zebra_Dialog('Error: ' + e);
+            } 
+	        }); 
+	        
+	        }
 	        
 	        function yetkiEkrani(elemanId){
 	        	
@@ -110,7 +118,7 @@ $(document).ready(function(){
 	        							{caption: 'Hayır', callback: function() { }},
 	        		                    {caption: 'Evet', callback: function() { yetkiDegistir(elemanId,$("#checked3").val())}},
 	        		                ]
-	        	});	
+	        		});	
 	        	
 	        }
 	        
@@ -127,21 +135,21 @@ $(document).ready(function(){
 	    	        // we have the response
 	    	        
 	    	       if (response==true){
-	    	    	  
-	    	    	   $(yeniId).attr('src','<c:url value="/resources/image/yesil.jpg" />');
+	    	    	   $(yeniId).attr('value','Yetkiyi Kaldır');
 	    	    	   //kayıt işlemi var
 	    	    	   sonuc=true;
 	    	       }else{
-	    	    	   $(yeniId).attr('src','<c:url value="/resources/image/kirmizi.jpg" />');
+	    	    	   $(yeniId).attr('value','Yetki Ver');
 	    	    	   
 	    	       }
 	    	        
+	    	        
 	    		          
-	    	       },
-	    	       error: function(e){
-	    	       $.Zebra_Dialog('Error: ' + e);
-	               } 
-	    	       });
+	    	        },
+	    	        error: function(e){
+	    	        $.Zebra_Dialog('Error: ' + e);
+	                } 
+	    	        });
 	        	return sonuc;
 	        	
 	        }
@@ -157,12 +165,10 @@ $(document).ready(function(){
 	    	        // we have the response
 	    	        
 	    	       if (response==true){
-	    	    	   $("#kutukokyetkiid").attr('value','<c:url value="/resources/image/yesil.jpg" />');
-	    	    	  
+	    	    	   $("#kutukokyetkiid").attr('value','Yetkiyi Kaldır');
 	    	       }else{
 	    	    	  // $.Zebra_Dialog('yeni id='+yeniId);
-	    	    	   $("#kutukokyetkiid").attr('value','<c:url value="/resources/image/kirmizi.jpg" />');  
-	    	    	   
+	    	    	   $("#kutukokyetkiid").attr('value','Yetki Ver');  	   
 	    	       }
 	    	        
 	    	        
@@ -186,24 +192,15 @@ $(document).ready(function(){
 	    	        cache: false,
 	    	        async: false
 	    	        });
-	        	/*bu bölümü iptal etmemin nedeni ise ağaç elemanlarını kapatıp açınca eleman ilk haline dönüyor. 
-	        	Bunun çaresini bulamadım. Ben de anlık değişim yerine 
-	        	doğrudan sayfayı yeniliyorum.*/
-	        	
 	        	//işlemi yaptıktan hemen sonra yazıyı değiştirmemiz lazım
-	        	//bunu şimdilik iptal ettim sayfayı yeniliyorum işimi görüyor
 	        	yetkiIslemTip=yetkiVarMi(elemanId);
 	        	//yetki kutucuğundaki yazıyı yukarıdaki yöntem ile değiştirdikten sonra aynı yazıyı tüm babalar(parent) a uygula
-	        	//bunu da iptal ediyorum aynı şekilde
 	        	yetkiYaziGuncelle(elemanId,userId,yetkiIslemTip);
-	        	
-	        	//location.reload();
 	        }
 	        
 	        function yetkiYaziGuncelle(elemanId,userId,yetkiIslemTip){
 	        	var yeniId,mevcutKutuId;
-	        	mevcutKutuId="#kutu"+elemanId;
-	            
+	        	mevcutKutuId="#kutu"+elemanId; 
 	        	$.ajax({
 	    	        type: "POST",
 	    	        url: "/sera/cenvyapi/getAllTieds.htm",
@@ -212,32 +209,18 @@ $(document).ready(function(){
 	    	        async: false,
 	    	        success: function(response){
 	    	        // elimizde bu elamanın tüm babaları(parents)nın id si mevcut
-	    	         if(yetkiIslemTip==true){
-	    	        	 $(mevcutKutuId).focus();
-	    	        	 $(mevcutKutuId).attr('src','<c:url value="/resources/image/yesil.jpg" />');
-	    	        	 $(mevcutKutuId).blur();
-	    	        	 
-	    	         }else{
-	    	        	 $(mevcutKutuId).focus();
-	    	        	 $(mevcutKutuId).attr('src','<c:url value="/resources/image/kirmizi.jpg" />');
-	    	        	 $(mevcutKutuId).blur();
-	    	         }
+	    	        //tabi bunlardan önce kökün değerini bi değişelim
+	    	        
+		    	        //değişim kayıt işleminde olmalı. kayıt olup olmadığını da yetkiIslemTip değişkeninden anlıyoruz
+		    	        if(yetkiIslemTip==true){
+		    	          $("#kutukokyetkiid").val($(mevcutKutuId).val());
+		    	        }
 	    	         for(var i =0 ; i < response.length ; i++){
 	    	        	    //değiştireceğimiz kutu idsi artık elimizde
 	    	        	   
 			    	        yeniId="#kutu"+response[i];
-			    	        if(yetkiIslemTip==true){
-			    	        	
-			    	        	$(yeniId).attr('src','<c:url value="/resources/image/yesil.jpg" />');
-			    	        	
-			    	        	
-			    	        }else{
-			    	        	
-			    	        	$(yeniId).attr('src','<c:url value="/resources/image/kirmizi.jpg" />');
-			    	        	
-			    	        	
-			    	        }
-			    	    	   
+			    	        
+			    	    	   $(yeniId).attr('value',$(mevcutKutuId).val());
 			    	       
 	    	         }    
 	    		          
@@ -250,6 +233,7 @@ $(document).ready(function(){
 	        }
 	          
 	        </script>
+
 </head>
 <body class="genel">
    
@@ -271,8 +255,25 @@ $(document).ready(function(){
 		    </tr>
 			<tr>
 				<td>
-					<div id="tree"></div>	
-				</td>
+					<table width="230px" align="left" class="kok_table_giris">
+						<tbody>
+							<tr align="center" style="font-weight: bold;">
+								<td><input type="submit" class="detay_dugme"
+									value="${kok.baslik}"
+									onclick="doAjaxPost(${kok.id},${kok.seviye},'${kok.tip1}','${kok.tip2}');"  />
+								</td>
+							</tr>
+							<tr align="center" style="font-weight: bold;">
+								<td>
+								
+								<input type="submit" class="yetkiver_dugme" value="Yetki Ver/Kaldır"
+									 id="kutukokyetkiid"
+									  onclick="yetkiEkrani(${kok.id})"  />
+							
+								</td>
+							</tr>
+						</tbody>
+					</table></td>
 			</tr>
 		</table>
 		<div align="center" id="kok"></div>

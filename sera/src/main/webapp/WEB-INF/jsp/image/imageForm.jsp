@@ -58,8 +58,8 @@
 			
 									// IF SAFARI
 									if ($.browser.safari) {
-										// this alert shows safari detection
-										//$( function() { alert("this is safari!"); } ); 
+										// this $.Zebra_Dialog shows safari detection
+										//$( function() { $.Zebra_Dialog("this is safari!"); } ); 
 										// hide panels 2&3
 										$('#sf2').hide();
 										$('#sf3').hide();
